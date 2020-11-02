@@ -407,7 +407,44 @@ function delpost2(id)
       window.location.href = 'index.php?git=dfile&name=' + id;
   }
 }
+
+$('.table-responsive').on('show.bs.dropdown', function () {
+     $('.table-responsive').css( "overflow", "inherit" );
+});
+
+$('.table-responsive').on('hide.bs.dropdown', function () {
+     $('.table-responsive').css( "overflow", "auto" );
+})
 </script>
+<style>
+.btn-group {  
+    white-space: nowrap;              
+}
+.btn-group .btn {  
+    float: none;
+    display: inline-block;
+}
+ .btn + .dropdown-toggle { 
+    margin-left: -4px;
+}
+
+@media screen and (max-width: 1400px) {
+.table-responsive {
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+}
+.table-responsive > .table {
+    margin-bottom: 0;
+}
+.table-responsive > .table > thead > tr > th, .table-responsive > .table > tbody > tr > th, .table-responsive > .table > tfoot > tr > th, .table-responsive > .table > thead > tr > td, .table-responsive > .table > tbody > tr > td, .table-responsive > .table > tfoot > tr > td {
+    white-space: nowrap;
+}
+
+}
+</style>
 <?php
 echo '<body class="container">
 <br><br><br>
@@ -429,7 +466,7 @@ echo '<div class="text-light">
 while (($_DIRFILE = readdir($_DIR)) !== false){
 if(!is_dir($_DIRFILE)){
 echo '<tr><td><div class="kisalt">'.strip_tags($_DIRFILE).'</td>';
-echo '<td><a href="index.php?git=dfile&name='.strip_tags($_DIRFILE).'">Delete</a></td></tr>';
+echo '<td><a class="btn btn-danger"  href="index.php?git=dfile&name='.strip_tags($_DIRFILE).'">Delete</a></td></tr>';
 }
 }
 closedir($_DIR);
@@ -476,49 +513,10 @@ echo '<script>console.log("'.strip_tags($row["private_iptv"]).' address not open
 fclose($fp);
 }
   echo '
-  <td><a href="index.php?git=watch&id='.strip_tags($row2["private_id"]).'">Watch</a></td>
-  <td><a href="index.php?git=deleteprivip&id='.strip_tags($row2["private_id"]).'">Delete</a></td>';
-}
-?>
-<style>
-.btn-group {  
-    white-space: nowrap;              
-}
-.btn-group .btn {  
-    float: none;
-    display: inline-block;
-}
- .btn + .dropdown-toggle { 
-    margin-left: -4px;
+  <td><a class="btn btn-danger" href="index.php?git=watch&id='.strip_tags($row2["private_id"]).'">Watch</a></td>
+  <td><a class="btn btn-danger" href="index.php?git=deleteprivip&id='.strip_tags($row2["private_id"]).'">Delete</a></td>';
 }
 
-@media screen and (max-width: 1400px) {
-.table-responsive {
-    border: 1px solid #ddd;
-    margin-bottom: 15px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    width: 100%;
-}
-.table-responsive > .table {
-    margin-bottom: 0;
-}
-.table-responsive > .table > thead > tr > th, .table-responsive > .table > tbody > tr > th, .table-responsive > .table > tfoot > tr > th, .table-responsive > .table > thead > tr > td, .table-responsive > .table > tbody > tr > td, .table-responsive > .table > tfoot > tr > td {
-    white-space: nowrap;
-}
-
-}
-</style>
-<script>
-$('.table-responsive').on('show.bs.dropdown', function () {
-     $('.table-responsive').css( "overflow", "inherit" );
-});
-
-$('.table-responsive').on('hide.bs.dropdown', function () {
-     $('.table-responsive').css( "overflow", "auto" );
-})
-</script>
-<?php
 echo '
 </tbody></table></div>
 <br><br><b>IPTV List</b>
@@ -614,7 +612,7 @@ while($row2 = $stmt3->fetch()) {
 echo '<tr><td><div class=kisalt">'.intval($row2["config_id"]).'</div></td>';
 echo '<td><div class="kisalt">'.strip_tags($row2["ffmpeg_m3u8cfg"]).'</div></td>';
 echo '<td><div class="kisalt">'.strip_tags($row2["ffmpeg_ts"]).'</div></td>';
-echo '<td><a href="index.php?git=editcfg&id='.intval($row2["config_id"]).'">Edit</a></td>';
+echo '<td><a class="btn btn-danger" href="index.php?git=editcfg&id='.intval($row2["config_id"]).'">Edit</a></td>';
 }
 echo '</tr>
 </tbody></table></div></div></body>';
