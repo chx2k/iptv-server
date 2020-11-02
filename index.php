@@ -31,15 +31,19 @@ while($row = $stmt->fetch()) {
 		if(intval($_GET["watchplayer"]) == "1") {
 			  echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 			  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
-			  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-			  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-			  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-			  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+			  <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet"/>
+			  
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
+			  <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
+			  
 			  <script src="https://unpkg.com/video.js/dist/video.js"></script>
 			  <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
 			  <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
 			  <body class="container mx-auto">
-			  <video id="example-video" class="video-js vjs-default-skin" controls>
+			  <video  id="example-video" class="video-js vjs-default-skin" controls>
 			  <source src="'.strip_tags($row["iptv_adres"]).'" type="application/x-mpegURL"></video>
 			  <script>var player = videojs("example-video");
 			  player.play();
@@ -52,15 +56,19 @@ while($row = $stmt->fetch()) {
 		if(intval($_GET["watchplayer"]) == "1") {
 			  echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 			  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
-			  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-			  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-			  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-			  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+			  <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet"/>
+			  
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
+			  <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
+			  
 			  <script src="https://unpkg.com/video.js/dist/video.js"></script>
 			  <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
 			  <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
 			  <body class="container mx-auto">
-			  <video id="example-video" class="video-js vjs-default-skin" controls>
+			  <video  id="example-video" class="video-js vjs-default-skin" controls>
 			  <source src="'.strip_tags($row["iptv_adres"]).'" type="application/x-mpegURL"></video>
 			  <script>var player = videojs("example-video");
 			  player.play();
@@ -82,11 +90,19 @@ while($row = $stmt->fetch()) {
 		if(intval($_GET["watchplayer"]) == "1") {
 			  echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 			  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
+			  <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet"/>
+			  
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
+			  <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
+			  
 			  <script src="https://unpkg.com/video.js/dist/video.js"></script>
 			  <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
 			  <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
 			  <body class="container mx-auto">
-			  <center><video id="example-video" class="video-js vjs-default-skin" controls>
+			  <center><video  id="example-video" class="video-js vjs-default-skin" controls>
 			  <source src="m3u/'.strip_tags($_GET["pubid"]).'.ts" type="application/x-mpegURL"></video>
 			  <script>  var player = videojs("example-video", {
 				  html5: {
@@ -109,11 +125,19 @@ while($row = $stmt->fetch()) {
 		if(intval($_GET["watchplayer"]) == "1") {
 			  echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 			  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
+			  <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet"/>
+			  
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
+			  <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
+			  
 			  <script src="https://unpkg.com/video.js/dist/video.js"></script>
 			  <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
 			  <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
 			  <body class="container mx-auto">
-			  <center><video id="example-video" class="video-js vjs-default-skin" controls>
+			  <center><video  id="example-video" class="video-js vjs-theme-city" controls>
 			  <source src="m3u/'.strip_tags($_GET["pubid"]).'.m3u8" type="application/x-mpegURL"></video>
 			  <script>  var player = videojs("example-video", {
 				  html5: {
@@ -548,11 +572,11 @@ echo '</tr>
   <form action="index.php?git=peditcfg" method="post">
     <div class="form-group">
       <label for="exampleFormControlInput1">Config TS</label>
-      <input type="text" name="ffmpegts" value="'.strip_tags($row["ffmpeg_ts"]).'" class="form-control" placeholder="IPTV Config(TS)">
+	  <textarea class="form-control" name="ffmpegts" placeholder="IPTV Config(M3U8)">'.$row["ffmpeg_ts"].'</textarea>
     </div>
     <div class="form-group">
       <label for="exampleFormControlInput1">Config M3U8</label>
-      <input type="text" name="ffmpegm3u8" value="'.strip_tags($row["ffmpeg_m3u8cfg"]).'" class="form-control" placeholder="IPTV Config(M3U8)">
+	  <textarea class="form-control" name="ffmpegm3u8" placeholder="IPTV Config(M3U8)">'.$row["ffmpeg_m3u8cfg"].'</textarea>
     </div>
       <input type="hidden" name="ffmpegid" value="'.intval($row["config_id"]).'" class="form-control">
     <button type="submit" style="width: 100%;" class="btn btn-primary">Guncelle</button>
