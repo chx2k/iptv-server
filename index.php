@@ -198,11 +198,7 @@ if($_POST) {
 
 $name = strip_tags($_POST["mail"]);
 $pass = sha1(md5($_POST['pass']));
-$capt = strip_tags($_POST["capt"]);
-if($capt == $_COOKIE["capt"]) {
-} else {
-die('<script>document.cookie = "capt= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"</script><br>CSRF Error');
-}
+
 $query  = $db->query("SELECT * FROM admin_list WHERE admin_usrname =" . $db->quote($name) . " AND admin_passwd = " . $db->quote($pass). "",PDO::FETCH_ASSOC);
 if ( $say = $query -> rowCount() ){
 if( $say > 0 ){
@@ -223,19 +219,15 @@ case 'index':
 echo '<body class="container mx-auto text-center">
     <form class="form-signin" action="index.php?git=postlgn" method="post">
   <h1 class="h3 mb-3 font-weight-normal">IPTV Panel By AliCan</h1>
-  <label for="inputEmail" class="sr-only">Email address</label>
-  <input type="text" name="mail" class="form-control" placeholder="Email address" required autofocus>
+  <label for="inputEmail" class="sr-only">Username</label>
+  <input type="text" name="mail" class="form-control" placeholder="Username" required autofocus>
   <label for="inputPassword" class="sr-only">Password</label>
   <input type="password" name="pass" class="form-control" placeholder="Password" required>
-  <label for="inputPassword" class="sr-only">Captcha</label>
-  <img src="capt.php">
-  <input type="text" name="capt" class="form-control" placeholder="Password" required>
   <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button><br>
   <a class="btn btn-lg btn-danger btn-block" href="index.php?git=resetpass">Reset Password</a>
   <p class="mt-5 mb-3 text-muted">&copy; 2019-2020</p>
 </form>
 </body>';
-setcookie("capt", "", time() - 3600);
 break;
 
 case 'resetpass':
