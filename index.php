@@ -5,6 +5,17 @@ $jsoncfg = json_decode($get, true);
 $getir = new IPTVClass();
 
 if(isset($_GET["pubid"])) {
+$stmt = $db->prepare('SELECT * FROM ip_block WHERE ip_adress = :iddegeri');
+$stmt->execute(array(':iddegeri' => strip_tags($getir->getIPAddress())));
+if($row = $stmt->fetch()) {
+  if($row["ip_block_active"] == "1") {
+  $getir->Error("IP Adress Blocked by Server Admin");
+} else {
+
+}
+
+}
+
 $streamlink = strip_tags($_GET["pubid"]);
 $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_name = :iddegeri');
 $stmt->execute(array(':iddegeri' => $streamlink));
@@ -155,19 +166,7 @@ while($row = $stmt->fetch()) {
   }
 
 }
-
 } else {
-
-}
-
-$stmt = $db->prepare('SELECT * FROM ip_block WHERE ip_adress = :iddegeri');
-$stmt->execute(array(':iddegeri' => strip_tags($getir->getIPAddress())));
-if($row = $stmt->fetch()) {
-  if($row["ip_block_active"] == "1") {
-  $getir->Error("IP Adress Blocked by Server Admin");
-} else {
-
-}
 
 }
 $getir->funcControl('shell_exec');
@@ -324,7 +323,7 @@ echo '<div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="index.php?git=ipblock">IP Block</a>
           <div class="dropdown-divider"></div>
 
-          <a class="dropdown-item" href="#">YouTube Links</a>
+          
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="index.php?git=iptv&phpinfo=1">PHP Info</a>
         </div>
@@ -692,7 +691,7 @@ echo '</tr>
 			<a class="dropdown-item" href="index.php?git=addpriviptv">Add Private IPTV</a>
             <a class="dropdown-item" href="index.php?git=stopiptv">Stop All Stream</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">YouTube Links</a>
+            
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="index.php?git=iptv&phpinfo=1">PHP Info</a>
           </div>
@@ -848,7 +847,7 @@ if (!unlink($dosyaadi)) {
 			<a class="dropdown-item" href="index.php?git=addpriviptv">Add Private IPTV</a>
             <a class="dropdown-item" href="index.php?git=stopiptv">Stop All Stream</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">YouTube Links</a>
+            
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="index.php?git=iptv&phpinfo=1">PHP Info</a>
           </div>
@@ -954,7 +953,7 @@ fclose($fp);
 			<a class="dropdown-item" href="index.php?git=addpriviptv">Add Private IPTV</a>
             <a class="dropdown-item" href="index.php?git=stopiptv">Stop All Stream</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">YouTube Links</a>
+            
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="index.php?git=iptv&phpinfo=1">PHP Info</a>
           </div>
@@ -1042,7 +1041,7 @@ fclose($fp);
 			<a class="dropdown-item" href="index.php?git=addpriviptv">Add Private IPTV</a>
             <a class="dropdown-item" href="index.php?git=stopiptv">Stop All Stream</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">YouTube Links</a>
+            
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="index.php?git=iptv&phpinfo=1">PHP Info</a>
           </div>
@@ -1132,7 +1131,7 @@ fclose($fp);
 			<a class="dropdown-item" href="index.php?git=addpriviptv">Add Private IPTV</a>
             <a class="dropdown-item" href="index.php?git=stopiptv">Stop All Stream</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">YouTube Links</a>
+            
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="index.php?git=iptv&phpinfo=1">PHP Info</a>
           </div>
@@ -1284,7 +1283,7 @@ fclose($fp);
 			<a class="dropdown-item" href="index.php?git=addpriviptv">Add Private IPTV</a>
             <a class="dropdown-item" href="index.php?git=stopiptv">Stop All Stream</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">YouTube Links</a>
+            
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="index.php?git=iptv&phpinfo=1">PHP Info</a>
           </div>
@@ -1338,7 +1337,7 @@ fclose($fp);
 			<a class="dropdown-item" href="index.php?git=addpriviptv">Add Private IPTV</a>
             <a class="dropdown-item" href="index.php?git=stopiptv">Stop All Stream</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">YouTube Links</a>
+            
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="index.php?git=iptv&phpinfo=1">PHP Info</a>
           </div>
@@ -1392,7 +1391,7 @@ fclose($fp);
 			<a class="dropdown-item" href="index.php?git=addpriviptv">Add Private IPTV</a>
             <a class="dropdown-item" href="index.php?git=stopiptv">Stop All Stream</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">YouTube Links</a>
+            
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="index.php?git=iptv&phpinfo=1">PHP Info</a>
           </div>
