@@ -479,7 +479,46 @@ fclose($fp);
   <td><a href="index.php?git=watch&id='.strip_tags($row2["private_id"]).'">Watch</a></td>
   <td><a href="index.php?git=deleteprivip&id='.strip_tags($row2["private_id"]).'">Delete</a></td>';
 }
+?>
+<style>
+.btn-group {  
+    white-space: nowrap;              
+}
+.btn-group .btn {  
+    float: none;
+    display: inline-block;
+}
+ .btn + .dropdown-toggle { 
+    margin-left: -4px;
+}
 
+@media screen and (max-width: 1400px) {
+.table-responsive {
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+}
+.table-responsive > .table {
+    margin-bottom: 0;
+}
+.table-responsive > .table > thead > tr > th, .table-responsive > .table > tbody > tr > th, .table-responsive > .table > tfoot > tr > th, .table-responsive > .table > thead > tr > td, .table-responsive > .table > tbody > tr > td, .table-responsive > .table > tfoot > tr > td {
+    white-space: nowrap;
+}
+
+}
+</style>
+<script>
+$('.table-responsive').on('show.bs.dropdown', function () {
+     $('.table-responsive').css( "overflow", "inherit" );
+});
+
+$('.table-responsive').on('hide.bs.dropdown', function () {
+     $('.table-responsive').css( "overflow", "auto" );
+})
+</script>
+<?php
 echo '
 </tbody></table></div>
 <br><br><b>IPTV List</b>
@@ -492,11 +531,6 @@ echo '
 <th>Name</th>
 <th>Type</th>
 <th>Status</th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
 <th></th>
 <th></th>
 </tr></thead><tbody>';
@@ -530,21 +564,41 @@ echo '<script>console.log("'.strip_tags($row["iptv_adres"]).' address not open")
 </div></td>';
 fclose($fp);
 }
+
   echo '
-  <td><a href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'">Public</a></td>
-  <td><a href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'&watchplayer=1">Watch</a></td>
-  <td><a href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'&debug">Debug</a></td>
-  <td><a href="index.php?git=startiptv&id='.intval($row2["public_id"]).'">Start</a></td>
-  <td><a href="index.php?git=stopiptv&id='.intval($row2["public_id"]).'">Stop</a></td>
-  <td><a href="index.php?git=editpubid&id='.strip_tags($row2["public_id"]).'">Edit</a></td>
-  <td><a href="index.php?git=deletepubid&id='.strip_tags($row2["public_id"]).'">Delete</a></td>';
+  <td><div class="btn-group">
+  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+    <span class="caret"></span>
+    <span class="sr-only">Toggle Dropdown</span>
+	IPTV Share
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li><a class="dropdown-item" href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'">Public</a></li>
+    <li><a class="dropdown-item" href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'&watchplayer=1">Watch</a></li>
+    <li><a class="dropdown-item" href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'&debug">Debug</a></li>
+  </ul>
+</div></td>
+
+  <td><div class="btn-group">
+  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+    <span class="caret"></span>
+    <span class="sr-only">Toggle Dropdown</span>
+	IPTV Editor
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li><a class="dropdown-item" href="index.php?git=startiptv&id='.intval($row2["public_id"]).'">Start</a></li>
+    <li><a class="dropdown-item" href="index.php?git=stopiptv&id='.intval($row2["public_id"]).'">Stop</a></li>
+    <li><a class="dropdown-item" href="index.php?git=editpubid&id='.strip_tags($row2["public_id"]).'">Edit</a></li>
+	<li><a class="dropdown-item" href="index.php?git=deletepubid&id='.strip_tags($row2["public_id"]).'">Delete</a></li>
+  </ul>
+</div></td>';
 }
 echo '</tr>
 </tbody></table></div>
-<br><br><br>';
+<br><br>';
 
 echo '
-<br><br><b>IPTV Config</b>
+<br><b>IPTV Config</b>
 <div class="text-light">
 <table class="text-light table table-striped">
 <thead>

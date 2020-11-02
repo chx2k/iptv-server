@@ -18,19 +18,19 @@ die('<table>
 }
 class IPTVClass {
 
-function extControl($name) {
+public function extControl($name) {
   if (!extension_loaded(''.strip_tags($name).'')) {
     die('The '.strip_tags($name).' extension is not loaded.');
 }
 }
 
-function funcControl($name) {
+public function funcControl($name) {
   if (!function_exists(''.strip_tags($name).'')) {
     die('The '.strip_tags($name).' function is not loaded.');
 }
 }
 
-function getIPAddress() {
+public function getIPAddress() {
 $client  = @$_SERVER['HTTP_CLIENT_IP'];
 $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
 $remote  = $_SERVER['REMOTE_ADDR'];
@@ -51,7 +51,7 @@ else
 return $ip;
 }
 
-function M3U8DebugStream($pubname, $tslinks, $config) {
+public function M3U8DebugStream($pubname, $tslinks, $config) {
   $filename = ''.strip_tags($pubname).'.m3u8';
   $tslink = ''.dirname(__FILE__).'/m3u/'.$filename.'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
@@ -66,7 +66,7 @@ function M3U8DebugStream($pubname, $tslinks, $config) {
   die();
 }
 
-function M3U8DebugStreamWin($pubname, $tslinks, $config) {
+public function M3U8DebugStreamWin($pubname, $tslinks, $config) {
   $filename = ''.strip_tags($pubname).'.m3u8';
   $tslink = ''.dirname(__FILE__).'\m3u/'.$filename.'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
@@ -81,7 +81,7 @@ function M3U8DebugStreamWin($pubname, $tslinks, $config) {
   die();
 }
 
-function StopFFMPEG() {
+public function StopFFMPEG() {
   echo '<b>FFMpeg Killing...</b<br>';
   if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 	shell_exec('taskkill /F /IM "ffmpeg.exe"');
@@ -89,7 +89,7 @@ function StopFFMPEG() {
   shell_exec('pkill ffmpeg');
   }
 }
-function TSDebugStream($pubname, $tslinks, $configts) {
+public function TSDebugStream($pubname, $tslinks, $configts) {
   $filename = ''.strip_tags($pubname).'.ts';
   $tslink = ''.dirname(__FILE__).'/m3u/'.$filename.'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
@@ -104,7 +104,7 @@ function TSDebugStream($pubname, $tslinks, $configts) {
   die();
 }
 
-function TSDebugStreamWin($pubname, $tslinks, $configts) {
+public function TSDebugStreamWin($pubname, $tslinks, $configts) {
   $filename = ''.strip_tags($pubname).'.ts';
   $tslink = ''.dirname(__FILE__).'\m3u/'.$filename.'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
@@ -119,7 +119,7 @@ function TSDebugStreamWin($pubname, $tslinks, $configts) {
   die();
 }
 
-function StartOtherStream($pubname, $tslinks, $url, $config) {
+public function StartOtherStream($pubname, $tslinks, $url, $config) {
   set_time_limit(0);
   $filename = ''.strip_tags($pubname).'.m3u8';
   $tslink = ''.dirname(__FILE__).''.$filename.'';
@@ -132,7 +132,7 @@ function StartOtherStream($pubname, $tslinks, $url, $config) {
   echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
 }
 
-function StartM3U8Stream($pubname, $tslinks, $url, $config) {
+public function StartM3U8Stream($pubname, $tslinks, $url, $config) {
   set_time_limit(0);
   $filename = ''.strip_tags($pubname).'.m3u8';
   $tslink = ''.dirname(__FILE__).''.$filename.'';
@@ -145,7 +145,7 @@ function StartM3U8Stream($pubname, $tslinks, $url, $config) {
   echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
 }
 
-function StartM3U8StreamWin($pubname, $tslinks, $url, $config) {
+public function StartM3U8StreamWin($pubname, $tslinks, $url, $config) {
   set_time_limit(0);
   $filename = ''.strip_tags($pubname).'.m3u8';
   $tslink = ''.dirname(__FILE__).'\m3u/'.$filename.'';
@@ -158,7 +158,7 @@ function StartM3U8StreamWin($pubname, $tslinks, $url, $config) {
   echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
 }
 
-function StartTSStream($pubname, $tslinks, $url, $configts) {
+public function StartTSStream($pubname, $tslinks, $url, $configts) {
   set_time_limit(0);
   $filename = ''.strip_tags($pubname).'.ts';
   $tslink = ''.dirname(__FILE__).''.$filename.'';
@@ -171,7 +171,7 @@ function StartTSStream($pubname, $tslinks, $url, $configts) {
   echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
 }
 
-function StartTSStreamWin($pubname, $tslinks, $url) {
+public function StartTSStreamWin($pubname, $tslinks, $url) {
   set_time_limit(0);
   $filename = ''.strip_tags($pubname).'.ts';
   $tslink = ''.dirname(__FILE__).'\m3u/'.$filename.'';
@@ -184,7 +184,7 @@ function StartTSStreamWin($pubname, $tslinks, $url) {
   echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
 }
 
-function M3U8Stream($pubname) {
+public function M3U8Stream($pubname) {
   $filename = ''.strip_tags($pubname).'.m3u8';
   $tslink = ''.dirname(__FILE__).''.$filename.'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
@@ -195,7 +195,7 @@ function M3U8Stream($pubname) {
   #EXTINF:-1,### '.$pubname.' ###
   m3u/'.$pubname.'.m3u8';
 }
-function TSStream($pubname) {
+public function TSStream($pubname) {
   $filename = ''.strip_tags($pubname).'.ts';
   $tslink = ''.dirname(__FILE__).''.$filename.'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
@@ -204,14 +204,14 @@ function TSStream($pubname) {
   header('Content-Disposition: attachment; filename="'.strip_tags($filename).'.ts"');
   echo '<code>'.file_get_contents('m3u/'.strip_tags($pubname).'.ts').'</code><br>';
 }
-  function NavBar($baslik) {
+  public function NavBar($baslik) {
     echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="#">'.strip_tags($baslik).'</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>';
   }
-  function Head($baslik) {
+  public function Head($baslik) {
     echo '<head>
     <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
@@ -234,7 +234,7 @@ function TSStream($pubname) {
     <title>'.strip_tags($baslik).'</title>
     </head>';
   }
-function logincheck() {
+public function logincheck() {
 if(isset($_COOKIE['user_id'])) {
 } elseif($_COOKIE['user_id'] == "1") {
 die('<script>location.replace("index.php")</script>');
@@ -243,13 +243,13 @@ die('<script>location.replace("index.php")</script>');
 }
 }
 
-function check_yt($url)
+public function check_yt($url)
 {
 $data = file_get_contents("https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=".strip_tags($url)."&format=json");
 echo $data;
 }
 
-function Style() {
+public function Style() {
 echo '<style>
 a {
   color: red;
@@ -355,7 +355,7 @@ body {
 }
 </style>';
   }
-  function Error($errorname) {
+  public function Error($errorname) {
     die('<td align="center" width="90" height="90">
     <br></br>
     <b><u>'.strip_tags($errorname).'</u></b>

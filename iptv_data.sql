@@ -77,6 +77,16 @@ CREATE TABLE `ip_block` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 --
+-- Tablo döküm verisi `ip_block`
+--
+
+INSERT INTO `ip_block` (`ip_id`, `ip_adress`, `ban_reason`, `ip_block_active`) VALUES
+(1, '178.243.191.248', 'Nobody', '1'),
+(2, '::1', 'Deneme', '0');
+
+-- --------------------------------------------------------
+
+--
 -- Tablo için tablo yapısı `private_iptv`
 --
 
@@ -87,6 +97,16 @@ CREATE TABLE `private_iptv` (
   `private_iptv` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
   `private_active` varchar(255) COLLATE utf8_turkish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+
+--
+-- Tablo döküm verisi `private_iptv`
+--
+
+INSERT INTO `private_iptv` (`private_id`, `private_name`, `private_resim`, `private_iptv`, `private_active`) VALUES
+(1, 'BEIN', '', 'http://hd.vizontele.eu:80/live/server35/server3535/89.m3u8', '1'),
+(3, 'Bein', '', 'http://hd.vizontele.eu:80/live/server35/server3535/89.m3u8', '1');
+
+-- --------------------------------------------------------
 
 --
 -- Tablo için tablo yapısı `public_iptv`
@@ -100,6 +120,18 @@ CREATE TABLE `public_iptv` (
   `public_active` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Tablo döküm verisi `public_iptv`
+--
+
+INSERT INTO `public_iptv` (`public_id`, `public_name`, `public_tslink`, `video_stream`, `public_active`) VALUES
+(1, '161fd33f67dbfd29138ce3f165d5e5dd', 'http://demo.codesamplez.com/html5/video/sample', '1', '1'),
+(2, '186a157b2992e7daed3677ce8e9fe40f', 'https://streams.livetv.az/turk/showtv_sd/playlist.m3u8 ', '0', '1'),
+(3, 'cc384c68ad503482fb24e6d1e3b512ae', 'http://hd.vizontele.eu:80/live/server35/server3535/89.m3u8', '0', '1');
+
+--
+-- Dökümü yapılmış tablolar için indeksler
+--
 
 --
 -- Tablo için indeksler `admin_list`
