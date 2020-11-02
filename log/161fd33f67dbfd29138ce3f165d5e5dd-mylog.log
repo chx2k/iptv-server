@@ -1,0 +1,50 @@
+ffmpeg version git-2020-08-16-5df9724 Copyright (c) 2000-2020 the FFmpeg developers
+  built with gcc 10.2.1 (GCC) 20200805
+  configuration: --enable-gpl --enable-version3 --enable-sdl2 --enable-fontconfig --enable-gnutls --enable-iconv --enable-libass --enable-libdav1d --enable-libbluray --enable-libfreetype --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libopenjpeg --enable-libopus --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libsrt --enable-libtheora --enable-libtwolame --enable-libvpx --enable-libwavpack --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxml2 --enable-libzimg --enable-lzma --enable-zlib --enable-gmp --enable-libvidstab --enable-libvmaf --enable-libvorbis --enable-libvo-amrwbenc --enable-libmysofa --enable-libspeex --enable-libxvid --enable-libaom --enable-libgsm --enable-librav1e --enable-libsvtav1 --disable-w32threads --enable-libmfx --enable-ffnvcodec --enable-cuda-llvm --enable-cuvid --enable-d3d11va --enable-nvenc --enable-nvdec --enable-dxva2 --enable-avisynth --enable-libopenmpt --enable-amf
+  libavutil      56. 58.100 / 56. 58.100
+  libavcodec     58.100.100 / 58.100.100
+  libavformat    58. 51.100 / 58. 51.100
+  libavdevice    58. 11.101 / 58. 11.101
+  libavfilter     7. 87.100 /  7. 87.100
+  libswscale      5.  8.100 /  5.  8.100
+  libswresample   3.  8.100 /  3.  8.100
+  libpostproc    55.  8.100 / 55.  8.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'http://demo.codesamplez.com/html5/video/sample':
+  Metadata:
+    major_brand     : mp42
+    minor_version   : 0
+    compatible_brands: isommp42
+    creation_time   : 2011-09-14T22:38:04.000000Z
+  Duration: 00:03:33.63, start: 0.000000, bitrate: 718 kb/s
+    Stream #0:0(und): Video: h264 (Constrained Baseline) (avc1 / 0x31637661), yuv420p, 640x360, 619 kb/s, 23.98 fps, 23.98 tbr, 1k tbn, 47.95 tbc (default)
+    Metadata:
+      creation_time   : 1970-01-01T00:00:00.000000Z
+      handler_name    : VideoHandler
+    Stream #0:1(und): Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 92 kb/s (default)
+    Metadata:
+      creation_time   : 2011-09-14T22:38:04.000000Z
+      handler_name    : IsoMedia File Produced by Google, 5-11-2011
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> mpeg2video (native))
+  Stream #0:1 -> #0:1 (aac (native) -> mp2 (native))
+Press [q] to stop, [?] for help
+Output #0, mpegts, to 'C:\xampp\htdocs\iptv\m3u/161fd33f67dbfd29138ce3f165d5e5dd.ts':
+  Metadata:
+    major_brand     : mp42
+    minor_version   : 0
+    compatible_brands: isommp42
+    encoder         : Lavf58.51.100
+    Stream #0:0(und): Video: mpeg2video (Main), yuv420p(progressive), 640x360, q=2-31, 200 kb/s, 23.98 fps, 90k tbn, 23.98 tbc (default)
+    Metadata:
+      creation_time   : 1970-01-01T00:00:00.000000Z
+      handler_name    : VideoHandler
+      encoder         : Lavc58.100.100 mpeg2video
+    Side data:
+      cpb: bitrate max/min/avg: 0/0/200000 buffer size: 0 vbv_delay: N/A
+    Stream #0:1(und): Audio: mp2, 44100 Hz, stereo, s16, 384 kb/s (default)
+    Metadata:
+      creation_time   : 2011-09-14T22:38:04.000000Z
+      handler_name    : IsoMedia File Produced by Google, 5-11-2011
+      encoder         : Lavc58.100.100 mp2
+frame=  123 fps=0.0 q=31.0 size=     512kB time=00:00:05.37 bitrate= 781.0kbits/s speed=10.7x    frame=  279 fps=278 q=31.0 size=    1280kB time=00:00:12.18 bitrate= 860.3kbits/s speed=12.2x    frame=  366 fps=244 q=31.0 size=    1792kB time=00:00:15.66 bitrate= 937.3kbits/s speed=10.4x    frame=  444 fps=222 q=31.0 size=    2048kB time=00:00:19.11 bitrate= 877.9kbits/s speed=9.54x    frame=  569 fps=227 q=31.0 size=    2560kB time=00:00:24.02 bitrate= 873.0kbits/s speed= 9.6x    frame=  747 fps=248 q=31.0 size=    3328kB time=00:00:31.57 bitrate= 863.5kbits/s speed=10.5x    frame=  920 fps=262 q=31.0 size=    4096kB time=00:00:38.91 bitrate= 862.3kbits/s speed=11.1x    frame= 1108 fps=276 q=31.0 size=    4864kB time=00:00:46.67 bitrate= 853.8kbits/s speed=11.6x    frame= 1270 fps=281 q=31.0 size=    5376kB time=00:00:53.30 bitrate= 826.2kbits/s speed=11.8x    frame= 1447 fps=289 q=24.8 size=    6144kB time=00:01:00.85 bitrate= 827.1kbits/s speed=12.1x    frame= 1588 fps=288 q=31.0 size=    6656kB time=00:01:06.94 bitrate= 814.5kbits/s speed=12.1x    frame= 1726 fps=287 q=31.0 size=    7680kB time=00:01:12.63 bitrate= 866.2kbits/s speed=12.1x    frame= 1877 fps=288 q=31.0 size=    8192kB time=00:01:18.74 bitrate= 852.2kbits/s speed=12.1x    frame= 1975 fps=281 q=24.8 size=    8704kB time=00:01:23.00 bitrate= 859.0kbits/s speed=11.8x    frame= 2112 fps=281 q=31.0 size=    9472kB time=00:01:28.67 bitrate= 875.0kbits/s speed=11.8x    frame= 2331 fps=291 q=31.0 size=   10240kB time=00:01:37.60 bitrate= 859.4kbits/s speed=12.2x    frame= 2509 fps=294 q=31.0 size=   11264kB time=00:01:45.13 bitrate= 877.7kbits/s speed=12.3x    frame= 2652 fps=293 q=31.0 size=   12032kB time=00:01:51.29 bitrate= 885.6kbits/s speed=12.3x    frame= 2709 fps=283 q=31.0 size=   12288kB time=00:01:53.67 bitrate= 885.5kbits/s speed=11.9x    frame= 2895 fps=288 q=31.0 size=   13056kB time=00:02:01.19 bitrate= 882.5kbits/s speed=  12x    frame= 3110 fps=294 q=31.0 size=   14080kB time=00:02:10.10 bitrate= 886.5kbits/s speed=12.3x    frame= 3285 fps=297 q=31.0 size=   14848kB time=00:02:17.65 bitrate= 883.6kbits/s speed=12.4x    frame= 3385 fps=293 q=31.0 size=   15360kB time=00:02:21.85 bitrate= 887.0kbits/s speed=12.3x    frame= 3526 fps=292 q=31.0 size=   15872kB time=00:02:27.52 bitrate= 881.3kbits/s speed=12.2x    frame= 3588 fps=279 q=24.8 size=   16384kB time=00:02:30.34 bitrate= 892.7kbits/s speed=11.7x    frame= 3665 fps=274 q=31.0 size=   16896kB time=00:02:33.45 bitrate= 902.0kbits/s speed=11.5x    frame= 3744 fps=270 q=31.0 size=   17152kB time=00:02:36.82 bitrate= 895.9kbits/s speed=11.3x    frame= 3852 fps=267 q=31.0 size=   17664kB time=00:02:41.21 bitrate= 897.6kbits/s speed=11.2x    frame= 3858 fps=246 q=31.0 size=   17664kB time=00:02:41.24 bitrate= 897.4kbits/s speed=10.3x    frame= 3873 fps=238 q=24.8 size=   17664kB time=00:02:42.15 bitrate= 892.4kbits/s speed=9.95x    frame= 3878 fps=229 q=31.0 size=   17664kB time=00:02:42.15 bitrate= 892.4kbits/s speed=9.57x    frame= 3880 fps=222 q=31.0 size=   17664kB time=00:02:42.49 bitrate= 890.5kbits/s speed=9.29x    frame= 3886 fps=215 q=31.0 size=   17664kB time=00:02:42.62 bitrate= 889.8kbits/s speed=   9x    frame= 3964 fps=213 q=24.8 size=   18176kB time=00:02:45.91 bitrate= 897.4kbits/s speed=8.93x    frame= 4013 fps=210 q=31.0 size=   18432kB time=00:02:47.79 bitrate= 899.9kbits/s speed=8.78x    frame= 4041 fps=205 q=31.0 size=   18688kB time=00:02:49.23 bitrate= 904.6kbits/s speed=8.58x    frame= 4123 fps=204 q=31.0 size=   19200kB time=00:02:52.52 bitrate= 911.7kbits/s speed=8.54x    frame= 4128 fps=199 q=31.0 size=   19200kB time=00:02:52.52 bitrate= 911.7kbits/s speed=8.31x    frame= 4132 fps=194 q=31.0 size=   19200kB time=00:02:52.97 bitrate= 909.3kbits/s speed=8.12x    frame= 4138 fps=189 q=31.0 size=   19200kB time=00:02:52.97 bitrate= 909.3kbits/s speed=7.91x    frame= 4142 fps=185 q=31.0 size=   19200kB time=00:02:53.44 bitrate= 906.9kbits/s speed=7.74x    frame= 4188 fps=183 q=31.0 size=   19456kB time=00:02:55.32 bitrate= 909.1kbits/s speed=7.66x    frame= 4286 fps=183 q=31.0 size=   19968kB time=00:02:59.21 bitrate= 912.7kbits/s speed=7.66x    frame= 4425 fps=185 q=31.0 size=   20736kB time=00:03:05.22 bitrate= 917.1kbits/s speed=7.75x    frame= 4638 fps=190 q=31.0 size=   21760kB time=00:03:14.13 bitrate= 918.2kbits/s speed=7.95x    frame= 4785 fps=192 q=31.0 size=   22528kB time=00:03:20.27 bitrate= 921.5kbits/s speed=8.04x    frame= 4876 fps=192 q=31.0 size=   23040kB time=00:03:24.05 bitrate= 925.0kbits/s speed=8.03x    frame= 4939 fps=190 q=31.0 size=   23552kB time=00:03:26.43 bitrate= 934.6kbits/s speed=7.96x    frame= 5122 fps=196 q=31.0 Lsize=   24322kB time=00:03:33.59 bitrate= 932.9kbits/s speed=8.17x    
+video:12237kB audio:10013kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 9.314203%

@@ -1,0 +1,144 @@
+ffmpeg version git-2020-08-16-5df9724 Copyright (c) 2000-2020 the FFmpeg developers
+  built with gcc 10.2.1 (GCC) 20200805
+  configuration: --enable-gpl --enable-version3 --enable-sdl2 --enable-fontconfig --enable-gnutls --enable-iconv --enable-libass --enable-libdav1d --enable-libbluray --enable-libfreetype --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libopenjpeg --enable-libopus --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libsrt --enable-libtheora --enable-libtwolame --enable-libvpx --enable-libwavpack --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxml2 --enable-libzimg --enable-lzma --enable-zlib --enable-gmp --enable-libvidstab --enable-libvmaf --enable-libvorbis --enable-libvo-amrwbenc --enable-libmysofa --enable-libspeex --enable-libxvid --enable-libaom --enable-libgsm --enable-librav1e --enable-libsvtav1 --disable-w32threads --enable-libmfx --enable-ffnvcodec --enable-cuda-llvm --enable-cuvid --enable-d3d11va --enable-nvenc --enable-nvdec --enable-dxva2 --enable-avisynth --enable-libopenmpt --enable-amf
+  libavutil      56. 58.100 / 56. 58.100
+  libavcodec     58.100.100 / 58.100.100
+  libavformat    58. 51.100 / 58. 51.100
+  libavdevice    58. 11.101 / 58. 11.101
+  libavfilter     7. 87.100 /  7. 87.100
+  libswscale      5.  8.100 /  5.  8.100
+  libswresample   3.  8.100 /  3.  8.100
+  libpostproc    55.  8.100 / 55.  8.100
+[hls @ 00000176d652ea40] Skip ('#EXT-X-VERSION:3')
+[hls @ 00000176d652ea40] Skip ('#EXT-X-ALLOW-CACHE:YES')
+[hls @ 00000176d652ea40] Opening 'http://2.58.193.242:25461/hlsr/TBEOVUNZG1xBA1ADWwpTCAdXWgMJAVRWBAYHDFBVU1NWBwANBAZYX1YVGRERRxRdV1tnWFQaCw0JGEFBQARHaF5XRA4SAg1SVgQXH0BHD1VTFAIBHBpBXFQWWRYEVQQOFR9EUUhFXBQNVllsBlYQUVVTGgteTV1ZHBYMWmwFUFpWXQIWChMJRE8VXEASEVxWQ1pUHRJaWEFCVRdREVsXBgILXxYcE1oJFllBQRsRXBpiZBodEl1JQVVaEF1cDxcNFV5VQQgTFUQKRGpBB0ASSlNXVVRCGgsXABZPFl4ATWhUXAhaVVJNDwxZRhFYEVcaGhRVXl5RRVpCaxNdV0MPFQYAUgwGBhsb/server35/server3535/89/deb11c95d9b1b6da120e44f8dd04b968/89_3100.ts' for reading
+[hls @ 00000176d652ea40] Opening 'http://2.58.193.242:25461/hlsr/TBEOVUNZG1xBA1ADWwpTCAdXWgMJAVRWBAYHDFBVU1NWBwANBAZYX1YVGRERRxRdV1tnWFQaCw0JGEFBQARHaF5XRA4SAg1SVgQXH0BHD1VTFAIBHBpBXFQWWRYEVQQOFR9EUUhFXBQNVllsBlYQUVVTGgteTV1ZHBYMWmwFUFpWXQIWChMJRE8VXEASEVxWQ1pUHRJaWEFCVRdREVsXBgILXxYcE1oJFllBQRsRXBpiZBodEl1JQVVaEF1cDxcNFV5VQQgTFUQKRGpBB0ASSlNXVVRCGgsXABZPFl4ATWhUXAhaVVJNDwxZRhFYEVcaGhRVXl5RRVpCaxNdV0MPFQYAUgwGBhsb/server35/server3535/89/19337936941da424c1aed0d43b36feb2/89_3101.ts' for reading
+Input #0, hls, from 'http://hd.vizontele.eu:80/live/server35/server3535/89.m3u8':
+  Duration: N/A, start: 31000.016000, bitrate: N/A
+  Program 0 
+    Metadata:
+      variant_bitrate : 0
+    Stream #0:0: Video: h264 (High) ([27][0][0][0] / 0x001B), yuv420p, 1024x576 [SAR 1:1 DAR 16:9], 25 fps, 25 tbr, 90k tbn, 50 tbc
+    Metadata:
+      variant_bitrate : 0
+    Stream #0:1: Audio: aac (LC) ([15][0][0][0] / 0x000F), 48000 Hz, stereo, fltp
+    Metadata:
+      variant_bitrate : 0
+Multiple -c, -codec, -acodec, -vcodec, -scodec or -dcodec options specified for stream 1, only the last option '-c:a aac' will be used.
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> h264 (libx264))
+  Stream #0:1 -> #0:1 (aac (native) -> aac (native))
+Press [q] to stop, [?] for help
+[libx264 @ 00000176d6e117c0] using SAR=1/1
+[libx264 @ 00000176d6e117c0] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 BMI2 AVX2
+[libx264 @ 00000176d6e117c0] profile High, level 4.1, 4:2:0, 8-bit
+[libx264 @ 00000176d6e117c0] 264 - core 161 - H.264/MPEG-4 AVC codec - Copyleft 2003-2020 - http://www.videolan.org/x264.html - options: cabac=1 ref=1 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=2 psy=1 psy_rd=1.00:0.00 mixed_ref=0 me_range=16 chroma_me=1 trellis=0 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=0 threads=12 lookahead_threads=4 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=1 weightb=1 open_gop=0 weightp=1 keyint=250 keyint_min=25 scenecut=40 intra_refresh=0 rc_lookahead=10 rc=crf mbtree=1 crf=23.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 vbv_maxrate=800 vbv_bufsize=1600 crf_max=0.0 nal_hrd=none filler=0 ip_ratio=1.40 aq=1:1.00
+Output #0, hls, to 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b13.m3u8':
+  Metadata:
+    encoder         : Lavf58.51.100
+    Stream #0:0: Video: h264 (libx264), yuv420p, 1920x1080 [SAR 1:1 DAR 16:9], q=-1--1, 25 fps, 90k tbn, 25 tbc
+    Metadata:
+      variant_bitrate : 0
+      encoder         : Lavc58.100.100 libx264
+    Side data:
+      cpb: bitrate max/min/avg: 800000/0/0 buffer size: 1600000 vbv_delay: N/A
+    Stream #0:1: Audio: aac (LC), 48000 Hz, stereo, fltp, 128 kb/s
+    Metadata:
+      variant_bitrate : 0
+      encoder         : Lavc58.100.100 aac
+frame=   49 fps=0.0 q=28.0 size=N/A time=00:00:02.17 bitrate=N/A dup=2 drop=0 speed=4.35x    [hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b130.ts' for writing
+[hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b13.m3u8.tmp' for writing
+frame=  102 fps=102 q=26.0 size=N/A time=00:00:04.35 bitrate=N/A dup=2 drop=0 speed=4.34x    frame=  151 fps=101 q=34.0 size=N/A time=00:00:06.33 bitrate=N/A dup=2 drop=0 speed=4.22x    [hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b131.ts' for writing
+[hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b13.m3u8.tmp' for writing
+[hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b132.ts' for writing
+[hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b13.m3u8.tmp' for writing
+frame=  197 fps= 98 q=36.0 size=N/A time=00:00:08.08 bitrate=N/A dup=2 drop=0 speed=4.01x    [http @ 00000176d654ab80] Opening 'http://2.58.193.242:25461/hlsr/TBEOVUNZG1xBA1ADWwpTCAdXWgMJAVRWBAYHDFBVU1NWBwANBAZYX1YVGRERRxRdV1tnWFQaCw0JGEFBQARHaF5XRA4SAg1SVgQXH0BHD1VTFAIBHBpBXFQWWRYEVQQOFR9EUUhFXBQNVllsBlYQUVVTGgteTV1ZHBYMWmwFUFpWXQIWChMJRE8VXEASEVxWQ1pUHRJaWEFCVRdREVsXBgILXxYcE1oJFllBQRsRXBpiZBodEl1JQVVaEF1cDxcNFV5VQQgTFUQKRGpBB0ASSlNXVVRCGgsXABZPFl4ATWhUXAhaVVJNDwxZRhFYEVcaGhRVXl5RRVpCaxNdV0MPFQYAUgwGBhsb/server35/server3535/89/32783850e84412c80898b0fd71aa91ba/89_3102.ts' for reading
+frame=  241 fps= 91 q=34.0 size=N/A time=00:00:09.94 bitrate=N/A dup=2 drop=0 speed=3.76x    frame=  282 fps= 88 q=28.0 size=N/A time=00:00:11.49 bitrate=N/A dup=2 drop=0 speed=3.59x    [hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b133.ts' for writing
+[hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b13.m3u8.tmp' for writing
+frame=  311 fps= 84 q=28.0 size=N/A time=00:00:12.67 bitrate=N/A dup=2 drop=0 speed=3.42x    frame=  329 fps= 78 q=28.0 size=N/A time=00:00:13.35 bitrate=N/A dup=2 drop=0 speed=3.15x    frame=  354 fps= 74 q=35.0 size=N/A time=00:00:14.37 bitrate=N/A dup=2 drop=0 speed=3.01x    [hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b134.ts' for writing
+[hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b13.m3u8.tmp' for writing
+[hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b135.ts' for writing
+[hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b13.m3u8.tmp' for writing
+frame=  399 fps= 76 q=34.0 size=N/A time=00:00:16.23 bitrate=N/A dup=2 drop=0 speed=3.08x    frame=  440 fps= 76 q=38.0 size=N/A time=00:00:17.89 bitrate=N/A dup=2 drop=0 speed=3.09x    [hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b136.ts' for writing
+[hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b13.m3u8.tmp' for writing
+[hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b137.ts' for writing
+[hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b13.m3u8.tmp' for writing
+frame=  486 fps= 77 q=28.0 size=N/A time=00:00:19.62 bitrate=N/A dup=2 drop=0 speed=3.12x    [hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b130.ts' for writing
+[hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b13.m3u8.tmp' for writing
+frame=  535 fps= 79 q=33.0 size=N/A time=00:00:21.65 bitrate=N/A dup=2 drop=0 speed=3.19x    [hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b131.ts' for writing
+[hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b13.m3u8.tmp' for writing
+frame=  581 fps= 80 q=35.0 size=N/A time=00:00:23.48 bitrate=N/A dup=2 drop=0 speed=3.22x    frame=  629 fps= 81 q=31.0 size=N/A time=00:00:25.47 bitrate=N/A dup=2 drop=0 speed=3.27x    [hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b132.ts' for writing
+[hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b13.m3u8.tmp' for writing
+frame=  680 fps= 82 q=31.0 size=N/A time=00:00:27.49 bitrate=N/A dup=2 drop=0 speed=3.31x    [hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b133.ts' for writing
+[hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b13.m3u8.tmp' for writing
+frame=  731 fps= 83 q=32.0 size=N/A time=00:00:29.58 bitrate=N/A dup=2 drop=0 speed=3.36x    [hls @ 00000176d652ea40] Opening 'http://2.58.193.242:25461/live/server35/server3535/89.m3u8?token=TBEOVUNZG1xBA1ADWwpTCAdXWgMJAVRWBAYHDFBVU1NWBwANBAZYX1YVGRERRxRdV1tnWFQaCw0JGEFBQARHaF5XRA4SAg1SVgQXH0BHD1VTFAIBHBpBXFQWWRYEVQQOFR9EUUhFXBQNVllsBlYQUVVTGgteTV1ZHBYMWmwFUFpWXQIWChMJRE8VXEASEVxWQ1pUHRJaWEFCVRdREVsXBgILXxYcE1oJFllBQRsRXBpiZBodEl1JQVVaEF1cDxcNFV5VQQgTFUQKRGpBB0ASSlNXVVRCGgsXABZPFl4ATWhUXAhaVVJNDwxZRhFYEVcaGhRVXl5RRVpCaxNdV0MPFQYAUgwGBhsb' for reading
+[hls @ 00000176d652ea40] Skip ('#EXT-X-VERSION:3')
+[hls @ 00000176d652ea40] Skip ('#EXT-X-ALLOW-CACHE:YES')
+[http @ 00000176d654ab80] Opening 'http://2.58.193.242:25461/hlsr/TBEOVUNZG1xBA1ADWwpTCAdXWgMJAVRWBAYHDFBVU1NWBwANBAZYX1YVGRERRxRdV1tnWFQaCw0JGEFBQARHaF5XRA4SAg1SVgQXH0BHD1VTFAIBHBpBXFQWWRYEVQQOFR9EUUhFXBQNVllsBlYQUVVTGgteTV1ZHBYMWmwFUFpWXQIWChMJRE8VXEASEVxWQ1pUHRJaWEFCVRdREVsXBgILXxYcE1oJFllBQRsRXBpiZBodEl1JQVVaEF1cDxcNFV5VQQgTFUQKRGpBB0ASSlNXVVRCGgsXABZPFl4ATWhUXAhaVVJNDwxZRhFYEVcaGhRVXl5RRVpCaxNdV0MPFQYAUgwGBhsb/server35/server3535/89/9cbfaa7986eacaf4528ddbb91687aca5/89_3103.ts' for reading
+frame=  741 fps= 76 q=32.0 size=N/A time=00:00:29.95 bitrate=N/A dup=2 drop=0 speed=3.07x    [hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b134.ts' for writing
+[hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b13.m3u8.tmp' for writing
+[hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b135.ts' for writing
+[hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b13.m3u8.tmp' for writing
+frame=  780 fps= 76 q=28.0 size=N/A time=00:00:31.50 bitrate=N/A dup=2 drop=0 speed=3.07x    [hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b136.ts' for writing
+[hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b13.m3u8.tmp' for writing
+frame=  834 fps= 77 q=28.0 size=N/A time=00:00:33.53 bitrate=N/A dup=2 drop=0 speed=3.11x    [hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b137.ts' for writing
+[hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b13.m3u8.tmp' for writing
+frame=  887 fps= 79 q=36.0 size=N/A time=00:00:35.71 bitrate=N/A dup=2 drop=0 speed=3.16x    [hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b130.ts' for writing
+[hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b13.m3u8.tmp' for writing
+frame=  941 fps= 80 q=32.0 size=N/A time=00:00:37.84 bitrate=N/A dup=2 drop=0 speed=3.21x    [http @ 00000176d8946dc0] Opening 'http://2.58.193.242:25461/live/server35/server3535/89.m3u8?token=TBEOVUNZG1xBA1ADWwpTCAdXWgMJAVRWBAYHDFBVU1NWBwANBAZYX1YVGRERRxRdV1tnWFQaCw0JGEFBQARHaF5XRA4SAg1SVgQXH0BHD1VTFAIBHBpBXFQWWRYEVQQOFR9EUUhFXBQNVllsBlYQUVVTGgteTV1ZHBYMWmwFUFpWXQIWChMJRE8VXEASEVxWQ1pUHRJaWEFCVRdREVsXBgILXxYcE1oJFllBQRsRXBpiZBodEl1JQVVaEF1cDxcNFV5VQQgTFUQKRGpBB0ASSlNXVVRCGgsXABZPFl4ATWhUXAhaVVJNDwxZRhFYEVcaGhRVXl5RRVpCaxNdV0MPFQYAUgwGBhsb' for reading
+[hls @ 00000176d652ea40] Opening 'http://2.58.193.242:25461/live/server35/server3535/89.m3u8?token=TBEOVUNZG1xBA1ADWwpTCAdXWgMJAVRWBAYHDFBVU1NWBwANBAZYX1YVGRERRxRdV1tnWFQaCw0JGEFBQARHaF5XRA4SAg1SVgQXH0BHD1VTFAIBHBpBXFQWWRYEVQQOFR9EUUhFXBQNVllsBlYQUVVTGgteTV1ZHBYMWmwFUFpWXQIWChMJRE8VXEASEVxWQ1pUHRJaWEFCVRdREVsXBgILXxYcE1oJFllBQRsRXBpiZBodEl1JQVVaEF1cDxcNFV5VQQgTFUQKRGpBB0ASSlNXVVRCGgsXABZPFl4ATWhUXAhaVVJNDwxZRhFYEVcaGhRVXl5RRVpCaxNdV0MPFQYAUgwGBhsb' for reading
+[http @ 00000176e8081840] HTTP error 403 Forbidden
+[hls @ 00000176d652ea40] Failed to reload playlist 0
+frame=  991 fps= 50 q=28.0 size=N/A time=00:00:39.95 bitrate=N/A dup=2 drop=0 speed=2.02x    [hls @ 00000176d652ea40] Opening 'http://2.58.193.242:25461/live/server35/server3535/89.m3u8?token=TBEOVUNZG1xBA1ADWwpTCAdXWgMJAVRWBAYHDFBVU1NWBwANBAZYX1YVGRERRxRdV1tnWFQaCw0JGEFBQARHaF5XRA4SAg1SVgQXH0BHD1VTFAIBHBpBXFQWWRYEVQQOFR9EUUhFXBQNVllsBlYQUVVTGgteTV1ZHBYMWmwFUFpWXQIWChMJRE8VXEASEVxWQ1pUHRJaWEFCVRdREVsXBgILXxYcE1oJFllBQRsRXBpiZBodEl1JQVVaEF1cDxcNFV5VQQgTFUQKRGpBB0ASSlNXVVRCGgsXABZPFl4ATWhUXAhaVVJNDwxZRhFYEVcaGhRVXl5RRVpCaxNdV0MPFQYAUgwGBhsb' for reading
+[http @ 00000176e8081380] HTTP error 403 Forbidden
+[hls @ 00000176d652ea40] Failed to reload playlist 0
+[hls @ 00000176d652ea40] Opening 'http://2.58.193.242:25461/live/server35/server3535/89.m3u8?token=TBEOVUNZG1xBA1ADWwpTCAdXWgMJAVRWBAYHDFBVU1NWBwANBAZYX1YVGRERRxRdV1tnWFQaCw0JGEFBQARHaF5XRA4SAg1SVgQXH0BHD1VTFAIBHBpBXFQWWRYEVQQOFR9EUUhFXBQNVllsBlYQUVVTGgteTV1ZHBYMWmwFUFpWXQIWChMJRE8VXEASEVxWQ1pUHRJaWEFCVRdREVsXBgILXxYcE1oJFllBQRsRXBpiZBodEl1JQVVaEF1cDxcNFV5VQQgTFUQKRGpBB0ASSlNXVVRCGgsXABZPFl4ATWhUXAhaVVJNDwxZRhFYEVcaGhRVXl5RRVpCaxNdV0MPFQYAUgwGBhsb' for reading
+[http @ 00000176e8080c80] HTTP error 403 Forbidden
+[hls @ 00000176d652ea40] Failed to reload playlist 0
+[hls @ 00000176d652ea40] Opening 'http://2.58.193.242:25461/live/server35/server3535/89.m3u8?token=TBEOVUNZG1xBA1ADWwpTCAdXWgMJAVRWBAYHDFBVU1NWBwANBAZYX1YVGRERRxRdV1tnWFQaCw0JGEFBQARHaF5XRA4SAg1SVgQXH0BHD1VTFAIBHBpBXFQWWRYEVQQOFR9EUUhFXBQNVllsBlYQUVVTGgteTV1ZHBYMWmwFUFpWXQIWChMJRE8VXEASEVxWQ1pUHRJaWEFCVRdREVsXBgILXxYcE1oJFllBQRsRXBpiZBodEl1JQVVaEF1cDxcNFV5VQQgTFUQKRGpBB0ASSlNXVVRCGgsXABZPFl4ATWhUXAhaVVJNDwxZRhFYEVcaGhRVXl5RRVpCaxNdV0MPFQYAUgwGBhsb' for reading
+[http @ 00000176e8081600] HTTP error 403 Forbidden
+[hls @ 00000176d652ea40] Failed to reload playlist 0
+frame=  994 fps= 49 q=28.0 size=N/A time=00:00:39.95 bitrate=N/A dup=2 drop=0 speed=1.96x    [hls @ 00000176d652ea40] Opening 'http://2.58.193.242:25461/live/server35/server3535/89.m3u8?token=TBEOVUNZG1xBA1ADWwpTCAdXWgMJAVRWBAYHDFBVU1NWBwANBAZYX1YVGRERRxRdV1tnWFQaCw0JGEFBQARHaF5XRA4SAg1SVgQXH0BHD1VTFAIBHBpBXFQWWRYEVQQOFR9EUUhFXBQNVllsBlYQUVVTGgteTV1ZHBYMWmwFUFpWXQIWChMJRE8VXEASEVxWQ1pUHRJaWEFCVRdREVsXBgILXxYcE1oJFllBQRsRXBpiZBodEl1JQVVaEF1cDxcNFV5VQQgTFUQKRGpBB0ASSlNXVVRCGgsXABZPFl4ATWhUXAhaVVJNDwxZRhFYEVcaGhRVXl5RRVpCaxNdV0MPFQYAUgwGBhsb' for reading
+[http @ 00000176e8080300] HTTP error 403 Forbidden
+[hls @ 00000176d652ea40] Failed to reload playlist 0
+[hls @ 00000176d652ea40] Opening 'http://2.58.193.242:25461/live/server35/server3535/89.m3u8?token=TBEOVUNZG1xBA1ADWwpTCAdXWgMJAVRWBAYHDFBVU1NWBwANBAZYX1YVGRERRxRdV1tnWFQaCw0JGEFBQARHaF5XRA4SAg1SVgQXH0BHD1VTFAIBHBpBXFQWWRYEVQQOFR9EUUhFXBQNVllsBlYQUVVTGgteTV1ZHBYMWmwFUFpWXQIWChMJRE8VXEASEVxWQ1pUHRJaWEFCVRdREVsXBgILXxYcE1oJFllBQRsRXBpiZBodEl1JQVVaEF1cDxcNFV5VQQgTFUQKRGpBB0ASSlNXVVRCGgsXABZPFl4ATWhUXAhaVVJNDwxZRhFYEVcaGhRVXl5RRVpCaxNdV0MPFQYAUgwGBhsb' for reading
+[http @ 00000176e8080300] HTTP error 403 Forbidden
+[hls @ 00000176d652ea40] Failed to reload playlist 0
+[hls @ 00000176d652ea40] Opening 'http://2.58.193.242:25461/live/server35/server3535/89.m3u8?token=TBEOVUNZG1xBA1ADWwpTCAdXWgMJAVRWBAYHDFBVU1NWBwANBAZYX1YVGRERRxRdV1tnWFQaCw0JGEFBQARHaF5XRA4SAg1SVgQXH0BHD1VTFAIBHBpBXFQWWRYEVQQOFR9EUUhFXBQNVllsBlYQUVVTGgteTV1ZHBYMWmwFUFpWXQIWChMJRE8VXEASEVxWQ1pUHRJaWEFCVRdREVsXBgILXxYcE1oJFllBQRsRXBpiZBodEl1JQVVaEF1cDxcNFV5VQQgTFUQKRGpBB0ASSlNXVVRCGgsXABZPFl4ATWhUXAhaVVJNDwxZRhFYEVcaGhRVXl5RRVpCaxNdV0MPFQYAUgwGBhsb' for reading
+[http @ 00000176e8081ac0] HTTP error 403 Forbidden
+[hls @ 00000176d652ea40] Failed to reload playlist 0
+frame=  997 fps= 47 q=28.0 size=N/A time=00:00:39.95 bitrate=N/A dup=2 drop=0 speed=1.89x    [hls @ 00000176d652ea40] Opening 'http://2.58.193.242:25461/live/server35/server3535/89.m3u8?token=TBEOVUNZG1xBA1ADWwpTCAdXWgMJAVRWBAYHDFBVU1NWBwANBAZYX1YVGRERRxRdV1tnWFQaCw0JGEFBQARHaF5XRA4SAg1SVgQXH0BHD1VTFAIBHBpBXFQWWRYEVQQOFR9EUUhFXBQNVllsBlYQUVVTGgteTV1ZHBYMWmwFUFpWXQIWChMJRE8VXEASEVxWQ1pUHRJaWEFCVRdREVsXBgILXxYcE1oJFllBQRsRXBpiZBodEl1JQVVaEF1cDxcNFV5VQQgTFUQKRGpBB0ASSlNXVVRCGgsXABZPFl4ATWhUXAhaVVJNDwxZRhFYEVcaGhRVXl5RRVpCaxNdV0MPFQYAUgwGBhsb' for reading
+[http @ 00000176e8080a00] HTTP error 403 Forbidden
+[hls @ 00000176d652ea40] Failed to reload playlist 0
+[hls @ 00000176d652ea40] Opening 'http://2.58.193.242:25461/live/server35/server3535/89.m3u8?token=TBEOVUNZG1xBA1ADWwpTCAdXWgMJAVRWBAYHDFBVU1NWBwANBAZYX1YVGRERRxRdV1tnWFQaCw0JGEFBQARHaF5XRA4SAg1SVgQXH0BHD1VTFAIBHBpBXFQWWRYEVQQOFR9EUUhFXBQNVllsBlYQUVVTGgteTV1ZHBYMWmwFUFpWXQIWChMJRE8VXEASEVxWQ1pUHRJaWEFCVRdREVsXBgILXxYcE1oJFllBQRsRXBpiZBodEl1JQVVaEF1cDxcNFV5VQQgTFUQKRGpBB0ASSlNXVVRCGgsXABZPFl4ATWhUXAhaVVJNDwxZRhFYEVcaGhRVXl5RRVpCaxNdV0MPFQYAUgwGBhsb' for reading
+[http @ 00000176e8080ec0] HTTP error 403 Forbidden
+[hls @ 00000176d652ea40] Failed to reload playlist 0
+frame=  999 fps= 46 q=28.0 size=N/A time=00:00:39.95 bitrate=N/A dup=2 drop=0 speed=1.84x    [hls @ 00000176d652ea40] Opening 'http://2.58.193.242:25461/live/server35/server3535/89.m3u8?token=TBEOVUNZG1xBA1ADWwpTCAdXWgMJAVRWBAYHDFBVU1NWBwANBAZYX1YVGRERRxRdV1tnWFQaCw0JGEFBQARHaF5XRA4SAg1SVgQXH0BHD1VTFAIBHBpBXFQWWRYEVQQOFR9EUUhFXBQNVllsBlYQUVVTGgteTV1ZHBYMWmwFUFpWXQIWChMJRE8VXEASEVxWQ1pUHRJaWEFCVRdREVsXBgILXxYcE1oJFllBQRsRXBpiZBodEl1JQVVaEF1cDxcNFV5VQQgTFUQKRGpBB0ASSlNXVVRCGgsXABZPFl4ATWhUXAhaVVJNDwxZRhFYEVcaGhRVXl5RRVpCaxNdV0MPFQYAUgwGBhsb' for reading
+[http @ 00000176e8080ec0] HTTP error 403 Forbidden
+[hls @ 00000176d652ea40] Failed to reload playlist 0
+[hls @ 00000176d652ea40] Opening 'http://2.58.193.242:25461/live/server35/server3535/89.m3u8?token=TBEOVUNZG1xBA1ADWwpTCAdXWgMJAVRWBAYHDFBVU1NWBwANBAZYX1YVGRERRxRdV1tnWFQaCw0JGEFBQARHaF5XRA4SAg1SVgQXH0BHD1VTFAIBHBpBXFQWWRYEVQQOFR9EUUhFXBQNVllsBlYQUVVTGgteTV1ZHBYMWmwFUFpWXQIWChMJRE8VXEASEVxWQ1pUHRJaWEFCVRdREVsXBgILXxYcE1oJFllBQRsRXBpiZBodEl1JQVVaEF1cDxcNFV5VQQgTFUQKRGpBB0ASSlNXVVRCGgsXABZPFl4ATWhUXAhaVVJNDwxZRhFYEVcaGhRVXl5RRVpCaxNdV0MPFQYAUgwGBhsb' for reading
+[http @ 00000176e80807c0] HTTP error 403 Forbidden
+[hls @ 00000176d652ea40] Failed to reload playlist 0
+[hls @ 00000176d652ea40] Opening 'http://2.58.193.242:25461/live/server35/server3535/89.m3u8?token=TBEOVUNZG1xBA1ADWwpTCAdXWgMJAVRWBAYHDFBVU1NWBwANBAZYX1YVGRERRxRdV1tnWFQaCw0JGEFBQARHaF5XRA4SAg1SVgQXH0BHD1VTFAIBHBpBXFQWWRYEVQQOFR9EUUhFXBQNVllsBlYQUVVTGgteTV1ZHBYMWmwFUFpWXQIWChMJRE8VXEASEVxWQ1pUHRJaWEFCVRdREVsXBgILXxYcE1oJFllBQRsRXBpiZBodEl1JQVVaEF1cDxcNFV5VQQgTFUQKRGpBB0ASSlNXVVRCGgsXABZPFl4ATWhUXAhaVVJNDwxZRhFYEVcaGhRVXl5RRVpCaxNdV0MPFQYAUgwGBhsb' for reading
+[http @ 00000176e80807c0] HTTP error 403 Forbidden
+[hls @ 00000176d652ea40] Failed to reload playlist 0
+frame= 1001 fps= 45 q=28.0 size=N/A time=00:00:39.95 bitrate=N/A dup=2 drop=0 speed=1.78x    [hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b131.ts' for writing
+[hls @ 00000176d6d6f800] Opening 'C:\xampp\htdocs\iptv\m3u/efe34c4e2190e97d1adc625902822b13.m3u8.tmp' for writing
+frame= 1002 fps= 44 q=-1.0 Lsize=N/A time=00:00:40.00 bitrate=N/A dup=2 drop=0 speed=1.76x    
+video:3898kB audio:638kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown
+[libx264 @ 00000176d6e117c0] frame I:23    Avg QP:23.93  size: 38220
+[libx264 @ 00000176d6e117c0] frame P:275   Avg QP:25.15  size:  8219
+[libx264 @ 00000176d6e117c0] frame B:704   Avg QP:27.22  size:  1210
+[libx264 @ 00000176d6e117c0] consecutive B-frames:  5.4%  1.6%  3.6% 89.4%
+[libx264 @ 00000176d6e117c0] mb I  I16..4: 38.3% 53.6%  8.0%
+[libx264 @ 00000176d6e117c0] mb P  I16..4: 10.5%  9.6%  0.1%  P16..4: 12.9%  3.7%  0.8%  0.0%  0.0%    skip:62.4%
+[libx264 @ 00000176d6e117c0] mb B  I16..4:  0.6%  0.5%  0.0%  B16..8:  3.4%  0.4%  0.0%  direct: 2.0%  skip:93.2%  L0:44.0% L1:53.8% BI: 2.2%
+[libx264 @ 00000176d6e117c0] 8x8 transform intra:49.2% inter:46.9%
+[libx264 @ 00000176d6e117c0] coded y,uvDC,uvAC intra: 22.9% 27.9% 2.0% inter: 0.5% 3.4% 0.0%
+[libx264 @ 00000176d6e117c0] i16 v,h,dc,p: 51% 29% 10% 11%
+[libx264 @ 00000176d6e117c0] i8 v,h,dc,ddl,ddr,vr,hd,vl,hu: 21% 29% 27%  4%  4%  3%  5%  3%  4%
+[libx264 @ 00000176d6e117c0] i4 v,h,dc,ddl,ddr,vr,hd,vl,hu: 27% 22% 10%  7%  8%  7%  7%  6%  6%
+[libx264 @ 00000176d6e117c0] i8c dc,h,v,p: 60% 21% 15%  3%
+[libx264 @ 00000176d6e117c0] Weighted P-Frames: Y:2.9% UV:1.5%
+[libx264 @ 00000176d6e117c0] kb/s:796.60
+[aac @ 00000176d658a000] Qavg: 10226.090
