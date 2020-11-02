@@ -59,7 +59,7 @@ CREATE TABLE `iptv_config` (
 --
 
 INSERT INTO `iptv_config` (`config_id`, `ffmpeg_m3u8cfg`, `ffmpeg_ts`) VALUES
-(1, '-vcodec libx264 -profile:v high -level:v 4.1 -crf 23 -preset veryfast -vf \"yadif\" -s 1920x1080 -maxrate 800k -bufsize 1600k -hls_wrap 8 -acodec libmp3lame -ac 2 -c:a aac -b:a 128k -strict experimental', '-c:v copy -c:a copy -t 00:05:00');
+(1, '-vcodec libx264 -profile:v high -level:v 4.1 -crf 23 -preset veryfast -vf "yadif" -s 1920x1080 -maxrate 800k -bufsize 1600k -hls_wrap 8 -acodec libmp3lame -ac 2 -c:a aac -b:a 128k -strict experimental', '-c:v copy -c:a copy -t 00:05:00');
 
 -- --------------------------------------------------------
 
