@@ -1186,7 +1186,7 @@ fclose($fp);
   </div></td>';
     echo '<td>'.strip_tags("No Reason").'</td>';
   echo '<td>'.strip_tags($row["ip_adress"]).'</td>
-  <td><a href="index.php?git=remipblok&ip='.intval($row["ip_id"]).'">Remove Ban</a></td>
+  <td><a href="index.php?git=remipblok&ip='.intval($row["ip_id"]).'">Ban</a></td>
   </tr>';
   } else {
     if (!$getirtr)
@@ -1202,7 +1202,7 @@ fclose($fp);
   </div></td>';
     echo '<td>'.strip_tags($row["ban_reason"]).'</td>';
   echo '<td>'.strip_tags($row["ip_adress"]).'</td>
-  <td><a href="index.php?git=banip&ip='.intval($row["ip_id"]).'">Ban</a></td>
+  <td><a href="index.php?git=banip&ip='.intval($row["ip_id"]).'">Remove Ban</a></td>
   </tr>';
   }
   foreach($row as $row2){
