@@ -1,7 +1,5 @@
 <?php
 include("conn.php");
-$get = file_get_contents("http://".$_SERVER['HTTP_HOST']."/iptv/back/get_config.php");
-$jsoncfg = json_decode($get, true);
 $getir = new IPTVClass();
 
 if(isset($_GET["pubid"])) {
@@ -27,10 +25,18 @@ while($row = $stmt->fetch()) {
         die("Channel is Deactive");
       } else {
 		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-		$getir->TSDebugStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($jsoncfg["ffmpeg_ts"]));
+	$stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :getir');
+	$stmt->execute(array(':getir' => strip_tags("1")));
+	if($row2 = $stmt->fetch()) {
+		$getir->TSDebugStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row2["ffmpeg_ts"]));
+	}
         die();
 		} else {
-        $getir->TSDebugStream(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($jsoncfg["ffmpeg_ts"]));
+			$stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :getir');
+	$stmt->execute(array(':getir' => strip_tags("1")));
+	while($row2 = $stmt->fetch()) {
+        $getir->TSDebugStream(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row2["ffmpeg_ts"]));
+	}
         die();
 		}
       }
@@ -61,7 +67,11 @@ while($row = $stmt->fetch()) {
 			  </script></div></body>';
 			  die();
 			  } else {}
-		$getir->M3U8DebugStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($jsoncfg["ffmpeg_m3u8cfg"]));
+			$stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :getir');
+	$stmt->execute(array(':getir' => strip_tags("1")));
+	while($row2 = $stmt->fetch()) {
+		$getir->M3U8DebugStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row2["ffmpeg_m3u8cfg"]));
+	}
         die();
 		  } else {
 		if(intval($_GET["watchplayer"]) == "1") {
@@ -86,7 +96,11 @@ while($row = $stmt->fetch()) {
 			  </script></div></body>';
 			  die();
 			  } else {}
-        $getir->M3U8DebugStream(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($jsoncfg["ffmpeg_m3u8cfg"]));
+			$stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :getir');
+	$stmt->execute(array(':getir' => strip_tags("1")));
+	while($row2 = $stmt->fetch()) {
+        $getir->M3U8DebugStream(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row2["ffmpeg_m3u8cfg"]));
+	}
         die();
 		  }
       }
@@ -568,6 +582,10 @@ echo '</tr>
     <div class="form-group">
       <label for="exampleFormControlInput1">Config M3U8</label>
 	  <textarea class="form-control" name="ffmpegm3u8" placeholder="IPTV Config(M3U8)">'.$row["ffmpeg_m3u8cfg"].'</textarea>
+    </div>
+	    <div class="form-group">
+      <label for="exampleFormControlInput1">Twitter Token</label>
+	  <textarea class="form-control" name="twittertoken" placeholder="IPTV Config(M3U8)">'.$row["ffmpeg_m3u8cfg"].'</textarea>
     </div>
       <input type="hidden" name="ffmpegid" value="'.intval($row["config_id"]).'" class="form-control">
     <button type="submit" style="width: 100%;" class="btn btn-primary">Guncelle</button>
