@@ -35,6 +35,14 @@ CREATE TABLE `admin_list` (
   `admin_token` varchar(255) COLLATE utf8_turkish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
+--
+-- Tablo döküm verisi `admin_list`
+--
+
+INSERT INTO `admin_list` (`admin_id`, `admin_email`, `admin_usrname`, `admin_passwd`, `admin_token`) VALUES
+(1, 'alicangonullu@yahoo.com', 'alicangonullu', '060323f33140b4a86b53d01d726a45c7584a3a2b', '060323f33140b4a86b53d01d726a45c7584a3a2b');
+
+-- --------------------------------------------------------
 
 --
 -- Tablo için tablo yapısı `iptv_config`
@@ -47,6 +55,15 @@ CREATE TABLE `iptv_config` (
   `twitter_tkn` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
   `facebook_tkn` varchar(255) COLLATE utf8_turkish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+
+--
+-- Tablo döküm verisi `iptv_config`
+--
+
+INSERT INTO `iptv_config` (`config_id`, `ffmpeg_m3u8cfg`, `ffmpeg_ts`, `twitter_tkn`, `facebook_tkn`) VALUES
+(1, '-listen 1 -vcodec libx264 -profile:v high -level:v 4.1 -crf 23 -preset veryfast -vf \"yadif\" -s 1920x1080 -maxrate 3400k -bufsize 1600k -hls_wrap 8 -acodec libmp3lame -ac 2 -c:a aac -b:a 128k -strict experimental', '-c:v copy -c:a copy -t 00:05:00', '1234', '1234');
+
+-- --------------------------------------------------------
 
 --
 -- Tablo için tablo yapısı `ip_block`
@@ -83,9 +100,6 @@ CREATE TABLE `public_iptv` (
   `public_active` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dökümü yapılmış tablolar için indeksler
---
 
 --
 -- Tablo için indeksler `admin_list`
