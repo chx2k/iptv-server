@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 27 Ağu 2020, 20:13:02
--- Sunucu sürümü: 10.4.13-MariaDB
--- PHP Sürümü: 7.2.32
+-- Üretim Zamanı: 02 Kas 2020, 19:50:14
+-- Sunucu sürümü: 10.4.14-MariaDB
+-- PHP Sürümü: 7.4.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -51,15 +51,17 @@ INSERT INTO `admin_list` (`admin_id`, `admin_email`, `admin_usrname`, `admin_pas
 CREATE TABLE `iptv_config` (
   `config_id` int(11) NOT NULL,
   `ffmpeg_m3u8cfg` text COLLATE utf8_turkish_ci NOT NULL,
-  `ffmpeg_ts` text COLLATE utf8_turkish_ci NOT NULL
+  `ffmpeg_ts` text COLLATE utf8_turkish_ci NOT NULL,
+  `twitter_tkn` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
+  `facebook_tkn` varchar(255) COLLATE utf8_turkish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 --
 -- Tablo döküm verisi `iptv_config`
 --
 
-INSERT INTO `iptv_config` (`config_id`, `ffmpeg_m3u8cfg`, `ffmpeg_ts`) VALUES
-(1, '-vcodec libx264 -profile:v high -level:v 4.1 -crf 23 -preset veryfast -vf "yadif" -s 1920x1080 -maxrate 800k -bufsize 1600k -hls_wrap 8 -acodec libmp3lame -ac 2 -c:a aac -b:a 128k -strict experimental', '-c:v copy -c:a copy -t 00:05:00');
+INSERT INTO `iptv_config` (`config_id`, `ffmpeg_m3u8cfg`, `ffmpeg_ts`, `twitter_tkn`, `facebook_tkn`) VALUES
+(1, '-listen 1 -vcodec libx264 -profile:v high -level:v 4.1 -crf 23 -preset veryfast -vf \"yadif\" -s 1920x1080 -maxrate 3400k -bufsize 1600k -hls_wrap 8 -acodec libmp3lame -ac 2 -c:a aac -b:a 128k -strict experimental', '-c:v copy -c:a copy -t 00:05:00', '1234', '1234');
 
 -- --------------------------------------------------------
 
@@ -79,7 +81,8 @@ CREATE TABLE `ip_block` (
 --
 
 INSERT INTO `ip_block` (`ip_id`, `ip_adress`, `ban_reason`, `ip_block_active`) VALUES
-(0, '178.243.191.248', 'Nobody', '1');
+(1, '178.243.191.248', 'Nobody', '1'),
+(2, '::1', 'Deneme', '0');
 
 -- --------------------------------------------------------
 
@@ -100,7 +103,8 @@ CREATE TABLE `private_iptv` (
 --
 
 INSERT INTO `private_iptv` (`private_id`, `private_name`, `private_resim`, `private_iptv`, `private_active`) VALUES
-(1, 'BEIN', '', 'http://hd.vizontele.eu:80/live/server35/server3535/89.m3u8', '1');
+(1, 'BEIN', '', 'http://hd.vizontele.eu:80/live/server35/server3535/89.m3u8', '1'),
+(3, 'Bein', '', 'http://hd.vizontele.eu:80/live/server35/server3535/89.m3u8', '1');
 
 -- --------------------------------------------------------
 
@@ -176,16 +180,22 @@ ALTER TABLE `iptv_config`
   MODIFY `config_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- Tablo için AUTO_INCREMENT değeri `ip_block`
+--
+ALTER TABLE `ip_block`
+  MODIFY `ip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- Tablo için AUTO_INCREMENT değeri `private_iptv`
 --
 ALTER TABLE `private_iptv`
-  MODIFY `private_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `private_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `public_iptv`
 --
 ALTER TABLE `public_iptv`
-  MODIFY `public_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `public_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

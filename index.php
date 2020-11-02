@@ -585,7 +585,12 @@ echo '</tr>
     </div>
 	    <div class="form-group">
       <label for="exampleFormControlInput1">Twitter Token</label>
-	  <textarea class="form-control" name="twittertoken" placeholder="IPTV Config(M3U8)">'.$row["ffmpeg_m3u8cfg"].'</textarea>
+	  <textarea class="form-control" name="twittertoken" placeholder="Twitter Token">'.$row["twitter_tkn"].'</textarea>
+    </div>
+	
+		<div class="form-group">
+      <label for="exampleFormControlInput1">Facebook Token</label>
+	  <textarea class="form-control" name="facebooktkn" placeholder="Facebook Token">'.$row["facebook_tkn"].'</textarea>
     </div>
       <input type="hidden" name="ffmpegid" value="'.intval($row["config_id"]).'" class="form-control">
     <button type="submit" style="width: 100%;" class="btn btn-primary">Guncelle</button>
@@ -597,10 +602,12 @@ echo '</tr>
   case 'peditcfg':
   $getir->logincheck();
   $getir->NavBar("IPTV Site");
-  $update = $db->prepare("UPDATE iptv_config SET ffmpeg_m3u8cfg = :m3u8, ffmpeg_ts = :tsadres WHERE config_id = :gonderid");
+  $update = $db->prepare("UPDATE iptv_config SET ffmpeg_m3u8cfg = :m3u8, ffmpeg_ts = :tsadres, twitter_tkn = :twittertkn, facebook_tkn = :facebooktkn WHERE config_id = :gonderid");
   $update->bindValue(':gonderid', intval($_POST["ffmpegid"]));
   $update->bindValue(':m3u8', strip_tags($_POST["ffmpegm3u8"]));
   $update->bindValue(':tsadres', strip_tags($_POST["ffmpegts"]));
+  $update->bindValue(':twittertkn', strip_tags($_POST["twittertoken"]));
+  $update->bindValue(':facebooktkn', strip_tags($_POST["twittertoken"]));
   $update->execute();
   if($update){
 	 echo "<script LANGUAGE='JavaScript'>
