@@ -60,7 +60,7 @@ while($row = $stmt->fetch()) {
 			  <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
 			  <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
 			  <body class="container mx-auto">
-			  <video  id="example-video" class="video-js vjs-default-skin" controls>
+			  <video style="width:100%;height:100%;" id="example-video" class="video-js vjs-default-skin" controls>
 			  <source src="'.strip_tags($row["iptv_adres"]).'" type="application/x-mpegURL"></video>
 			  <script>var player = videojs("example-video");
 			  player.play();
@@ -89,7 +89,7 @@ while($row = $stmt->fetch()) {
 			  <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
 			  <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
 			  <body class="container mx-auto">
-			  <video  id="example-video" class="video-js vjs-default-skin" controls>
+			  <video style="width:100%;height:100%;" id="example-video" class="video-js vjs-default-skin" controls>
 			  <source src="'.strip_tags($row["iptv_adres"]).'" type="application/x-mpegURL"></video>
 			  <script>var player = videojs("example-video");
 			  player.play();
@@ -127,7 +127,7 @@ while($row = $stmt->fetch()) {
 			  <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
 			  <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
 			  <body class="container mx-auto">
-			  <center><video  id="example-video" class="video-js vjs-default-skin" controls>
+			  <center><video style="width:100%;height:100%;" id="example-video" class="video-js vjs-default-skin" controls>
 			  <source src="m3u/'.strip_tags($_GET["pubid"]).'.ts" type="application/x-mpegURL"></video>
 			  <script>  var player = videojs("example-video", {
 				  html5: {
@@ -162,7 +162,7 @@ while($row = $stmt->fetch()) {
 			  <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
 			  <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
 			  <body class="container mx-auto">
-			  <center><video  id="example-video" class="video-js vjs-theme-city" controls>
+			  <center><video style="width:100%;height:100%;" id="example-video" class="video-js vjs-theme-city" controls>
 			  <source src="m3u/'.strip_tags($_GET["pubid"]).'.m3u8" type="application/x-mpegURL"></video>
 			  <script>  var player = videojs("example-video", {
 				  html5: {
