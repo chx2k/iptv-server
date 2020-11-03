@@ -1,18 +1,13 @@
 <?php
 include("conn.php");
 $getir = new IPTVClass();
-
-if(isset($_GET["pubid"])) {
-$stmt = $db->prepare('SELECT * FROM ip_block WHERE ip_adress = :iddegeri');
-$stmt->execute(array(':iddegeri' => strip_tags($getir->getIPAddress())));
+$stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :iddegeri');
+$stmt->execute(array(':iddegeri' => strip_tags("1")));
 if($row = $stmt->fetch()) {
-  if($row["ip_block_active"] == "1") {
-  $getir->Error("IP Adress Blocked by Server Admin");
-} else {
-
+$configm3u8 = $row["ffmpeg_m3u8cfg"];
+$configts = $row["ffmpeg_ts"];
 }
-
-}
+if(isset($_GET["pubid"])) {
 
 $streamlink = strip_tags($_GET["pubid"]);
 $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_name = :iddegeri');
@@ -702,8 +697,34 @@ echo '</tr>
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+	$getir->StartTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configts);
+	} else {
+    $getir->StartTSStream(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configts);
+	}
+  } else {
+    echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
+    <br>';
+	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+	$getir->StartM3U8StreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configm3u8);
+	} else {
+    $getir->StartM3U8Stream(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configm3u8);
+	}
+  }
+}
+  break;
+  
+   case 'startfacebook':
+  $getir->logincheck();
+  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
+  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
+  if($row = $stmt->fetch()) {
+  if($row["video_stream"] == "1") {
+    echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
+    <br>';
+	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 	$getir->StartTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]));
 	} else {
+	$getir->StartFaceookStreamLinux($pubname, $tslinks, $url, $config, $token);
     $getir->StartTSStream(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]));
 	}
   } else {
@@ -742,6 +763,7 @@ echo '</tr>
   }
 }
   break;
+  
   case 'stopiptv':
   $getir->logincheck();
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');

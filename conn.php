@@ -58,17 +58,23 @@ else
 return $ip;
 }
 
+
 public function M3U8DebugStream($pubname, $tslinks, $config) {
   $filename = ''.strip_tags($pubname).'.m3u8';
   $tslink = ''.dirname(__FILE__).'/m3u/'.$filename.'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
   $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
-  echo '<b>'.$com.'</b><br>';
+  echo '<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro.min.css">
+	<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
+	<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
+	<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
+	<br><textarea class="container" data-role="textarea" style="width:100%;height:50%;">'.$com.'</textarea><br><br>';
   if(!$fp = @fopen(strip_tags($tslink), "r")) {
-    echo '<b>Online</b>';
+    echo '<br><b>Stream : (Can Stream) Online</b>';
   } else {
-    echo '<b>Offline</b>';
+    echo '<br><b>Stream : (Cant Stream)Offline</b>';
   }
   die();
 }
@@ -79,11 +85,16 @@ public function M3U8DebugStreamWin($pubname, $tslinks, $config) {
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'\log/'.$logfilename.'';
   $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
-  echo '<b>'.$com.'</b><br>';
+  echo '<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro.min.css">
+	<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
+	<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
+	<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
+	<br><textarea class="container" data-role="textarea" style="width:100%;height:50%;">'.$com.'</textarea><br><br>';
   if(!$fp = @fopen(strip_tags($tslink), "r")) {
-    echo '<br><b>Online</b>';
+    echo '<br><b>Stream : (Can Stream) Online</b>';
   } else {
-    echo '<br><b>Offline</b>';
+    echo '<br><b>Stream : (Cant Stream)Offline</b>';
   }
   die();
 }
@@ -134,7 +145,18 @@ public function StartOtherStream($pubname, $tslinks, $url, $config) {
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
   $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
-  echo '<br>Command : '.$com.'<br>';
+  echo '<br>Command : <br><code>'.$com.'</code><br>';
+  echo '<br>URL : '.$url.'<br>';
+  echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
+}
+
+public function StartFaceookStreamLinux($pubname, $tslinks, $url, $config, $token) {
+  set_time_limit(0);
+  $logfilename = ''.strip_tags($pubname).'-mylog.log';
+  $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
+  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://rtmp-api.facebook.com:80/rtmp/'.$token.'" >"'.$logfile.'" 2>&1';
+  shell_exec($com);
+  echo '<br>Command : <br><code>'.$com.'</code><br>';
   echo '<br>URL : '.$url.'<br>';
   echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
 }
@@ -145,9 +167,9 @@ public function StartM3U8Stream($pubname, $tslinks, $url, $config) {
   $tslink = ''.dirname(__FILE__).''.$filename.'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
+  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
-  echo '<br>Command : '.$com.'<br>';
+  echo '<br>Command : <br><code>'.$com.'</code><br>';
   echo '<br>URL : '.$url.'<br>';
   echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
 }
@@ -160,7 +182,7 @@ public function StartM3U8StreamWin($pubname, $tslinks, $url, $config) {
   $logfile = ''.dirname(__FILE__).'\log/'.$logfilename.'';
   $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
-  echo '<br>Command : '.$com.'<br>';
+  echo '<br>Command : <br><code>'.$com.'</code><br>';
   echo '<br>URL : '.$url.'<br>';
   echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
 }
@@ -171,9 +193,9 @@ public function StartTSStream($pubname, $tslinks, $url, $configts) {
   $tslink = ''.dirname(__FILE__).''.$filename.'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$configts.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
+  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$configts.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
-  echo '<br>Command : '.$com.'<br>';
+  echo '<br>Command : <br><code>'.$com.'</code><br>';
   echo '<br>URL : '.$url.'<br>';
   echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
 }
