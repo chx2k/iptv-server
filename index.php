@@ -719,6 +719,12 @@ echo '</tr>
   break;
 
   case 'getlog':
+  echo '<script>
+  function timedRefresh(timeoutPeriod) {
+	setTimeout("location.reload(true);",timeoutPeriod);
+	}
+	window.onload = timedRefresh(5000);
+</script>';
   $getir->logincheck();
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
