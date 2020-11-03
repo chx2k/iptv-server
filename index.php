@@ -1454,11 +1454,11 @@ fclose($fp);
   <b>Your IP : '.strip_tags($getir->getIPAddress()).'</b><br>
   <form action="index.php?git=pstartstream" method="post">
     <div class="form-group">
-      <label for="exampleFormControlInput1">Stream TS Link</label>
-      <input type="text" name="streamlink" class="form-control" placeholder="TS Link">
+      <label for="exampleFormControlInput1">Stream Link</label>
+      <input type="text" name="streamlink" class="form-control" placeholder="M3U8 Link">
     </div>
 	  <div class="form-group">
-    <label for="exampleFormControlSelect1">Example select</label>
+    <label for="exampleFormControlSelect1">Type</label>
     <select class="form-control" name="streamorvid" id="exampleFormControlSelect1">
       <option value="0">Stream</option>
       <option value="1">Video</option>
