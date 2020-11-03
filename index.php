@@ -584,6 +584,7 @@ fclose($fp);
 	IPTV Editor
   </button>
   <ul class="dropdown-menu" role="menu">
+   <li><a class="dropdown-item" href="index.php?git=getlog&id='.intval($row2["public_id"]).'">Logs</a></li>
     <li><a class="dropdown-item" href="index.php?git=startiptv&id='.intval($row2["public_id"]).'">Start</a></li>
     <li><a class="dropdown-item" href="index.php?git=stopiptv&id='.intval($row2["public_id"]).'">Stop</a></li>
     <li><a class="dropdown-item" href="index.php?git=editpubid&id='.strip_tags($row2["public_id"]).'">Edit</a></li>
@@ -717,6 +718,24 @@ echo '</tr>
 }
   break;
 
+  case 'getlog':
+  $getir->logincheck();
+  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
+  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
+  if($row = $stmt->fetch()) {
+  if($row["video_stream"] == "1") {
+    echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
+    <br><br>';
+	$getlog = shell_exec('cat '.dirname(__FILE__).'/log/'.strip_tags($row["public_name"]).'-mylog.log');
+	echo '<textarea style="width:100%;height:100%" class="container form-control">'.strip_tags($getlog).'</textarea>';
+  } else {
+	echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
+	<br><br>';
+	$getlog = shell_exec('cat '.dirname(__FILE__).'/log/'.strip_tags($row["public_name"]).'-mylog.log');
+	echo '<textarea style="width:100%;height:100%" class="container form-control">'.strip_tags($getlog).'</textarea>';
+  }
+}
+  break;
   case 'stopiptv':
   $getir->logincheck();
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
