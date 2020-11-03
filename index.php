@@ -750,10 +750,12 @@ echo '</tr>
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
+	unlink('log/'.strip_tags($row["public_name"]).'-mylog.log');
     $getir->StopFFMPEG();
     } else {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
+	unlink('log/'.strip_tags($row["public_name"]).'-mylog.log');
     $getir->StopFFMPEG();
   }
 }
