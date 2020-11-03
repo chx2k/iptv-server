@@ -777,17 +777,25 @@ echo '</tr>
   echo '<body class="container mx-auto">
   <form action="index.php?git=peditpubid" method="post">
     <div class="form-group">
-      <label for="exampleFormControlInput1">IPTV Adı</label>
+      <label for="exampleFormControlInput1">IPTV Name</label>
       <input type="text" name="iptvname" value="'.strip_tags($row["public_name"]).'" class="form-control" placeholder="IPTV Name">
     </div>
-    <div class="form-group">
-      <label for="exampleFormControlInput1">Stream or Video</label>
-      <input type="text" name="iptvstrorvid" value="'.strip_tags($row["video_stream"]).'" class="form-control" placeholder="Stream or Video (1 = Video / 0 = Stream)">
-    </div>
-    <div class="form-group">
-      <label for="exampleFormControlInput1">Link Open or Close</label>
-      <input type="text" name="iptvclsopn" value="'.strip_tags($row["public_active"]).'" class="form-control" placeholder="Link Open or Close (1 = Open / 0 = Close)">
-    </div>
+		  <div class="form-group">
+    <label for="exampleFormControlSelect1">IPTV Type | '.strip_tags($row["video_stream"]).'</label>
+    <select class="form-control" name="iptvstrorvid" id="exampleFormControlSelect1">
+      <option value="0">Stream</option>
+      <option value="1">Video</option>
+    </select>
+  </div>
+  
+  		  <div class="form-group">
+    <label for="exampleFormControlSelect1">IPTV Status | '.strip_tags($row["public_active"]).'</label>
+    <select class="form-control" name="iptvclsopn" id="exampleFormControlSelect1">
+      <option value="0">Close</option>
+      <option value="1">Open</option>
+    </select>
+  </div>
+
     <div class="form-group">
       <label for="exampleFormControlInput1">IPTV Link</label>
       <input type="text" name="iptvlink" value="'.strip_tags($row["public_tslink"]).'" class="form-control" placeholder="IPTV Link">
@@ -1424,10 +1432,13 @@ fclose($fp);
       <label for="exampleFormControlInput1">Stream TS Link</label>
       <input type="text" name="streamlink" class="form-control" placeholder="TS Link">
     </div>
-    <div class="form-group">
-      <label for="exampleFormControlInput1">Stream or Video ?</label>
-      <input type="text" name="streamorvid" class="form-control" placeholder="0: Stream / 1: Video">
-    </div>
+	  <div class="form-group">
+    <label for="exampleFormControlSelect1">Example select</label>
+    <select class="form-control" name="streamorvid" id="exampleFormControlSelect1">
+      <option value="0">Stream</option>
+      <option value="1">Video</option>
+    </select>
+  </div>
     <button type="submit" style="width: 100%;" class="btn btn-primary">Add</button>
   </form>
   </body>';
