@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: localhost
--- Üretim Zamanı: 04 Kas 2020, 12:22:41
+-- Üretim Zamanı: 04 Kas 2020, 13:32:16
 -- Sunucu sürümü: 10.3.17-MariaDB
 -- PHP Sürümü: 7.2.24
 
@@ -55,15 +55,16 @@ CREATE TABLE `iptv_config` (
   `ffmpeg_ts` text COLLATE utf8_turkish_ci NOT NULL,
   `ffmpeg_flv` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
   `twitter_tkn` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
-  `facebook_tkn` varchar(255) COLLATE utf8_turkish_ci NOT NULL
+  `facebook_tkn` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
+  `twitch_tkn` varchar(255) COLLATE utf8_turkish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 --
 -- Tablo döküm verisi `iptv_config`
 --
 
-INSERT INTO `iptv_config` (`config_id`, `ffmpeg_m3u8cfg`, `ffmpeg_ts`, `ffmpeg_flv`, `twitter_tkn`, `facebook_tkn`) VALUES
-(1, '-listen 1 -vcodec libx264 -profile:v high -level:v 4.1 -crf 23 -preset veryfast -vf \"yadif\" -s 1280x1024 -maxrate 3400k -bufsize 5000k -hls_wrap 8 -acodec libfdk_aac -ac 2 -c:a aac -b:a 128k -strict experimental', '-c:v copy -c:a copy -t 00:05:00', '-deinterlace -vcodec libx264 -pix_fmt yuv420p -preset veryfast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '1234', '1234');
+INSERT INTO `iptv_config` (`config_id`, `ffmpeg_m3u8cfg`, `ffmpeg_ts`, `ffmpeg_flv`, `twitter_tkn`, `facebook_tkn`, `twitch_tkn`) VALUES
+(1, '-listen 1 -hls_wrap 8 -deinterlace -vcodec libx264 -pix_fmt yuv420p -preset veryfast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '-c:v copy -c:a copy -t 00:05:00', '-deinterlace -vcodec libx264 -pix_fmt yuv420p -preset veryfast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '1234', '1234', '');
 
 -- --------------------------------------------------------
 

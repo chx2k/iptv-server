@@ -150,6 +150,29 @@ public function StartOtherStream($pubname, $tslinks, $url, $config) {
   echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
 }
 
+
+
+public function StartTwitchTSStreamLinux($pubname, $tslinks, $url, $config, $token) {
+  set_time_limit(0);
+  $logfilename = ''.strip_tags($pubname).'-mylog.log';
+  $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
+  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://live-cdg.twitch.tv/app/'.$token.'" >"'.$logfile.'" 2>&1';
+  shell_exec($com);
+  echo '<br>Command : <br><code>'.$com.'</code><br>';
+  echo '<br>URL : '.$url.'<br>';
+  echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
+}
+
+public function StartTwitchTSStreamWin($pubname, $tslinks, $url, $config, $token) {
+  set_time_limit(0);
+  $logfilename = ''.strip_tags($pubname).'-mylog.log';
+  $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
+  $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://live-cdg.twitch.tv/app/'.$token.'" >"'.$logfile.'" 2>&1';
+  shell_exec($com);
+  echo '<br>Command : <br><code>'.$com.'</code><br>';
+  echo '<br>URL : '.$url.'<br>';
+  echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
+}
 public function StartFacebookTSStreamLinux($pubname, $tslinks, $url, $config, $token) {
   set_time_limit(0);
   $logfilename = ''.strip_tags($pubname).'-mylog.log';

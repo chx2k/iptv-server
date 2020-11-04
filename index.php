@@ -6,8 +6,10 @@ $stmt->execute(array(':iddegeri' => strip_tags("1")));
 if($row = $stmt->fetch()) {
 $configm3u8 = $row["ffmpeg_m3u8cfg"];
 $configts = $row["ffmpeg_ts"];
+$configflv = $row["ffmpeg_flv"];
 $twittertk = $row["twitter_tkn"];
 $facebooktk = $row["facebook_tkn"];
+$twitchtk = $row["twitch_tkn"];
 }
 if(isset($_GET["pubid"])) {
 
@@ -583,6 +585,7 @@ fclose($fp);
   <ul class="dropdown-menu" role="menu">
    <li><a class="dropdown-item" href="index.php?git=getlog&id='.intval($row2["public_id"]).'">Logs</a></li>
    <li><a class="dropdown-item" href="index.php?git=startfacebook&id='.intval($row2["public_id"]).'">Start Facebook Stream</a></li>
+   <li><a class="dropdown-item" href="index.php?git=starttwitch&id='.intval($row2["public_id"]).'">Start Twitch Stream</a></li>
     <li><a class="dropdown-item" href="index.php?git=startiptv&id='.intval($row2["public_id"]).'">Start Stream</a></li>
     <li><a class="dropdown-item" href="index.php?git=stopiptv&id='.intval($row2["public_id"]).'">Stop Stream</a></li>
     <li><a class="dropdown-item" href="index.php?git=editpubid&id='.strip_tags($row2["public_id"]).'">Edit Stream</a></li>
@@ -649,6 +652,11 @@ echo '</tr>
 	  <textarea class="form-control" name="facebooktkn" placeholder="Facebook Token">'.$row["facebook_tkn"].'</textarea>
     </div>
 	
+		    <div class="form-group">
+      <label for="exampleFormControlInput1">Twitch Token</label>
+	  <textarea class="form-control" name="twitchtoken" placeholder="Twitch Token">'.$row["twitch_tkn"].'</textarea>
+    </div>
+	
       <input type="hidden" name="ffmpegid" value="'.intval($row["config_id"]).'" class="form-control">
     <button type="submit" style="width: 100%;" class="btn btn-primary">Guncelle</button>
   </form>
@@ -659,13 +667,14 @@ echo '</tr>
   case 'peditcfg':
   $getir->logincheck();
   $getir->NavBar("IPTV Site");
-  $update = $db->prepare("UPDATE iptv_config SET ffmpeg_m3u8cfg = :m3u8, ffmpeg_ts = :ts, twitter_tkn = :twittertkn, facebook_tkn = :facebooktkn, ffmpeg_flv = :flv WHERE config_id = :gonderid");
+  $update = $db->prepare("UPDATE iptv_config SET ffmpeg_m3u8cfg = :m3u8, ffmpeg_ts = :ts, twitter_tkn = :twittertkn, facebook_tkn = :facebooktkn, ffmpeg_flv = :flv, twitch_tkn = :twitchtkn WHERE config_id = :gonderid");
   $update->bindValue(':gonderid', intval($_POST["ffmpegid"]));
   $update->bindValue(':m3u8', strip_tags($_POST["ffmpegm3u8"]));
   $update->bindValue(':flv', strip_tags($_POST["ffmpegflv"]));
   $update->bindValue(':ts', strip_tags($_POST["ffmpegts"]));
   $update->bindValue(':twittertkn', strip_tags($_POST["twittertoken"]));
   $update->bindValue(':facebooktkn', strip_tags($_POST["facebooktkn"]));
+  $update->bindValue(':twitchtkn', strip_tags($_POST["twitchtoken"]));
   $update->execute();
   if($update){
 	 echo "<script LANGUAGE='JavaScript'>
@@ -732,17 +741,42 @@ echo '</tr>
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartFacebookTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configts, strip_tags($facebooktk));
+	$getir->StartFacebookTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($facebooktk));
 	} else {
-	$getir->StartFacebookTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configts, strip_tags($facebooktk));
+	$getir->StartFacebookTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($facebooktk));
 	}
   } else {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartFacebookTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configts, strip_tags($facebooktk));
+	$getir->StartFacebookTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($facebooktk));
 	} else {
-    $getir->StartFacebookTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configts, strip_tags($facebooktk));
+    $getir->StartFacebookTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($facebooktk));
+	}
+  }
+}
+  break;
+  
+     case 'starttwitch':
+  $getir->logincheck();
+  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
+  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
+  if($row = $stmt->fetch()) {
+  if($row["video_stream"] == "1") {
+    echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
+    <br>';
+	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+	$getir->StartTwitchTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($twitchtk));
+	} else {
+	$getir->StartTwitchTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($twitchtk));
+	}
+  } else {
+    echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
+    <br>';
+	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+	$getir->StartTwitchTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($twitchtk));
+	} else {
+    $getir->StartTwitchTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($twitchtk));
 	}
   }
 }
