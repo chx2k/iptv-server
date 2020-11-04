@@ -63,7 +63,7 @@ CREATE TABLE `iptv_config` (
 --
 
 INSERT INTO `iptv_config` (`config_id`, `ffmpeg_m3u8cfg`, `ffmpeg_ts`, `ffmpeg_flv`, `twitter_tkn`, `facebook_tkn`) VALUES
-(1, '-listen 1 -vcodec libx264 -profile:v high -level:v 4.1 -crf 23 -preset veryfast -vf \"yadif\" -s 1280x1024 -maxrate 3400k -bufsize 5000k -hls_wrap 8 -acodec libfdk_aac -ac 2 -c:a aac -b:a 128k -strict experimental', '-c:v copy -c:a copy -t 00:05:00', '-listen 1 -vcodec libx264 -profile:v high -level:v 4.1 -crf 23 -preset veryfast -s 1280x1024 -maxrate 3400k -bufsize 5000k -hls_wrap 8 -acodec libfdk_aac -ac 2 -c:a aac -b:a 128k -strict experimental', '1234', '717911345601563?s_bl=1&s_hv=0&s_psm=1&s_sc=717911358934895&s_sw=0&s_vt=api-s&a=AbwYaKlS4GefE-5k');
+(1, '-listen 1 -vcodec libx264 -profile:v high -level:v 4.1 -crf 23 -preset veryfast -vf \"yadif\" -s 1280x1024 -maxrate 3400k -bufsize 5000k -hls_wrap 8 -acodec libfdk_aac -ac 2 -c:a aac -b:a 128k -strict experimental', '-c:v copy -c:a copy -t 00:05:00', '-deinterlace -vcodec libx264 -pix_fmt yuv420p -preset veryfast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '1234', '1234');
 
 -- --------------------------------------------------------
 
