@@ -10,7 +10,7 @@ die("<center><b>PHP IPTV Yüklenemedi / PHP IPTV was not Installed</b>
 try {
 $ip = "localhost"; //host
 $user = "root";  // host id
-$password = "";  // password local olduğu için varsayılan şifre
+$password = "19742008";  // password local olduğu için varsayılan şifre
 $ad = "iptv_data"; // db adı 
 $db = new PDO("mysql:host=$ip;dbname=$ad", "$user", "$password");
 $db->query("SET CHARACTER SET 'utf8'");
@@ -173,11 +173,42 @@ public function StartTwitchTSStreamWin($pubname, $tslinks, $url, $config, $token
   echo '<br>URL : '.$url.'<br>';
   echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
 }
+
+public function StartRestreamTSStreamLinux($pubname, $tslinks, $url, $config, $token) {
+  set_time_limit(0);
+  $logfilename = ''.strip_tags($pubname).'-mylog.log';
+  $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
+  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://live-cdg.twitch.tv/app/'.$token.'" >"'.$logfile.'" 2>&1';
+  shell_exec($com);
+  echo '<br>Command : <br><code>'.$com.'</code><br>';
+  echo '<br>URL : '.$url.'<br>';
+  echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
+}
+
+public function StartRestreamTSStreamWin($pubname, $tslinks, $url, $config, $token) {
+  set_time_limit(0);
+  $logfilename = ''.strip_tags($pubname).'-mylog.log';
+  $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
+  if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2) == "tr") {
+  $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://istanbul.restream.io/live/'.$token.'" >"'.$logfile.'" 2>&1';
+  } else {
+  $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://live.restream.io/live/'.$token.'" >"'.$logfile.'" 2>&1';
+  }
+  shell_exec($com);
+  echo '<br>Command : <br><code>'.$com.'</code><br>';
+  echo '<br>URL : '.$url.'<br>';
+  echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
+}
+
 public function StartFacebookTSStreamLinux($pubname, $tslinks, $url, $config, $token) {
   set_time_limit(0);
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmps://live-api-s.facebook.com:443/rtmp/'.$token.'" >"'.$logfile.'" 2>&1';
+  if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2) == "tr") {
+  $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://istanbul.restream.io/live/'.$token.'" >"'.$logfile.'" 2>&1';
+  } else {
+  $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://live.restream.io/live/'.$token.'" >"'.$logfile.'" 2>&1';
+  }
   shell_exec($com);
   echo '<br>Command : <br><code>'.$com.'</code><br>';
   echo '<br>URL : '.$url.'<br>';
