@@ -50,12 +50,6 @@ while($row = $stmt->fetch()) {
 			  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
 			  <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet"/>
 			  
-			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro.min.css">
-			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
-			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
-			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
-			  <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
-			  
 			  <script src="https://unpkg.com/video.js/dist/video.js"></script>
 			  <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
 			  <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
@@ -78,12 +72,6 @@ while($row = $stmt->fetch()) {
 			  echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 			  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
 			  <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet"/>
-			  
-			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro.min.css">
-			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
-			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
-			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
-			  <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
 			  
 			  <script src="https://unpkg.com/video.js/dist/video.js"></script>
 			  <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
@@ -117,12 +105,6 @@ while($row = $stmt->fetch()) {
 			  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
 			  <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet"/>
 			  
-			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro.min.css">
-			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
-			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
-			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
-			  <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
-			  
 			  <script src="https://unpkg.com/video.js/dist/video.js"></script>
 			  <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
 			  <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
@@ -151,12 +133,6 @@ while($row = $stmt->fetch()) {
 			  echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 			  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
 			  <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet"/>
-			  
-			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro.min.css">
-			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
-			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
-			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
-			  <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
 			  
 			  <script src="https://unpkg.com/video.js/dist/video.js"></script>
 			  <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
@@ -977,12 +953,15 @@ if (!unlink($dosyaadi)) {
   $getir->logincheck();
   $getir->NavBar("IPTV Site");
   echo '
-    <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
-    <script src="https://unpkg.com/video.js/dist/video.js"></script>
-    <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
-    <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>';
+    			  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
+			  <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet"/>
+			 
+			  
+			  <script src="https://unpkg.com/video.js/dist/video.js"></script>
+			  <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
+			  <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>';
   
-echo '<div class="">';
+echo '<div class="container">';
   $stmt = $db->prepare('SELECT * FROM private_iptv WHERE private_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   while($row = $stmt->fetch()) {
@@ -992,11 +971,11 @@ echo '<div class="">';
       echo '<div class="alert alert-success" role="alert">This channel is online!</div>';
     }
 if(!$fp = @fopen(strip_tags($row["private_iptv"]), "r")) {
-  echo '<body class="container mx-auto">
+  echo '<body class="mx-auto">
   <div class="alert alert-danger" role="alert">This channel is not running!</div>
   </body>';
 } else {
-  echo '<body class="container mx-auto">
+  echo '<body class="mx-auto">
     <video id="example-video" class="video-js vjs-default-skin" controls>
     <source src="'.strip_tags($row["private_iptv"]).'" type="application/x-mpegURL"></video>
   <script>
