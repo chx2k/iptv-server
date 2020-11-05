@@ -789,13 +789,13 @@ echo '</tr>
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br><br>';
-	$getlog = shell_exec('cat '.dirname(__FILE__).'/log/'.strip_tags($row["public_name"]).'-mylog.log');
-	echo '<textarea style="width:100%;height:100%" class="container form-control">'.strip_tags($getlog).'</textarea>';
+	$myfile = fopen('log/'.strip_tags($row["public_name"]).'-mylog.log', "r") or die("Unable to open file!");
+	echo '<textarea style="width:100%;height:100%" class="container form-control">'.fread($myfile,filesize('log/'.strip_tags($row["public_name"]).'-mylog.log'));'</textarea>';
   } else {
 	echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
 	<br><br>';
-	$getlog = shell_exec('cat '.dirname(__FILE__).'/log/'.strip_tags($row["public_name"]).'-mylog.log');
-	echo '<textarea style="width:100%;height:100%" class="container form-control">'.strip_tags($getlog).'</textarea>';
+	$myfile = fopen('log/'.strip_tags($row["public_name"]).'-mylog.log', "r") or die("Unable to open file!");
+	echo '<textarea style="width:100%;height:100%" class="container form-control">'.fread($myfile,filesize('log/'.strip_tags($row["public_name"]).'-mylog.log'));'</textarea>';
   }
 }
   break;
