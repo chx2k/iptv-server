@@ -178,7 +178,11 @@ public function StartRestreamTSStreamLinux($pubname, $tslinks, $url, $config, $t
   set_time_limit(0);
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://live-cdg.twitch.tv/app/'.$token.'" >"'.$logfile.'" 2>&1';
+  if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2) == "tr") {
+  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://istanbul.restream.io/live/'.$token.'" >"'.$logfile.'" 2>&1';
+  } else {
+  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://live.restream.io/live/'.$token.'" >"'.$logfile.'" 2>&1';
+  }
   shell_exec($com);
   echo '<br>Command : <br><code>'.$com.'</code><br>';
   echo '<br>URL : '.$url.'<br>';
@@ -204,11 +208,7 @@ public function StartFacebookTSStreamLinux($pubname, $tslinks, $url, $config, $t
   set_time_limit(0);
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2) == "tr") {
-  $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://istanbul.restream.io/live/'.$token.'" >"'.$logfile.'" 2>&1';
-  } else {
-  $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://live.restream.io/live/'.$token.'" >"'.$logfile.'" 2>&1';
-  }
+  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://live-cdg.twitch.tv/app/'.$token.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
   echo '<br>Command : <br><code>'.$com.'</code><br>';
   echo '<br>URL : '.$url.'<br>';
