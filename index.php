@@ -440,10 +440,9 @@ die("Anlamsız Istek");
 }
 
 echo '<body>
-<br><br><br>
-<button onclick="javascript:location.reload();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Refresh</button>';
-
-echo '<div class="h-100 p-4">
+<br><br>
+<div class="container h-50 p-4" style="width:90%;">
+<button onclick="javascript:location.reload();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Refresh</button>
 <br><br>
 <b>M3U8 File List</b>';
 $_DIR = opendir("m3u");
@@ -612,7 +611,7 @@ echo '<td><div class="kisalt">'.strip_tags($row2["ffmpeg_ts"]).'</div></td>';
 echo '<td><a class="btn btn-danger" href="index.php?git=editcfg&id='.intval($row2["config_id"]).'">Edit</a></td>';
 }
 echo '</tr>
-</tbody></table></div></div></body>';
+</tbody></table></div></div><br><br></body>';
   break;
   
 

@@ -369,7 +369,7 @@ a {
 @media (min-width:768px) {
 div.kisalt {
   color: black;
-  width: 250px;
+  width: 350px;
   overflow: hidden; /* taşanları gizle */
   white-space: nowrap; /* alt satıra hiç inme */
   text-overflow: ellipsis; /* eğer uzunsa üç nokta koy */
@@ -377,7 +377,7 @@ div.kisalt {
 }
 @media (max-width:768px) {
 div.kisalt {
-  width: 10px;
+  width: 80px;
   color: black;
   overflow: hidden; /* taşanları gizle */
   white-space: nowrap; /* alt satıra hiç inme */
