@@ -4,7 +4,7 @@ error_reporting(0);
 try {
 $ip = "localhost"; //host
 $user = "root";  // host id
-$password = "19742008";  // password local olduğu için varsayılan şifre
+$password = "";  // password local olduğu için varsayılan şifre
 $ad = "iptv_data"; // db adı 
 $db = new PDO("mysql:host=$ip;dbname=$ad", "$user", "$password");
 $db->query("SET CHARACTER SET 'utf8'");
@@ -139,9 +139,9 @@ public function StartOtherStream($pubname, $tslinks, $url, $config) {
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
   $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
-  echo '<br>Command : <br><code>'.$com.'</code><br>';
-  echo '<br>URL : '.$url.'<br>';
-  echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
+  echo '<br>Command : <br><pre>'.$com.'</pre><br>';
+  echo '<br><b>URL : '.$url.'</b><br>';
+  echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
 }
 
 
@@ -152,9 +152,9 @@ public function StartTwitchTSStreamLinux($pubname, $tslinks, $url, $config, $tok
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
   $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://live-cdg.twitch.tv/app/'.$token.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
-  echo '<br>Command : <br><code>'.$com.'</code><br>';
-  echo '<br>URL : '.$url.'<br>';
-  echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
+  echo '<br>Command : <br><pre>'.$com.'</pre><br>';
+  echo '<br><b>URL : '.$url.'</b><br>';
+  echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
 }
 
 public function StartTwitchTSStreamWin($pubname, $tslinks, $url, $config, $token) {
@@ -163,9 +163,9 @@ public function StartTwitchTSStreamWin($pubname, $tslinks, $url, $config, $token
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
   $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://live-cdg.twitch.tv/app/'.$token.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
-  echo '<br>Command : <br><code>'.$com.'</code><br>';
-  echo '<br>URL : '.$url.'<br>';
-  echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
+  echo '<br>Command : <br><pre>'.$com.'</pre><br>';
+  echo '<br><b>URL : '.$url.'</b><br>';
+  echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
 }
 
 public function StartRestreamTSStreamLinux($pubname, $tslinks, $url, $config, $token) {
@@ -178,9 +178,9 @@ public function StartRestreamTSStreamLinux($pubname, $tslinks, $url, $config, $t
   $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://live.restream.io/live/'.$token.'" >"'.$logfile.'" 2>&1';
   }
   shell_exec($com);
-  echo '<br>Command : <br><code>'.$com.'</code><br>';
-  echo '<br>URL : '.$url.'<br>';
-  echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
+  echo '<br>Command : <br><pre>'.$com.'</pre><br>';
+  echo '<br><b>URL : '.$url.'</b><br>';
+  echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
 }
 
 public function StartRestreamTSStreamWin($pubname, $tslinks, $url, $config, $token) {
@@ -193,9 +193,9 @@ public function StartRestreamTSStreamWin($pubname, $tslinks, $url, $config, $tok
   $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://live.restream.io/live/'.$token.'" >"'.$logfile.'" 2>&1';
   }
   shell_exec($com);
-  echo '<br>Command : <br><code>'.$com.'</code><br>';
-  echo '<br>URL : '.$url.'<br>';
-  echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
+  echo '<br>Command : <br><pre>'.$com.'</pre><br>';
+  echo '<br><b>URL : '.$url.'</b><br>';
+  echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
 }
 
 public function StartFacebookTSStreamLinux($pubname, $tslinks, $url, $config, $token) {
@@ -204,9 +204,9 @@ public function StartFacebookTSStreamLinux($pubname, $tslinks, $url, $config, $t
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
   $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://live-cdg.twitch.tv/app/'.$token.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
-  echo '<br>Command : <br><code>'.$com.'</code><br>';
-  echo '<br>URL : '.$url.'<br>';
-  echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
+  echo '<br>Command : <br><pre>'.$com.'</pre><br>';
+  echo '<br><b>URL : '.$url.'</b><br>';
+  echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
 }
 
 public function StartFacebookTSStreamWin($pubname, $tslinks, $url, $config, $token) {
@@ -215,9 +215,9 @@ public function StartFacebookTSStreamWin($pubname, $tslinks, $url, $config, $tok
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
   $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmps://live-api-s.facebook.com:443/rtmp/'.$token.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
-  echo '<br>Command : <br><code>'.$com.'</code><br>';
-  echo '<br>URL : '.$url.'<br>';
-  echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
+  echo '<br>Command : <br><pre>'.$com.'</pre><br>';
+  echo '<br><b>URL : '.$url.'</b><br>';
+  echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
 }
 
 public function StartM3U8Stream($pubname, $tslinks, $url, $config) {
@@ -228,9 +228,9 @@ public function StartM3U8Stream($pubname, $tslinks, $url, $config) {
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
   $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
-  echo '<br>Command : <br><code>'.$com.'</code><br>';
-  echo '<br>URL : '.$url.'<br>';
-  echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
+  echo '<br>Command : <br><pre>'.$com.'</pre><br>';
+  echo '<br><b>URL : '.$url.'</b><br>';
+  echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
 }
 
 public function StartM3U8StreamWin($pubname, $tslinks, $url, $config) {
@@ -241,9 +241,9 @@ public function StartM3U8StreamWin($pubname, $tslinks, $url, $config) {
   $logfile = ''.dirname(__FILE__).'\log/'.$logfilename.'';
   $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
-  echo '<br>Command : <br><code>'.$com.'</code><br>';
-  echo '<br>URL : '.$url.'<br>';
-  echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
+  echo '<br>Command : <br><pre>'.$com.'</pre><br>';
+  echo '<br><b>URL : '.$url.'</b><br>';
+  echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
 }
 
 public function StartTSStream($pubname, $tslinks, $url, $configts) {
@@ -254,9 +254,9 @@ public function StartTSStream($pubname, $tslinks, $url, $configts) {
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
   $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$configts.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
-  echo '<br>Command : <br><code>'.$com.'</code><br>';
-  echo '<br>URL : '.$url.'<br>';
-  echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
+  echo '<br>Command : <br><pre>'.$com.'</pre><br>';
+  echo '<br><b>URL : '.$url.'</b><br>';
+  echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
 }
 
 public function StartTSStreamWin($pubname, $tslinks, $url) {
@@ -267,9 +267,9 @@ public function StartTSStreamWin($pubname, $tslinks, $url) {
   $logfile = ''.dirname(__FILE__).'\log/'.$logfilename.'';
   $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$configts.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
-  echo '<br>Command : '.$com.'<br>';
-  echo '<br>URL : '.$url.'<br>';
-  echo('<code>'.file_get_contents('log/'.$logfilename.'').'</code><br>');
+  echo '<br>Command : <br><pre>'.$com.'</pre><br>';
+  echo '<br><b>URL : '.$url.'</b><br>';
+  echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
 }
 
 public function M3U8Stream($pubname) {
@@ -377,7 +377,7 @@ div.kisalt {
 }
 @media (max-width:768px) {
 div.kisalt {
-  width: 80px;
+  width: 100px;
   color: black;
   overflow: hidden; /* taşanları gizle */
   white-space: nowrap; /* alt satıra hiç inme */

@@ -354,6 +354,10 @@ function delpost2(id)
   }
 }
 </script>
+<style>
+@media (max-width:800px) {
+}
+</style>
 <?php
 $getir->NavBar("IPTV Site");
 if(isset($_GET["phpinfo"])) {
@@ -442,7 +446,6 @@ echo '
 <tr>
 <th>ID</th>
 <th>Type</th>
-<th>Name</th>
 <th>Status</th>
 <th></th>
 <th></th>
@@ -454,18 +457,15 @@ echo '<tr><td><div class=kisalt">'.strip_tags($row2["private_id"]).'</div></td>'
 echo '<td><div class="kisalt">'.strip_tags($row2["private_name"]).'</div></td>';
 
 if(!$fp = @fopen(strip_tags($row["private_iptv"]), "r")) {
-  echo '<td><img src="img/iptv.png" width="60" height="30"></td>';
   echo '<td><div class="progress">
   <a data-text="Kapalı" class="progress-bar bg-danger" role="progressbar" data-text="Online" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></a>
 </div></td>';
 echo '<script>console.log("'.strip_tags($row["private_iptv"]).' address not open");</script>';
 } elseif(strip_tags($row["private_active"]) == "0") {
-  echo '<td><img src="img/iptv.png" width="60" height="30"></td>';
   echo '<td><div class="progress kisalt">
   <a data-text="Panelden Kapalı" class="progress-bar bg-warning" role="progressbar" data-text="Online" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></a>
 </div></td>';
 } else {
-  echo '<td><img src="img/iptv.png" width="60" height="30"></td>';
   echo '<td>
   <div class="progress">
   <a data-text="Açık" class="progress-bar bg-success" role="progressbar" data-text="Offline" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></a>
@@ -488,7 +488,6 @@ echo '
 <th>ID</th>
 <th>Type</th>
 <th>Name</th>
-<th>Type</th>
 <th>Status</th>
 <th></th>
 <th></th>
@@ -505,22 +504,12 @@ if(strip_tags($row2["video_stream"]) == "0") {
 echo '<td><div class="kisalt">'.strip_tags($row2["public_tslink"]).'</div></td>';
 
 if(!$fp = @fopen(strip_tags($row["public_tslink"]), "r")) {
-  echo '<td><img src="img/iptv.png" width="60" height="30"></td>';
-  echo '<td><div class="progress">
-  <a data-text="Kapalı" class="progress-bar bg-danger" role="progressbar" data-text="Online" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></a>
-</div></td>';
+  echo '<td><b>Offline</b></td>';
 echo '<script>console.log("'.strip_tags($row["iptv_adres"]).' address not open");</script>';
 } elseif(strip_tags($row["public_active"]) == "0") {
-  echo '<td><img src="img/iptv.png" width="60" height="30"></td>';
-  echo '<td><div class="progress kisalt">
-  <a data-text="Panelden Kapalı" class="progress-bar bg-warning" role="progressbar" data-text="Online" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></a>
-</div></td>';
+  echo '<td><b>Offline (from Panel)</b></td>';
 } else {
-  echo '<td><img src="img/iptv.png" width="60" height="30"></td>';
-  echo '<td>
-  <div class="progress">
-  <a data-text="Açık" class="progress-bar bg-success" role="progressbar" data-text="Offline" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></a>
-</div></td>';
+  echo '<td><b>Online</b></td>';
 fclose($fp);
 }
 
@@ -529,7 +518,7 @@ fclose($fp);
   <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
     <span class="caret"></span>
     <span class="sr-only">Toggle Dropdown</span>
-	IPTV Share
+	IPTV
   </button>
   <ul class="dropdown-menu" role="menu">
     <li><a class="dropdown-item" href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'">Public</a></li>
@@ -542,7 +531,7 @@ fclose($fp);
 <td><div class="btn-group">
 <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
 <span class="caret"></span>
-<span class="sr-only">Toggle Dropdown</span>IPTV Options</button>
+<span class="sr-only">Toggle Dropdown</span>IPTV Edit</button>
 <ul class="dropdown-menu" role="menu">
 
 <li><a class="dropdown-item" href="index.php?git=getlog&id='.intval($row2["public_id"]).'">Logs</a></li>
@@ -790,12 +779,12 @@ echo '</tr>
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br><br>';
 	$myfile = fopen('log/'.strip_tags($row["public_name"]).'-mylog.log', "r") or die("Unable to open file!");
-	echo '<textarea style="width:100%;height:100%" class="container form-control">'.fread($myfile,filesize('log/'.strip_tags($row["public_name"]).'-mylog.log'));'</textarea>';
+	echo '<pre style="width:100%;height:100%" class="container form-control">'.fread($myfile,filesize('log/'.strip_tags($row["public_name"]).'-mylog.log'));'</pre>';
   } else {
 	echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
 	<br><br>';
 	$myfile = fopen('log/'.strip_tags($row["public_name"]).'-mylog.log', "r") or die("Unable to open file!");
-	echo '<textarea style="width:100%;height:100%" class="container form-control">'.fread($myfile,filesize('log/'.strip_tags($row["public_name"]).'-mylog.log'));'</textarea>';
+	echo '<pre style="width:100%;height:100%" class="container form-control">'.fread($myfile,filesize('log/'.strip_tags($row["public_name"]).'-mylog.log'));'</pre>';
   }
 }
   break;
@@ -862,7 +851,6 @@ echo '</tr>
   $getir->logincheck();
   $update = $db->prepare("UPDATE public_iptv SET public_name = :iptvadi, video_stream = :iptvtype, public_active = :iptvactive, public_tslink = :iptvlink WHERE public_id = :iptvid");
   $update->bindValue(':iptvid',  intval($_POST["iptvid"]));
-
   $update->bindValue(':iptvadi', strip_tags($_POST["iptvname"]));
   $update->bindValue(':iptvtype', strip_tags($_POST["iptvstrorvid"]));
   $update->bindValue(':iptvactive', strip_tags($_POST["iptvclsopn"]));
@@ -1167,7 +1155,7 @@ fclose($fp);
   echo '<tr>
   <th scope="row">'.intval($row["ip_id"]).'</th>';
   if(strip_tags($row["ip_block_active"]) == "0") {
-    if (!$getirtr)
+    if (empty($getirtr))
     {
       echo '<td><img src="img/loc/xx.png" width="24" height="24"></td>';
     } else {
