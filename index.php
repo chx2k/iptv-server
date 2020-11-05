@@ -230,7 +230,7 @@ echo('<script>location.replace("index.php")</script>');
 break;
 
 case 'index':
-echo '<body class="container mx-auto text-center">
+echo '<body class="mx-auto text-center">
     <form class="form-signin" action="index.php?git=postlgn" method="post">
   <h1 class="h3 mb-3 font-weight-normal">IPTV Panel By AliCan</h1>
   <label for="inputEmail" class="sr-only">Username</label>
@@ -304,49 +304,32 @@ break;
 
 case 'iptv':
 $getir->logincheck();
+?>
+<script language="JavaScript" type="text/javascript">
+function delpost(id)
+{
+  if (confirm("Silmek istediğinize emin misiniz ?\n" + "ID :" + id + ""))
+  {
+      window.location.href = 'index.php?git=deleteiptv&id=' + id;
+  }
+}
+function delpost2(id)
+{
+  if (confirm("Silmek istediğinize emin misiniz ?\n" + "Name :" + id + ""))
+  {
+      window.location.href = 'index.php?git=dfile&name=' + id;
+  }
+}
+</script>
+<?php
 $getir->NavBar("IPTV Site");
-echo '<div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">';
-
-echo '<li class="nav-item active">
-<a class="nav-link" href="index.php?git=iptv">Home <span class="sr-only">(current)</span></a>
-</li>';
-
-echo '<li class="nav-item dropdown">
-<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-Aktiviteler
-</a>';
-
-echo '<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="index.php?git=iptv">IPTV Status</a>
-          <a class="dropdown-item" href="index.php?git=m3ugenerate">M3U8 Generator</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="index.php?git=startstream">Add IPTV</a>
-		  <a class="dropdown-item" href="index.php?git=addpriviptv">Add Private IPTV</a>
-          <a class="dropdown-item" href="index.php?git=stopiptv">Stop All Stream</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="index.php?git=addban">Add Ban IP</a>
-          <a class="dropdown-item" href="index.php?git=ipblock">IP Block</a>
-          <div class="dropdown-divider"></div>
-
-          
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="index.php?git=iptv&phpinfo=1">PHP Info</a>
-        </div>
-      </li>';
-
-echo '<li class="nav-item text-nowrap" align="right">
-<a class="nav-link" href="index.php?git=cikis">Log Out</a>
-</li>';
-
-echo '</ul></div></nav>';
 if(isset($_GET["phpinfo"])) {
 if(strip_tags($_GET["phpinfo"]) == "1") {
 $getir->logincheck();
 die('
 <br><br>
-<body class="container">
-<table class="table" style="width:100%">
+<body>
+<table class="container table">
   <tr>
     <th>PHP Version:</th>
     <td>'.phpversion().'</td>
@@ -391,62 +374,8 @@ die("Anlamsız Istek");
 } else {
 
 }
-?>
-<script language="JavaScript" type="text/javascript">
-function delpost(id)
-{
-  if (confirm("Silmek istediğinize emin misiniz ?\n" + "ID :" + id + ""))
-  {
-      window.location.href = 'index.php?git=deleteiptv&id=' + id;
-  }
-}
-function delpost2(id)
-{
-  if (confirm("Silmek istediğinize emin misiniz ?\n" + "Name :" + id + ""))
-  {
-      window.location.href = 'index.php?git=dfile&name=' + id;
-  }
-}
 
-$('.table-responsive').on('show.bs.dropdown', function () {
-     $('.table-responsive').css( "overflow", "inherit" );
-});
-
-$('.table-responsive').on('hide.bs.dropdown', function () {
-     $('.table-responsive').css( "overflow", "auto" );
-})
-</script>
-<style>
-.btn-group {  
-    white-space: nowrap;              
-}
-.btn-group .btn {  
-    float: none;
-    display: inline-block;
-}
- .btn + .dropdown-toggle { 
-    margin-left: -4px;
-}
-
-@media screen and (max-width: 1400px) {
-.table-responsive {
-    border: 1px solid #ddd;
-    margin-bottom: 10px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    width: 100%;
-}
-.table-responsive > .table {
-    margin-bottom: 0;
-}
-.table-responsive > .table > thead > tr > th, .table-responsive > .table > tbody > tr > th, .table-responsive > .table > tfoot > tr > th, .table-responsive > .table > thead > tr > td, .table-responsive > .table > tbody > tr > td, .table-responsive > .table > tfoot > tr > td {
-    white-space: nowrap;
-}
-
-}
-</style>
-<?php
-echo '<body class="container">
+echo '<body>
 <br><br><br>
 <button onclick="javascript:location.reload();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Refresh</button>';
 
@@ -455,8 +384,7 @@ echo '<div class="h-100 p-4">
 <b>M3U8 File List</b>';
 $_DIR = opendir("m3u");
 $_DIR2 = opendir("log");
-echo '<div class="text-light">
-<table class="text-light table table-striped">
+echo '<table class="table">
 <thead>
 <tr>
 <th>Filename</th>
@@ -473,11 +401,11 @@ closedir($_DIR);
 closedir($_DIR2);
 
 echo '
-</tbody></table></div>
+</tbody></table>
 
 <br><br><b>Private IPTV List</b>
-<div class="text-light">
-<table class="text-light table table-striped">
+
+<table class="table">
 <thead>
 <tr>
 <th>ID</th>
@@ -518,10 +446,11 @@ fclose($fp);
 }
 
 echo '
-</tbody></table></div>
+</tbody></table>
+
 <br><br><b>IPTV List</b>
-<div class="text-light">
-<table class="text-light table table-striped">
+
+<table class="table table-responsive">
 <thead>
 <tr>
 <th>ID</th>
@@ -577,32 +506,32 @@ fclose($fp);
   </ul>
 </div></td>
 
-  <td><div class="btn-group">
-  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
-    <span class="caret"></span>
-    <span class="sr-only">Toggle Dropdown</span>
-	IPTV Editor
-  </button>
-  <ul class="dropdown-menu" role="menu">
-   <li><a class="dropdown-item" href="index.php?git=getlog&id='.intval($row2["public_id"]).'">Logs</a></li>
-   <li><a class="dropdown-item" href="index.php?git=startrestream&id='.intval($row2["public_id"]).'">Start Restream.IO Stream</a></li>
-    <li><a class="dropdown-item" href="index.php?git=startfacebook&id='.intval($row2["public_id"]).'">Start Facebook Stream</a></li>
-    <li><a class="dropdown-item" href="index.php?git=starttwitch&id='.intval($row2["public_id"]).'">Start Twitch Stream</a></li>
-    <li><a class="dropdown-item" href="index.php?git=startiptv&id='.intval($row2["public_id"]).'">Start Stream</a></li>
-    <li><a class="dropdown-item" href="index.php?git=stopiptv&id='.intval($row2["public_id"]).'">Stop Stream</a></li>
-    <li><a class="dropdown-item" href="index.php?git=editpubid&id='.strip_tags($row2["public_id"]).'">Edit Stream</a></li>
-	<li><a class="dropdown-item" href="index.php?git=deletepubid&id='.strip_tags($row2["public_id"]).'">Delete Stream</a></li>
-  </ul>
+
+<td><div class="btn-group">
+<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+<span class="caret"></span>
+<span class="sr-only">Toggle Dropdown</span>IPTV Options</button>
+<ul class="dropdown-menu" role="menu">
+
+<li><a class="dropdown-item" href="index.php?git=getlog&id='.intval($row2["public_id"]).'">Logs</a></li>
+<li><a class="dropdown-item" href="index.php?git=startrestream&id='.intval($row2["public_id"]).'">Start Restream.IO Stream</a></li>
+<li><a class="dropdown-item" href="index.php?git=startfacebook&id='.intval($row2["public_id"]).'">Start Facebook Stream</a></li>
+<li><a class="dropdown-item" href="index.php?git=starttwitch&id='.intval($row2["public_id"]).'">Start Twitch Stream</a></li>
+<li><a class="dropdown-item" href="index.php?git=startiptv&id='.intval($row2["public_id"]).'">Start Stream</a></li>
+<li><a class="dropdown-item" href="index.php?git=stopiptv&id='.intval($row2["public_id"]).'">Stop Stream</a></li>
+<li><a class="dropdown-item" href="index.php?git=editpubid&id='.strip_tags($row2["public_id"]).'">Edit Stream</a></li>
+<li><a class="dropdown-item" href="index.php?git=deletepubid&id='.strip_tags($row2["public_id"]).'">Delete Stream</a></li>
+</ul>
 </div></td>';
 }
 echo '</tr>
-</tbody></table></div>
+</tbody></table>
 <br><br>';
 
 echo '
 <br><b>IPTV Config</b>
-<div class="text-light">
-<table class="text-light table table-striped">
+
+<table class="table">
 <thead>
 <tr>
 <th>ID</th>
@@ -629,8 +558,8 @@ echo '</tr>
   $stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-	  echo '</nav><body class="container mx-auto">
-  <form action="index.php?git=peditcfg" method="post">
+	  echo '<body>
+  <form class="container" action="index.php?git=peditcfg" method="post">
     <div class="form-group">
       <label for="exampleFormControlInput1">Config TS</label>
 	  <textarea class="form-control" name="ffmpegts" placeholder="IPTV Config(TS)">'.$row["ffmpeg_ts"].'</textarea>
@@ -861,45 +790,11 @@ echo '</tr>
   case 'editpubid':
   $getir->logincheck();
   $getir->NavBar("IPTV Site");
-  echo '<div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">';
-
-  echo '<li class="nav-item active">
-  <a class="nav-link" href="index.php?git=iptv">Home <span class="sr-only">(current)</span></a>
-  </li>';
-
-  echo '<li class="nav-item dropdown">
-  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-  Aktiviteler
-  </a>';
-
-  echo '<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="index.php?git=iptv">IPTV Status</a>
-            <a class="dropdown-item" href="index.php?git=m3ugenerate">M3U8 Generator</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=addban">Add Ban IP</a>
-            <a class="dropdown-item" href="index.php?git=ipblock">IP Block</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=startstream">Add IPTV</a>
-			<a class="dropdown-item" href="index.php?git=addpriviptv">Add Private IPTV</a>
-            <a class="dropdown-item" href="index.php?git=stopiptv">Stop All Stream</a>
-            <div class="dropdown-divider"></div>
-            
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=iptv&phpinfo=1">PHP Info</a>
-          </div>
-        </li>';
-
-  echo '<li class="nav-item text-nowrap" align="right">
-  <a class="nav-link" href="index.php?git=cikis">Log Out</a>
-  </li>';
-
-  echo '</ul></div></nav>';
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-  echo '<body class="container mx-auto">
-  <form action="index.php?git=peditpubid" method="post">
+  echo '<body>
+  <form class="container" action="index.php?git=peditpubid" method="post">
     <div class="form-group">
       <label for="exampleFormControlInput1">IPTV Name</label>
       <input type="text" name="iptvname" value="'.strip_tags($row["public_name"]).'" class="form-control" placeholder="IPTV Name">
@@ -1022,44 +917,9 @@ if (!unlink($dosyaadi)) {
     <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
     <script src="https://unpkg.com/video.js/dist/video.js"></script>
     <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
-    <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">';
-
-  echo '<li class="nav-item active">
-  <a class="nav-link" href="index.php?git=iptv">Home <span class="sr-only">(current)</span></a>
-  </li>';
-
-  echo '<li class="nav-item dropdown">
-  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-  Aktiviteler
-  </a>';
-
-  echo '<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="index.php?git=iptv">IPTV Status</a>
-            
-            <a class="dropdown-item" href="index.php?git=m3ugenerate">M3U8 Generator</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=addban">Add Ban IP</a>
-            <a class="dropdown-item" href="index.php?git=ipblock">IP Block</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=startstream">Add IPTV</a>
-			<a class="dropdown-item" href="index.php?git=addpriviptv">Add Private IPTV</a>
-            <a class="dropdown-item" href="index.php?git=stopiptv">Stop All Stream</a>
-            <div class="dropdown-divider"></div>
-            
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=iptv&phpinfo=1">PHP Info</a>
-          </div>
-        </li>';
-
-  echo '<li class="nav-item text-nowrap" align="right">
-  <a class="nav-link" href="index.php?git=cikis">Log Out</a>
-  </li>';
-
-  echo '</ul></div></nav>
-  <div class="">';
+    <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>';
+  
+echo '<div class="">';
   $stmt = $db->prepare('SELECT * FROM private_iptv WHERE private_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   while($row = $stmt->fetch()) {
@@ -1130,41 +990,6 @@ fclose($fp);
 
   case 'editiptv':
   $getir->NavBar("IPTV Site");
-  echo '<div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">';
-
-  echo '<li class="nav-item active">
-  <a class="nav-link" href="index.php?git=iptv">Home <span class="sr-only">(current)</span></a>
-  </li>';
-
-  echo '<li class="nav-item dropdown">
-  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-  Aktiviteler
-  </a>';
-
-  echo '<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="index.php?git=iptv">IPTV Status</a>
-            
-            <a class="dropdown-item" href="index.php?git=m3ugenerate">M3U8 Generator</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=addban">Add Ban IP</a>
-            <a class="dropdown-item" href="index.php?git=ipblock">IP Block</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=startstream">Add IPTV</a>
-			<a class="dropdown-item" href="index.php?git=addpriviptv">Add Private IPTV</a>
-            <a class="dropdown-item" href="index.php?git=stopiptv">Stop All Stream</a>
-            <div class="dropdown-divider"></div>
-            
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=iptv&phpinfo=1">PHP Info</a>
-          </div>
-        </li>';
-
-  echo '<li class="nav-item text-nowrap" align="right">
-  <a class="nav-link" href="index.php?git=cikis">Log Out</a>
-  </li>';
-
-  echo '</ul></div></nav>';
   $stmt = $db->prepare('SELECT * FROM iptv_list WHERE iptv_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
@@ -1218,48 +1043,13 @@ fclose($fp);
   case 'm3ugenerate':
   $getir->logincheck();
   $getir->NavBar("IPTV Site");
-  echo '<div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">';
-
-  echo '<li class="nav-item active">
-  <a class="nav-link" href="index.php?git=iptv">Home <span class="sr-only">(current)</span></a>
-  </li>';
-
-  echo '<li class="nav-item dropdown">
-  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-  Aktiviteler
-  </a>';
-
-  echo '<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="index.php?git=iptv">IPTV Status</a>
-            
-            <a class="dropdown-item" href="index.php?git=m3ugenerate">M3U8 Generator</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=addban">Add Ban IP</a>
-            <a class="dropdown-item" href="index.php?git=ipblock">IP Block</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=startstream">Add IPTV</a>
-			<a class="dropdown-item" href="index.php?git=addpriviptv">Add Private IPTV</a>
-            <a class="dropdown-item" href="index.php?git=stopiptv">Stop All Stream</a>
-            <div class="dropdown-divider"></div>
-            
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=iptv&phpinfo=1">PHP Info</a>
-          </div>
-        </li>';
-
-  echo '<li class="nav-item text-nowrap" align="right">
-  <a class="nav-link" href="index.php?git=cikis">Log Out</a>
-  </li>';
-
-  echo '</ul></div></nav>';
   if(empty($_GET["s"])) {
 
   } else {
     echo '<div class="alert alert-info" role="alert">File Location : <a href="http://'.$_SERVER['SERVER_NAME'].'/iptv/'.strip_tags(base64_decode($_GET["s"])).'">http://'.$_SERVER['SERVER_NAME'].'/iptv/'.strip_tags(base64_decode($_GET["s"])).'</a></div>';
   }
-  echo '<body class="container mx-auto">
-  <form action="index.php?git=pm3ugenerate" method="post">
+  echo '<body class="mx-auto">
+  <form class="container" action="index.php?git=pm3ugenerate" method="post">
     <div class="form-group">
       <label for="exampleFormControlInput1">IPTV Dosya Adı</label>
       <input type="text" name="iptvfln" class="form-control" placeholder="Filename">
@@ -1308,46 +1098,13 @@ fclose($fp);
   case 'ipblock':
   $getir->logincheck();
   $getir->NavBar("IPTV Site");
-  echo '<div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">';
-
-  echo '<li class="nav-item active">
-  <a class="nav-link" href="index.php?git=iptv">Home <span class="sr-only">(current)</span></a>
-  </li>';
-
-  echo '<li class="nav-item dropdown">
-  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-  Aktiviteler
-  </a>';
-
-  echo '<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="index.php?git=iptv">IPTV Status</a>
-            
-            <a class="dropdown-item" href="index.php?git=m3ugenerate">M3U8 Generator</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=addban">Add Ban IP</a>
-            <a class="dropdown-item" href="index.php?git=ipblock">IP Block</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=startstream">Add IPTV</a>
-			<a class="dropdown-item" href="index.php?git=addpriviptv">Add Private IPTV</a>
-            <a class="dropdown-item" href="index.php?git=stopiptv">Stop All Stream</a>
-            <div class="dropdown-divider"></div>
-            
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=iptv&phpinfo=1">PHP Info</a>
-          </div>
-        </li>';
-
-  echo '<li class="nav-item text-nowrap" align="right">
-  <a class="nav-link" href="index.php?git=cikis">Log Out</a>
-  </li>';
-  echo '</ul></div></nav>';
-  echo '<body class="container mx-auto">';
-  echo '<button onclick="javascript:location.reload();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Refresh</button>
-  <br><b>Your IP Address : '.strip_tags($getir->getIPAddress()).'
-  <br><body class="container mx-auto">
-  <br><b>Channel List</b>
-  <table class="table">
+  
+  echo '<body class="mx-auto">';
+  echo '<center><button onclick="javascript:location.reload();" type="submit" style="right: 0px;width: 60%;padding: 10px;" class="btn btn-warning">Refresh</button>
+  </center><div class="container"><br>
+  <center><b>Your IP Address : '.strip_tags($getir->getIPAddress()).'</b><br>
+  <br></center>
+  <table class="container table">
   <thead>
   <tr>
   <th>ID</th>
@@ -1416,7 +1173,7 @@ fclose($fp);
   for($b = 1 ; $b <= $a ; $b++){
   echo '<li class="page-item"><a class="page-link" href="index.php?git=ipblock&ip='.$b.'">'.$b.'</a></li>';
   }
-  echo '</ul></nav></body>';
+  echo '</ul></nav></div></body>';
   break;
 
   case 'remipblok';
@@ -1460,44 +1217,9 @@ fclose($fp);
   case 'addban':
   $getir->logincheck();
   $getir->NavBar("IPTV Site");
-  echo '<div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">';
-
-  echo '<li class="nav-item active">
-  <a class="nav-link" href="index.php?git=iptv">Home <span class="sr-only">(current)</span></a>
-  </li>';
-
-  echo '<li class="nav-item dropdown">
-  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-  Aktiviteler
-  </a>';
-
-  echo '<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="index.php?git=iptv">IPTV Status</a>
-            
-            <a class="dropdown-item" href="index.php?git=m3ugenerate">M3U8 Generator</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=addban">Add Ban IP</a>
-            <a class="dropdown-item" href="index.php?git=ipblock">IP Block</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=startstream">Add IPTV</a>
-			<a class="dropdown-item" href="index.php?git=addpriviptv">Add Private IPTV</a>
-            <a class="dropdown-item" href="index.php?git=stopiptv">Stop All Stream</a>
-            <div class="dropdown-divider"></div>
-            
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=iptv&phpinfo=1">PHP Info</a>
-          </div>
-        </li>';
-
-  echo '<li class="nav-item text-nowrap" align="right">
-  <a class="nav-link" href="index.php?git=cikis">Log Out</a>
-  </li>';
-
-  echo '</ul></div></nav>';
-  echo '<body class="container mx-auto">
-  <b>Your IP : '.strip_tags($getir->getIPAddress()).'</b><br>
-  <form action="index.php?git=paddban" method="post">
+  echo '<body class="mx-auto"><center>
+  <b>Your IP : '.strip_tags($getir->getIPAddress()).'</b></center><br>
+  <form class="container" action="index.php?git=paddban" method="post">
     <div class="form-group">
       <label for="exampleFormControlInput1">IP Adress</label>
       <input type="text" name="ipadres" class="form-control" placeholder="IP Adress">
@@ -1514,44 +1236,9 @@ fclose($fp);
   case 'startstream':
   $getir->logincheck();
   $getir->NavBar("IPTV Site");
-  echo '<div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">';
-
-  echo '<li class="nav-item active">
-  <a class="nav-link" href="index.php?git=iptv">Home <span class="sr-only">(current)</span></a>
-  </li>';
-
-  echo '<li class="nav-item dropdown">
-  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-  Aktiviteler
-  </a>';
-
-  echo '<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="index.php?git=iptv">IPTV Status</a>
-            
-            <a class="dropdown-item" href="index.php?git=m3ugenerate">M3U8 Generator</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=addban">Add Ban IP</a>
-            <a class="dropdown-item" href="index.php?git=ipblock">IP Block</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=startstream">Add IPTV</a>
-			<a class="dropdown-item" href="index.php?git=addpriviptv">Add Private IPTV</a>
-            <a class="dropdown-item" href="index.php?git=stopiptv">Stop All Stream</a>
-            <div class="dropdown-divider"></div>
-            
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=iptv&phpinfo=1">PHP Info</a>
-          </div>
-        </li>';
-
-  echo '<li class="nav-item text-nowrap" align="right">
-  <a class="nav-link" href="index.php?git=cikis">Log Out</a>
-  </li>';
-
-  echo '</ul></div></nav>';
-  echo '<body class="container mx-auto">
-  <b>Your IP : '.strip_tags($getir->getIPAddress()).'</b><br>
-  <form action="index.php?git=pstartstream" method="post">
+  echo '<body class="mx-auto">
+  <center><b>Your IP : '.strip_tags($getir->getIPAddress()).'</b></center><br>
+  <form class="container" action="index.php?git=pstartstream" method="post">
     <div class="form-group">
       <label for="exampleFormControlInput1">Stream Link</label>
       <input type="text" name="streamlink" class="form-control" placeholder="M3U8 Link">
@@ -1571,45 +1258,10 @@ fclose($fp);
   case 'addpriviptv':
   $getir->logincheck();
   $getir->NavBar("IPTV Site");
-  echo '<div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">';
-
-  echo '<li class="nav-item active">
-  <a class="nav-link" href="index.php?git=iptv">Home <span class="sr-only">(current)</span></a>
-  </li>';
-
-  echo '<li class="nav-item dropdown">
-  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-  Aktiviteler
-  </a>';
-
-  echo '<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="index.php?git=iptv">IPTV Status</a>
-            
-            <a class="dropdown-item" href="index.php?git=m3ugenerate">M3U8 Generator</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=addban">Add Ban IP</a>
-            <a class="dropdown-item" href="index.php?git=ipblock">IP Block</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=startstream">Add IPTV</a>
-			<a class="dropdown-item" href="index.php?git=addpriviptv">Add Private IPTV</a>
-            <a class="dropdown-item" href="index.php?git=stopiptv">Stop All Stream</a>
-            <div class="dropdown-divider"></div>
-            
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="index.php?git=iptv&phpinfo=1">PHP Info</a>
-          </div>
-        </li>';
-
-  echo '<li class="nav-item text-nowrap" align="right">
-  <a class="nav-link" href="index.php?git=cikis">Log Out</a>
-  </li>';
-
-  echo '</ul></div></nav>';
-  echo '<body class="container mx-auto">
-  <b>Private Stream IPTV</b>
-  <hr></hr>
-  <form action="index.php?git=paddpriviptv" method="post">
+  echo '<body class="mx-auto">
+  <center><b>Private Stream IPTV</b>
+  <hr></hr></center>
+  <form class="container" action="index.php?git=paddpriviptv" method="post">
     <div class="form-group">
       <label for="exampleFormControlInput1">Private Name</label>
       <input type="text" name="privname" class="form-control" placeholder="Private Name">

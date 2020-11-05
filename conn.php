@@ -1,12 +1,6 @@
 <?php
 error_reporting(0);
-if(file_exists("yukle.lock")) {
-} else {
-die("<center><b>PHP IPTV Yüklenemedi / PHP IPTV was not Installed</b>
-<hr></hr>
-<p>yukle.lock dosyasını silip tekrar deneyin</b><br>
-<a href='install.php'>Yükle</a></center>");
-}
+
 try {
 $ip = "localhost"; //host
 $user = "root";  // host id
@@ -298,36 +292,60 @@ public function TSStream($pubname) {
   header('Content-Disposition: attachment; filename="'.strip_tags($filename).'.ts"');
   echo '<code>'.file_get_contents('m3u/'.strip_tags($pubname).'.ts').'</code><br>';
 }
-  public function NavBar($baslik) {
-    echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">'.strip_tags($baslik).'</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>';
-  }
-  public function Head($baslik) {
-    echo '<head>
-    <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/holder.min.js"></script>
-    <script>
-      Holder.addTheme("thumb", {
-        bg: "#55595c",
-        fg: "#eceeef",
-        text: "Thumbnail"
-      });
-    </script>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>'.strip_tags($baslik).'</title>
-    </head>';
-  }
+public function NavBar() {
+
+echo '<aside class="sidebar pos-absolute z-2"
+       data-role="sidebar"
+       data-toggle="#sidebar-toggle-3"
+       id="sb3"
+       data-shift=".shifted-content">
+    <div class="sidebar-header" data-image="https://metroui.org.ua/images/sb-bg-1.jpg">
+        <div class="avatar">
+            <img data-role="gravatar" data-email="sergey@pimenov.com.ua">
+        </div>
+        <span class="title fg-white">'.strip_tags($baslik).'</span>
+    </div>
+    <ul class="sidebar-menu">
+        <li><a href="index.php?git=iptv"><span class="mif-home icon"></span>Home</a></li>
+        <li><a href="index.php?git=m3ugenerate"><span class="mif-books icon"></span>M3U8 Generator</a></li>
+		<li class="divider"></li>
+        <li><a href="index.php?git=startstream"><span class="mif-add icon"></span>Add IPTV</a></li>
+		<li><a href="index.php?git=addpriviptv"><span class="mif-add icon"></span>Add Private IPTV</a></li>
+        <li><a href="index.php?git=addban"><span class="mif-add icon"></span>Add Ban IP</a></li>
+		<li class="divider"></li>
+        <li><a href="index.php?git=ipblock"><span class="mif-images icon"></span>IP Block</a></li>
+		<li><a href="index.php?git=stopiptv"><span class="mif-images icon"></span>Stop All Stream</a></li>
+		<li class="divider"></li>
+		<li><a href="index.php?git=iptv&phpinfo=1"><span class="mif-images icon"></span>PHP Info</a></li>
+	</ul>
+</aside>
+
+<div class="shifted-content h-100 p-ab">
+    <div class="app-bar pos-absolute bg-red z-1" data-role="appbar">
+        <button class="app-bar-item c-pointer" id="sidebar-toggle-3">
+            <span class="mif-menu fg-white"></span>
+        </button>
+    </div><br>';
+}
+
+public function Head($baslik) {
+echo '<head>
+<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro.min.css">
+<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
+<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
+<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+
+<script src="https://unpkg.com/popper.js@1.11.1"></script>
+<script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>'.strip_tags($baslik).'</title>
+</head>';
+}
+
 public function logincheck() {
 if(isset($_COOKIE['user_id'])) {
 } elseif($_COOKIE['user_id'] == "1") {
@@ -346,10 +364,11 @@ echo $data;
 public function Style() {
 echo '<style>
 a {
-  color: red;
+  color: black;
 }
 @media (min-width:768px) {
 div.kisalt {
+  color: black;
   width: 250px;
   overflow: hidden; /* taşanları gizle */
   white-space: nowrap; /* alt satıra hiç inme */
@@ -359,93 +378,17 @@ div.kisalt {
 @media (max-width:768px) {
 div.kisalt {
   width: 10px;
+  color: black;
   overflow: hidden; /* taşanları gizle */
   white-space: nowrap; /* alt satıra hiç inme */
   text-overflow: ellipsis; /* eğer uzunsa üç nokta koy */
 }
 }
 
-html {
-background-color: #343a40;
-}
-body {
-  align-items: center;
-  height: 100%;
-  background-color: #343a40;
-  color: white;
-}
+
 .video-js {
 width: 100%;
 height: 50%;
-}
-.form-signin {
-  width: 100%;
-  max-width: 330px;
-  padding: 15px;
-  margin: auto;
-}
-.form-signin .checkbox {
-  font-weight: 400;
-}
-.form-signin .form-control {
-  position: relative;
-  box-sizing: border-box;
-  height: auto;
-  padding: 10px;
-  font-size: 16px;
-}
-.form-signin .form-control:focus {
-  z-index: 2;
-}
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-body {
-  cursor: url("https://ionicframework.com/img/finger.png"), auto;
-}
-.numpad-input {
-  border: 1px solid black;
-  height: 2em;
-  width: 25vw;
-}
-.numpad-popover {
-  height: auto !important;
-  width: auto !important;
-}
-
-.numpad-popover ion-header-bar {
-  position: relative;
-}
-
-.numpad-popover ion-content {
-  top: 0;
-  position: relative;
-}
-
-.numpad-popover div.col {
-  padding: 0;
-}
-
-.numpad-popover .button.button-light, .button.button-light.button-icon {
-  border-right: 1px solid lightgray;
-  border-bottom: 1px solid lightgray;
-  box-sizing: border-box;
-}
-
-.clear-btn > .button-light {
-  height: 10vh;
-  padding: 0;
-}
-
-.border-input {
-  border: 1px solid black !important;
 }
 </style>';
   }
