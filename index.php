@@ -230,17 +230,81 @@ echo('<script>location.replace("index.php")</script>');
 break;
 
 case 'index':
-echo '<body class="mx-auto text-center">
-    <form class="form-signin" action="index.php?git=postlgn" method="post">
+echo '<style>
+@media (max-width:800px) {
+body {
+  background-image: url("https://source.unsplash.com/1080x1920/?turkey,türkiye,atatürk,şehir,manzara,deniz");
+  background-repeat: no-repeat;
+}
+.manzara {
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  padding: 15px;
+}
+.form-control {
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  box-shadow: 3px solid #f1f1f1;
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+}
+@media (min-width:800px) {
+body {
+  background-image: url("https://source.unsplash.com/1920x1080/?turkey,türkiye,atatürk,şehir,manzara,deniz");
+  background-repeat: no-repeat;
+}
+.manzara {
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  box-shadow: 3px solid #f1f1f1;
+  z-index: 2;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  font-weight: bold;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+.form-control {
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  width: 100%;
+}
+
+.container  {
+border-radius: 20px;
+}
+
+}
+</style>
+
+<body class="container mx-auto text-center">
+<div class="manzara">
+    <form class="container form-signin" action="index.php?git=postlgn" method="post">
+	<br><br>
   <h1 class="h3 mb-3 font-weight-normal">IPTV Panel By AliCan</h1>
+  <br>
   <label for="inputEmail" class="sr-only">Username</label>
   <input type="text" name="mail" class="form-control" placeholder="Username" required autofocus>
+  <br>
   <label for="inputPassword" class="sr-only">Password</label>
   <input type="password" name="pass" class="form-control" placeholder="Password" required>
+  <br>
   <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button><br>
   <a class="btn btn-lg btn-danger btn-block" href="index.php?git=resetpass">Reset Password</a>
   <p class="mt-5 mb-3 text-muted">&copy; 2019-2020</p>
-</form>
+</form></div>
 </body>';
 break;
 
