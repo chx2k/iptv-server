@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: localhost
--- Üretim Zamanı: 05 Kas 2020, 10:44:04
+-- Üretim Zamanı: 05 Kas 2020, 23:10:04
 -- Sunucu sürümü: 10.3.17-MariaDB
 -- PHP Sürümü: 7.2.24
 
@@ -65,7 +65,7 @@ CREATE TABLE `iptv_config` (
 --
 
 INSERT INTO `iptv_config` (`config_id`, `ffmpeg_m3u8cfg`, `ffmpeg_ts`, `ffmpeg_flv`, `twitter_tkn`, `facebook_tkn`, `twitch_tkn`, `restream_tkn`) VALUES
-(1, '-listen 1 -hls_wrap 8 -deinterlace -vcodec libx264 -pix_fmt yuv420p -preset veryfast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '-c:v copy -c:a copy -t 00:05:00', '-deinterlace -vcodec libx264 -pix_fmt yuv420p -preset veryfast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '1234', '718595758866455?s_bl=1&s_hv=0&s_psm=1&s_sc=718595792199785&s_sw=0&s_vt=api-s&a=AbxGVClvOf7S2yS3', '1234', 're_3083082_d344e29cef370db7964c');
+(1, '-listen 1 -hls_wrap 8 -deinterlace -vcodec libx264 -pix_fmt yuv420p -preset veryfast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '-c:v copy -c:a copy -t 00:05:00', '-deinterlace -vcodec libx264 -pix_fmt yuv420p -preset veryfast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '1234', '1234', '1234', '1234');
 
 -- --------------------------------------------------------
 
@@ -183,7 +183,7 @@ ALTER TABLE `ip_block`
 -- Tablo için AUTO_INCREMENT değeri `private_iptv`
 --
 ALTER TABLE `private_iptv`
-  MODIFY `private_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `private_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `public_iptv`

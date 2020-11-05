@@ -133,7 +133,7 @@ echo '<body class="container">
 
 <div class="form-group">
 <label for="exampleInputEmail1">SQL DB Name</label>
-<input type="text" class="form-control" name="sqlname" placeholder="1234">
+<input type="text" class="form-control" name="sqlname" value="iptv_data" placeholder="iptv_data" readonly>
 </div>
 <button type="submit" class="btn btn-dark">İleri / Next</button>
 </form></div></div></body>';
@@ -219,8 +219,11 @@ $tab2 = "CREATE TABLE `iptv_config` (
   `config_id` int(11) NOT NULL,
   `ffmpeg_m3u8cfg` text COLLATE utf8_turkish_ci NOT NULL,
   `ffmpeg_ts` text COLLATE utf8_turkish_ci NOT NULL,
+  `ffmpeg_flv` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
   `twitter_tkn` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
-  `facebook_tkn` varchar(255) COLLATE utf8_turkish_ci NOT NULL
+  `facebook_tkn` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
+  `twitch_tkn` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
+  `restream_tkn` varchar(255) COLLATE utf8_turkish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;";
 
 $tab3 = "CREATE TABLE `ip_block` (
@@ -248,8 +251,8 @@ $tab5 = "CREATE TABLE `public_iptv` (
 
 $insert1 = "INSERT INTO `admin_list` (`admin_id`, `admin_email`, `admin_usrname`, `admin_passwd`, `admin_token`) VALUES
 (1, 'alicangonullu@yahoo.com', 'alicangonullu', '060323f33140b4a86b53d01d726a45c7584a3a2b', '060323f33140b4a86b53d01d726a45c7584a3a2b');";
-$insert2 = "INSERT INTO `iptv_config` (`config_id`, `ffmpeg_m3u8cfg`, `ffmpeg_ts`, `twitter_tkn`, `facebook_tkn`) VALUES
-(1, '-listen 1 -vcodec libx264 -profile:v high -level:v 4.1 -crf 23 -preset veryfast -vf \"yadif\" -s 1920x1080 -maxrate 3400k -bufsize 1600k -hls_wrap 8 -acodec libmp3lame -ac 2 -c:a aac -b:a 128k -strict experimental', '-c:v copy -c:a copy -t 00:05:00', '1234', '1234');";
+$insert2 = "INSERT INTO `iptv_config` (`config_id`, `ffmpeg_m3u8cfg`, `ffmpeg_ts`, `ffmpeg_flv`, `twitter_tkn`, `facebook_tkn`, `twitch_tkn`, `restream_tkn`) VALUES
+(1, '-listen 1 -hls_wrap 8 -deinterlace -vcodec libx264 -pix_fmt yuv420p -preset veryfast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '-c:v copy -c:a copy -t 00:05:00', '-deinterlace -vcodec libx264 -pix_fmt yuv420p -preset veryfast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '1234', '1234', '1234', '1234');";
 $insert3 = "INSERT INTO `ip_block` (`ip_id`, `ip_adress`, `ban_reason`, `ip_block_active`) VALUES
 (1, '::1', 'Nobody', '1');";
 
