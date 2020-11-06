@@ -56,7 +56,7 @@ while($row = $stmt->fetch()) {
 			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
 			  <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>';
 			  echo '<body class="container">
-			  <video style="width:100%;height:100%;" id="video" class="video-js vjs-default-skin" data-logo="'.$logo.'" controls autoplay></video>
+			  <video style="width:100%;height:100%;" id="video" class="video-js vjs-default-skin" data-logo="'.$logo.'" data-aspect-ratio="hd" controls autoplay></video>
 			  </div></body>';
 ?>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
@@ -113,7 +113,7 @@ while($row = $stmt->fetch()) {
 			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
 			  <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>';
 			  echo '<body class="container">
-			  <video style="width:100%;height:100%;" id="video" class="video-js vjs-default-skin" data-logo="'.$logo.'" controls autoplay></video>
+			  <video style="width:100%;height:100%;" id="video" class="video-js vjs-default-skin" data-logo="'.$logo.'" data-aspect-ratio="hd" controls autoplay></video>
 			  </div></body>';
 ?>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
@@ -179,7 +179,7 @@ die();
 			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
 			  <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>';
 			  echo '<body class="container">
-			  <center><video style="width:100%;height:100%;" id="video" class="video-js vjs-default-skin" data-logo="'.$logo.'" controls autoplay></video>
+			  <center><video style="width:100%;height:100%;" id="video" class="video-js vjs-default-skin" data-logo="'.$logo.'" data-aspect-ratio="hd" controls autoplay></video>
 			  </div></center></body>';	  
 
 ?>
@@ -240,7 +240,7 @@ die();
 			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
 			  <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>';
 			  echo '<body class="container">
-			  <center><video style="width:100%;height:100%;" id="video" data-role="video-player" data-logo="'.$logo.'"  controls autoplay></video>
+			  <center><video style="width:100%;height:100%;" id="video" data-role="video-player" data-logo="'.$logo.'"  data-aspect-ratio="hd" controls autoplay></video>
 			  </div></center></body>';
 ?>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
@@ -651,7 +651,7 @@ fclose($fp);
 	IPTV
   </button>
   <ul class="dropdown-menu" role="menu">
-    <li><a class="dropdown-item" href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'">Public</a></li>
+    <li><a class="dropdown-item" href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'">M3U8 Link</a></li>
     <li><a class="dropdown-item" href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'&watchplayer=1">Watch</a></li>
     <li><a class="dropdown-item" href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'&debug">Debug</a></li>
   </ul>
@@ -1095,7 +1095,7 @@ if(!$fp = @fopen(strip_tags($row["private_iptv"]), "r")) {
 } else {
 
 echo '<body class="mx-auto">
-<video id="video" class="video-js vjs-default-skin" controls data-controls-hide="1000" autoplay>
+<video id="video" class="video-js vjs-default-skin" data-aspect-ratio="hd" controls autoplay>
   </div>
   </body>';
  

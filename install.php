@@ -217,7 +217,6 @@ $tab1 = "CREATE TABLE `admin_list` (
 
 $tab2 = "CREATE TABLE `iptv_config` (
   `config_id` int(11) NOT NULL,
-  `logo` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
   `ffmpeg_m3u8cfg` text COLLATE utf8_turkish_ci NOT NULL,
   `ffmpeg_ts` text COLLATE utf8_turkish_ci NOT NULL,
   `ffmpeg_flv` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
