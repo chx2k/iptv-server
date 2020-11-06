@@ -4,7 +4,7 @@ error_reporting(0);
 try {
 $ip = "localhost"; //host
 $user = "root";  // host id
-$password = "";  // password local olduğu için varsayılan şifre
+$password = "19742008";  // password local olduğu için varsayılan şifre
 $ad = "iptv_data"; // db adı 
 $db = new PDO("mysql:host=$ip;dbname=$ad", "$user", "$password");
 $db->query("SET CHARACTER SET 'utf8'");
@@ -202,7 +202,7 @@ public function StartFacebookTSStreamLinux($pubname, $tslinks, $url, $config, $t
   set_time_limit(0);
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://live-cdg.twitch.tv/app/'.$token.'" >"'.$logfile.'" 2>&1';
+  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmps://live-api-s.facebook.com:443/rtmp/'.$token.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
   echo '<br>Command : <br><pre>'.$com.'</pre><br>';
   echo '<br><b>URL : '.$url.'</b><br>';

@@ -975,15 +975,15 @@ $json2 = json_encode($meta, true);
 $data = json_decode($json2);
 echo '
 <br>
-<div class="card bg-light">
-<code>
+<div class="container card bg-light">
+<pre>
 <b>Coding Info</b><br>
 Wrapper Type : '.$data->wrapper_type.'<br>
 Stream Type : '.$data->stream_type.'<br>
 URI : '.$data->uri.'<br><br><br>
 <b>JSON Data Query</b><br>
 '.$json2.'<br>
-</code>
+</pre>
 <br><br><br>
 
 </div>';
