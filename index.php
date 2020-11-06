@@ -11,6 +11,7 @@ $twittertk = $row["twitter_tkn"];
 $facebooktk = $row["facebook_tkn"];
 $twitchtk = $row["twitch_tkn"];
 $restreamtk = $row["restream_tkn"];
+$logo = $row["logo"];
 }
 if(isset($_GET["pubid"])) {
 
@@ -49,16 +50,50 @@ while($row = $stmt->fetch()) {
 			  echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 			  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
 			  <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet"/>
-			  
-			  <script src="https://unpkg.com/video.js/dist/video.js"></script>
-			  <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
-			  <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
-			  <body class="container mx-auto">
-			  <video style="width:100%;height:100%;" id="example-video" class="video-js vjs-default-skin" controls>
-			  <source src="'.strip_tags($row["iptv_adres"]).'" type="application/x-mpegURL"></video>
-			  <script>var player = videojs("example-video");
-			  player.play();
-			  </script></div></body>';
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
+			  <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>';
+			  echo '<body class="container">
+			  <video style="width:100%;height:100%;" id="video" class="video-js vjs-default-skin" data-logo="'.$logo.'" controls autoplay></video>
+			  </div></body>';
+?>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<!-- Or if you want a more recent alpha version -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/hls.js@alpha"></script> -->
+<script>
+  var video = document.getElementById('video');
+  var videoSrc = '<?php echo strip_tags($row["iptv_adres"]); ?>';
+  if (Hls.isSupported()) {
+    var hls = new Hls();
+    hls.loadSource(videoSrc);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, function() {
+      video.play();
+    });
+  }
+  // hls.js is not supported on platforms that do not have Media Source
+  // Extensions (MSE) enabled.
+  //
+  // When the browser has built-in HLS support (check using `canPlayType`),
+  // we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video
+  // element through the `src` property. This is using the built-in support
+  // of the plain video element, without using hls.js.
+  //
+  // Note: it would be more normal to wait on the 'canplay' event below however
+  // on Safari (where you are most likely to find built-in HLS support) the
+  // video.src URL must be on the user-driven white-list before a 'canplay'
+  // event will be emitted; the last video event that can be reliably
+  // listened-for when the URL is not on the white-list is 'loadedmetadata'.
+  else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = videoSrc;
+    video.addEventListener('loadedmetadata', function() {
+      video.play();
+    });
+  }
+</script>
+<?php
 			  die();
 			  } else {}
 			$stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :getir');
@@ -72,17 +107,51 @@ while($row = $stmt->fetch()) {
 			  echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 			  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
 			  <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet"/>
-			  
-			  <script src="https://unpkg.com/video.js/dist/video.js"></script>
-			  <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
-			  <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
-			  <body class="container mx-auto">
-			  <video style="width:100%;height:100%;" id="example-video" class="video-js vjs-default-skin" controls>
-			  <source src="'.strip_tags($row["iptv_adres"]).'" type="application/x-mpegURL"></video>
-			  <script>var player = videojs("example-video");
-			  player.play();
-			  </script></div></body>';
-			  die();
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
+			  <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>';
+			  echo '<body class="container">
+			  <video style="width:100%;height:100%;" id="video" class="video-js vjs-default-skin" data-logo="'.$logo.'" controls autoplay></video>
+			  </div></body>';
+?>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<!-- Or if you want a more recent alpha version -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/hls.js@alpha"></script> -->
+<script>
+  var video = document.getElementById('video');
+  var videoSrc = '<?php echo strip_tags($row["iptv_adres"]); ?>';
+  if (Hls.isSupported()) {
+    var hls = new Hls();
+    hls.loadSource(videoSrc);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, function() {
+      video.play();
+    });
+  }
+  // hls.js is not supported on platforms that do not have Media Source
+  // Extensions (MSE) enabled.
+  //
+  // When the browser has built-in HLS support (check using `canPlayType`),
+  // we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video
+  // element through the `src` property. This is using the built-in support
+  // of the plain video element, without using hls.js.
+  //
+  // Note: it would be more normal to wait on the 'canplay' event below however
+  // on Safari (where you are most likely to find built-in HLS support) the
+  // video.src URL must be on the user-driven white-list before a 'canplay'
+  // event will be emitted; the last video event that can be reliably
+  // listened-for when the URL is not on the white-list is 'loadedmetadata'.
+  else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = videoSrc;
+    video.addEventListener('loadedmetadata', function() {
+      video.play();
+    });
+  }
+</script>
+<?php
+die();
 			  } else {}
 			$stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :getir');
 	$stmt->execute(array(':getir' => strip_tags("1")));
@@ -104,23 +173,55 @@ while($row = $stmt->fetch()) {
 			  echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 			  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
 			  <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet"/>
-			  
-			  <script src="https://unpkg.com/video.js/dist/video.js"></script>
-			  <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
-			  <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
-			  <body class="container mx-auto">
-			  <center><video style="width:100%;height:100%;" id="example-video" class="video-js vjs-default-skin" controls>
-			  <source src="m3u/'.strip_tags($_GET["pubid"]).'.ts" type="application/x-mpegURL"></video>
-			  <script>  var player = videojs("example-video", {
-				  html5: {
-					  hls: {
-						  overrideNative: true
-						  }
-						  }
-						  });
-			  </script></div></center></body>';
-			  die();
-			  } else {}
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
+			  <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>';
+			  echo '<body class="container">
+			  <center><video style="width:100%;height:100%;" id="video" class="video-js vjs-default-skin" data-logo="'.$logo.'" controls autoplay></video>
+			  </div></center></body>';	  
+
+?>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<!-- Or if you want a more recent alpha version -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/hls.js@alpha"></script> -->
+<script>
+  var video = document.getElementById('video');
+  var videoSrc = 'm3u/<?php echo strip_tags($_GET["pubid"]); ?>.ts';
+  if (Hls.isSupported()) {
+    var hls = new Hls();
+    hls.loadSource(videoSrc);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, function() {
+      video.play();
+    });
+  }
+  // hls.js is not supported on platforms that do not have Media Source
+  // Extensions (MSE) enabled.
+  //
+  // When the browser has built-in HLS support (check using `canPlayType`),
+  // we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video
+  // element through the `src` property. This is using the built-in support
+  // of the plain video element, without using hls.js.
+  //
+  // Note: it would be more normal to wait on the 'canplay' event below however
+  // on Safari (where you are most likely to find built-in HLS support) the
+  // video.src URL must be on the user-driven white-list before a 'canplay'
+  // event will be emitted; the last video event that can be reliably
+  // listened-for when the URL is not on the white-list is 'loadedmetadata'.
+  else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = videoSrc;
+    video.addEventListener('loadedmetadata', function() {
+      video.play();
+    });
+  }
+</script>
+<?php
+die();
+} else {
+	
+}
       $getir->TSStream(strip_tags($row["public_name"]));
       die();
     }
@@ -133,27 +234,56 @@ while($row = $stmt->fetch()) {
 			  echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 			  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
 			  <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet"/>
-			  
-			  <script src="https://unpkg.com/video.js/dist/video.js"></script>
-			  <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
-			  <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
-			  <body class="container mx-auto">
-			  <center><video style="width:100%;height:100%;" id="example-video" class="video-js vjs-theme-city" controls>
-			  <source src="m3u/'.strip_tags($_GET["pubid"]).'.m3u8" type="application/x-mpegURL"></video>
-			  <script>  var player = videojs("example-video", {
-				  html5: {
-					  hls: {
-						  overrideNative: true
-						  }
-						  }
-						  });
-			  </script></div></center></body>';
-			  die();
-			  } else {}
-      $getir->M3U8Stream(strip_tags($row["public_name"]));
-      die();
-    }
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
+			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
+			  <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>';
+			  echo '<body class="container">
+			  <center><video style="width:100%;height:100%;" id="video" data-role="video-player" data-logo="'.$logo.'"  controls autoplay></video>
+			  </div></center></body>';
+?>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<!-- Or if you want a more recent alpha version -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/hls.js@alpha"></script> -->
+<script>
+  var video = document.getElementById('video');
+  var videoSrc = 'm3u/<?php echo strip_tags($_GET["pubid"]); ?>.m3u8';
+  if (Hls.isSupported()) {
+    var hls = new Hls();
+    hls.loadSource(videoSrc);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, function() {
+      video.play();
+    });
   }
+  // hls.js is not supported on platforms that do not have Media Source
+  // Extensions (MSE) enabled.
+  //
+  // When the browser has built-in HLS support (check using `canPlayType`),
+  // we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video
+  // element through the `src` property. This is using the built-in support
+  // of the plain video element, without using hls.js.
+  //
+  // Note: it would be more normal to wait on the 'canplay' event below however
+  // on Safari (where you are most likely to find built-in HLS support) the
+  // video.src URL must be on the user-driven white-list before a 'canplay'
+  // event will be emitted; the last video event that can be reliably
+  // listened-for when the URL is not on the white-list is 'loadedmetadata'.
+  else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = videoSrc;
+    video.addEventListener('loadedmetadata', function() {
+      video.play();
+    });
+  }
+</script>
+<?php
+die();
+} else {}
+$getir->M3U8Stream(strip_tags($row["public_name"]));
+die();
+}
+}
 
 }
 } else {
@@ -581,6 +711,12 @@ echo '</tr>
   if($row = $stmt->fetch()) {
 	  echo '<body>
   <form class="container" action="index.php?git=peditcfg" method="post">
+  
+  		    <div class="form-group">
+      <label for="exampleFormControlInput1">Logo</label>
+	  <textarea class="form-control" name="logokayit" placeholder="Logo">'.$row["logo"].'</textarea>
+    </div>
+	
     <div class="form-group">
       <label for="exampleFormControlInput1">Config TS</label>
 	  <textarea class="form-control" name="ffmpegts" placeholder="IPTV Config(TS)">'.$row["ffmpeg_ts"].'</textarea>
@@ -624,7 +760,7 @@ echo '</tr>
   case 'peditcfg':
   $getir->logincheck();
   $getir->NavBar("IPTV Site");
-  $update = $db->prepare("UPDATE iptv_config SET ffmpeg_m3u8cfg = :m3u8, ffmpeg_ts = :ts, twitter_tkn = :twittertkn, restream_tkn = :restreamtkn, facebook_tkn = :facebooktkn, ffmpeg_flv = :flv, twitch_tkn = :twitchtkn WHERE config_id = :gonderid");
+  $update = $db->prepare("UPDATE iptv_config SET ffmpeg_m3u8cfg = :m3u8, logo = :logos, ffmpeg_ts = :ts, twitter_tkn = :twittertkn, restream_tkn = :restreamtkn, facebook_tkn = :facebooktkn, ffmpeg_flv = :flv, twitch_tkn = :twitchtkn WHERE config_id = :gonderid");
   $update->bindValue(':gonderid', intval($_POST["ffmpegid"]));
   $update->bindValue(':m3u8', strip_tags($_POST["ffmpegm3u8"]));
   $update->bindValue(':flv', strip_tags($_POST["ffmpegflv"]));
@@ -633,6 +769,7 @@ echo '</tr>
   $update->bindValue(':facebooktkn', strip_tags($_POST["facebooktkn"]));
   $update->bindValue(':twitchtkn', strip_tags($_POST["twitchtoken"]));
   $update->bindValue(':restreamtkn', strip_tags($_POST["restreamtoken"]));
+  $update->bindValue(':logos', strip_tags($_POST["logokayit"]));
   $update->execute();
   if($update){
 	 echo "<script LANGUAGE='JavaScript'>
@@ -956,15 +1093,48 @@ if(!$fp = @fopen(strip_tags($row["private_iptv"]), "r")) {
   <div class="alert alert-danger" role="alert">This channel is not running!</div>
   </body>';
 } else {
-  echo '<body class="mx-auto">
-    <video id="example-video" class="video-js vjs-default-skin" controls>
-    <source src="'.strip_tags($row["private_iptv"]).'" type="application/x-mpegURL"></video>
-  <script>
-  var player = videojs("example-video");
-  player.play();
-  </script>
+
+echo '<body class="mx-auto">
+<video id="video" class="video-js vjs-default-skin" controls data-controls-hide="1000" autoplay>
   </div>
   </body>';
+ 
+?>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<!-- Or if you want a more recent alpha version -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/hls.js@alpha"></script> -->
+<script>
+  var video = document.getElementById('video');
+  var videoSrc = '<?php echo strip_tags($row["private_iptv"]); ?>';
+  if (Hls.isSupported()) {
+    var hls = new Hls();
+    hls.loadSource(videoSrc);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, function() {
+      video.play();
+    });
+  }
+  // hls.js is not supported on platforms that do not have Media Source
+  // Extensions (MSE) enabled.
+  //
+  // When the browser has built-in HLS support (check using `canPlayType`),
+  // we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video
+  // element through the `src` property. This is using the built-in support
+  // of the plain video element, without using hls.js.
+  //
+  // Note: it would be more normal to wait on the 'canplay' event below however
+  // on Safari (where you are most likely to find built-in HLS support) the
+  // video.src URL must be on the user-driven white-list before a 'canplay'
+  // event will be emitted; the last video event that can be reliably
+  // listened-for when the URL is not on the white-list is 'loadedmetadata'.
+  else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = videoSrc;
+    video.addEventListener('loadedmetadata', function() {
+      video.play();
+    });
+  }
+</script>
+<?php
 }
 if (!$fp = fopen(strip_tags($row["private_iptv"]), 'r')) {
 echo '<script>console.log("'.strip_tags($row["private_iptv"]).' address not open");</script>';

@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.4
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Anamakine: localhost
--- Üretim Zamanı: 05 Kas 2020, 23:10:04
--- Sunucu sürümü: 10.3.17-MariaDB
--- PHP Sürümü: 7.2.24
+-- Anamakine: 127.0.0.1
+-- Üretim Zamanı: 06 Kas 2020, 13:59:32
+-- Sunucu sürümü: 10.4.14-MariaDB
+-- PHP Sürümü: 7.4.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -51,6 +50,7 @@ INSERT INTO `admin_list` (`admin_id`, `admin_email`, `admin_usrname`, `admin_pas
 
 CREATE TABLE `iptv_config` (
   `config_id` int(11) NOT NULL,
+  `logo` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
   `ffmpeg_m3u8cfg` text COLLATE utf8_turkish_ci NOT NULL,
   `ffmpeg_ts` text COLLATE utf8_turkish_ci NOT NULL,
   `ffmpeg_flv` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
@@ -64,8 +64,8 @@ CREATE TABLE `iptv_config` (
 -- Tablo döküm verisi `iptv_config`
 --
 
-INSERT INTO `iptv_config` (`config_id`, `ffmpeg_m3u8cfg`, `ffmpeg_ts`, `ffmpeg_flv`, `twitter_tkn`, `facebook_tkn`, `twitch_tkn`, `restream_tkn`) VALUES
-(1, '-listen 1 -hls_wrap 8 -deinterlace -vcodec libx264 -pix_fmt yuv420p -preset veryfast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '-c:v copy -c:a copy -t 00:05:00', '-deinterlace -vcodec libx264 -pix_fmt yuv420p -preset veryfast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '1234', '1234', '1234', '1234');
+INSERT INTO `iptv_config` (`config_id`, `logo`, `ffmpeg_m3u8cfg`, `ffmpeg_ts`, `ffmpeg_flv`, `twitter_tkn`, `facebook_tkn`, `twitch_tkn`, `restream_tkn`) VALUES
+(1, 'https://archive.is/MsXDQ/60964af6231b16384151cba5b5a888b904a9c5d4.png', '-listen 1 -hls_wrap 8 -deinterlace -vcodec libx264 -pix_fmt yuv420p -preset veryfast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '-c:v copy -c:a copy -t 00:05:00', '-deinterlace -vcodec libx264 -pix_fmt yuv420p -preset veryfast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '1', '12345', '123', '12');
 
 -- --------------------------------------------------------
 
@@ -101,6 +101,13 @@ CREATE TABLE `private_iptv` (
   `private_active` varchar(255) COLLATE utf8_turkish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
+--
+-- Tablo döküm verisi `private_iptv`
+--
+
+INSERT INTO `private_iptv` (`private_id`, `private_name`, `private_resim`, `private_iptv`, `private_active`) VALUES
+(1, 'TRT1', '', 'https://tv-trt1.live.trt.com.tr/master_720.m3u8', '1');
+
 -- --------------------------------------------------------
 
 --
@@ -120,8 +127,7 @@ CREATE TABLE `public_iptv` (
 --
 
 INSERT INTO `public_iptv` (`public_id`, `public_name`, `public_tslink`, `video_stream`, `public_active`) VALUES
-(1, '53253027fef2ab5162a602f2acfed431', 'rtmp://win1.yayin.com.tr/bursatv/bursatv', '0', '1'),
-(2, '9d684c589d67031a627ad33d59db65e5', 'https://tv-e-okul02.live.trt.com.tr/master.m3u8', '0', '1');
+(1, '25daeb9b3072e9c53f66a2196a92a011', 'https://tv-trt1.live.trt.com.tr/master_720.m3u8', '0', '1');
 
 --
 -- Dökümü yapılmış tablolar için indeksler
@@ -183,13 +189,13 @@ ALTER TABLE `ip_block`
 -- Tablo için AUTO_INCREMENT değeri `private_iptv`
 --
 ALTER TABLE `private_iptv`
-  MODIFY `private_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `private_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `public_iptv`
 --
 ALTER TABLE `public_iptv`
-  MODIFY `public_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `public_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

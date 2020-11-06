@@ -1,10 +1,16 @@
 <?php
 error_reporting(0);
-
+if(file_exists("yukle.lock")) {
+} else {
+die("<center><b>PHP IPTV Yüklenemedi / PHP IPTV was not Installed</b>
+<hr></hr>
+<p>yukle.lock dosyasını silip tekrar deneyin</b><br>
+<a href='install.php'>Yükle</a></center>");
+}
 try {
 $ip = "localhost"; //host
 $user = "root";  // host id
-$password = "19742008";  // password local olduğu için varsayılan şifre
+$password = "";  // password local olduğu için varsayılan şifre
 $ad = "iptv_data"; // db adı 
 $db = new PDO("mysql:host=$ip;dbname=$ad", "$user", "$password");
 $db->query("SET CHARACTER SET 'utf8'");
@@ -96,9 +102,19 @@ public function M3U8DebugStreamWin($pubname, $tslinks, $config) {
 public function StopFFMPEG() {
   echo '<b>FFMpeg Killing...</b<br>';
   if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	shell_exec('taskkill /F /IM "ffmpeg.exe"');
+	$winffmpeg = 'taskkill /F /IM "ffmpeg.exe"';
+	shell_exec($winffmpeg);
+	echo "<script LANGUAGE='JavaScript'>
+    window.alert('Succesfully Exit | ".$winffmpeg."');
+    window.location.href='index.php?git=iptv';
+    </script>";
   } else {
-  shell_exec('pkill ffmpeg');
+  $linffmpeg = "pkill ffmpeg";
+  shell_exec($linffmpeg);
+  echo "<script LANGUAGE='JavaScript'>
+  window.alert('Succesfully Exit | ".$linffmpeg."');
+  window.location.href='index.php?git=iptv';
+  </script>";
   }
 }
 public function TSDebugStream($pubname, $tslinks, $configts) {
@@ -150,7 +166,7 @@ public function StartTwitchTSStreamLinux($pubname, $tslinks, $url, $config, $tok
   set_time_limit(0);
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://live-cdg.twitch.tv/app/'.$token.'" >"'.$logfile.'" 2>&1';
+  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://live-cdg.twitch.tv/app/'.$token.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
   echo '<br>Command : <br><pre>'.$com.'</pre><br>';
   echo '<br><b>URL : '.$url.'</b><br>';
@@ -173,9 +189,9 @@ public function StartRestreamTSStreamLinux($pubname, $tslinks, $url, $config, $t
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
   if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2) == "tr") {
-  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://istanbul.restream.io/live/'.$token.'" >"'.$logfile.'" 2>&1';
+  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://istanbul.restream.io/live/'.$token.'" >"'.$logfile.'" 2>&1';
   } else {
-  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://live.restream.io/live/'.$token.'" >"'.$logfile.'" 2>&1';
+  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://live.restream.io/live/'.$token.'" >"'.$logfile.'" 2>&1';
   }
   shell_exec($com);
   echo '<br>Command : <br><pre>'.$com.'</pre><br>';
@@ -202,7 +218,7 @@ public function StartFacebookTSStreamLinux($pubname, $tslinks, $url, $config, $t
   set_time_limit(0);
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmps://live-api-s.facebook.com:443/rtmp/'.$token.'" >"'.$logfile.'" 2>&1';
+  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmps://live-api-s.facebook.com:443/rtmp/'.$token.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
   echo '<br>Command : <br><pre>'.$com.'</pre><br>';
   echo '<br><b>URL : '.$url.'</b><br>';
@@ -315,7 +331,6 @@ echo '<aside class="sidebar pos-absolute z-2"
         <li><a href="index.php?git=addban"><span class="mif-add icon"></span>Add Ban IP</a></li>
 		<li class="divider"></li>
         <li><a href="index.php?git=ipblock"><span class="mif-images icon"></span>IP Block</a></li>
-		<li><a href="index.php?git=stopiptv"><span class="mif-images icon"></span>Stop All Stream</a></li>
 		<li class="divider"></li>
 		<li><a href="index.php?git=iptv&phpinfo=1"><span class="mif-images icon"></span>PHP Info</a></li>
 	</ul>
