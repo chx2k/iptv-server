@@ -646,6 +646,7 @@ echo '<script>console.log("'.strip_tags($row["iptv_adres"]).' address not open")
 fclose($fp);
 }
 
+  echo '<td><div class=kisalt">udp://localhost:'.$rtmpport.'/'.strip_tags($row2["public_name"]).'</div></td>
   <td><div class="btn-group">
   <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
     <span class="caret"></span>
