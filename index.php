@@ -12,6 +12,7 @@ $facebooktk = $row["facebook_tkn"];
 $twitchtk = $row["twitch_tkn"];
 $restreamtk = $row["restream_tkn"];
 $logo = $row["logo"];
+$rtmpport = $row["rtmp_port"];
 }
 if(isset($_GET["pubid"])) {
 
@@ -621,7 +622,9 @@ echo '
 <th>Status</th>
 <th></th>
 <th></th>
+<th></th>
 </tr></thead><tbody>';
+
 $stmt2 = $db->prepare('SELECT * FROM public_iptv');
 $stmt2->execute();
 while($row2 = $stmt2->fetch()) {
@@ -643,7 +646,7 @@ echo '<script>console.log("'.strip_tags($row["iptv_adres"]).' address not open")
 fclose($fp);
 }
 
-  echo '
+  echo '<td>udp://localhost:'.$rtmpport.'/'.strip_tags($row2["public_name"]).'</td>
   <td><div class="btn-group">
   <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
     <span class="caret"></span>
@@ -657,7 +660,6 @@ fclose($fp);
   </ul>
 </div></td>
 
-
 <td><div class="btn-group">
 <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
 <span class="caret"></span>
@@ -668,6 +670,7 @@ fclose($fp);
 <li><a class="dropdown-item" href="index.php?git=startrestream&id='.intval($row2["public_id"]).'">Start Restream.IO Stream</a></li>
 <li><a class="dropdown-item" href="index.php?git=startfacebook&id='.intval($row2["public_id"]).'">Start Facebook Stream</a></li>
 <li><a class="dropdown-item" href="index.php?git=starttwitch&id='.intval($row2["public_id"]).'">Start Twitch Stream</a></li>
+<li><a class="dropdown-item" href="index.php?git=startrtmp&id='.intval($row2["public_id"]).'">Start RTMP Stream</a></li>
 <li><a class="dropdown-item" href="index.php?git=startiptv&id='.intval($row2["public_id"]).'">Start Stream</a></li>
 <li><a class="dropdown-item" href="index.php?git=stopiptv&id='.intval($row2["public_id"]).'">Stop Stream</a></li>
 <li><a class="dropdown-item" href="index.php?git=editpubid&id='.strip_tags($row2["public_id"]).'">Edit Stream</a></li>
@@ -717,6 +720,11 @@ echo '</tr>
 	  <textarea class="form-control" name="logokayit" placeholder="Logo">'.$row["logo"].'</textarea>
     </div>
 	
+		<div class="form-group">
+      <label for="exampleFormControlInput1">RTMP Port</label>
+	  <textarea class="form-control" name="rtmpport" placeholder="RTMP Port">'.$row["rtmp_port"].'</textarea>
+    </div>
+	
     <div class="form-group">
       <label for="exampleFormControlInput1">Config TS</label>
 	  <textarea class="form-control" name="ffmpegts" placeholder="IPTV Config(TS)">'.$row["ffmpeg_ts"].'</textarea>
@@ -751,7 +759,7 @@ echo '</tr>
     </div>
 	
       <input type="hidden" name="ffmpegid" value="'.intval($row["config_id"]).'" class="form-control">
-    <button type="submit" style="width: 100%;" class="btn btn-primary">Guncelle</button>
+    <button type="submit" style="width: 100%;" class="btn btn-primary">Guncelle</button><br><br>
   </form>
   </body>';
   }
@@ -760,7 +768,7 @@ echo '</tr>
   case 'peditcfg':
   $getir->logincheck();
   $getir->NavBar("IPTV Site");
-  $update = $db->prepare("UPDATE iptv_config SET ffmpeg_m3u8cfg = :m3u8, logo = :logos, ffmpeg_ts = :ts, twitter_tkn = :twittertkn, restream_tkn = :restreamtkn, facebook_tkn = :facebooktkn, ffmpeg_flv = :flv, twitch_tkn = :twitchtkn WHERE config_id = :gonderid");
+  $update = $db->prepare("UPDATE iptv_config SET ffmpeg_m3u8cfg = :m3u8, rtmp_port = :rtmpport, logo = :logos, ffmpeg_ts = :ts, twitter_tkn = :twittertkn, restream_tkn = :restreamtkn, facebook_tkn = :facebooktkn, ffmpeg_flv = :flv, twitch_tkn = :twitchtkn WHERE config_id = :gonderid");
   $update->bindValue(':gonderid', intval($_POST["ffmpegid"]));
   $update->bindValue(':m3u8', strip_tags($_POST["ffmpegm3u8"]));
   $update->bindValue(':flv', strip_tags($_POST["ffmpegflv"]));
@@ -769,6 +777,7 @@ echo '</tr>
   $update->bindValue(':facebooktkn', strip_tags($_POST["facebooktkn"]));
   $update->bindValue(':twitchtkn', strip_tags($_POST["twitchtoken"]));
   $update->bindValue(':restreamtkn', strip_tags($_POST["restreamtoken"]));
+  $update->bindValue(':rtmpport', strip_tags($_POST["rtmpport"]));
   $update->bindValue(':logos', strip_tags($_POST["logokayit"]));
   $update->execute();
   if($update){
@@ -877,6 +886,30 @@ echo '</tr>
 }
   break;
   
+    case 'startrtmp':
+  $getir->logincheck();
+  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
+  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
+  if($row = $stmt->fetch()) {
+  if($row["video_stream"] == "1") {
+    echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
+    <br>';
+	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+	$getir->StartOtherStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($rtmpport));
+	} else {
+	$getir->StartOtherStreamLin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($rtmpport));
+	}
+  } else {
+    echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
+    <br>';
+	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+	$getir->StartOtherStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($rtmpport));
+	} else {
+    $getir->StartOtherStreamLin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($rtmpport));
+	}
+  }
+}
+  break;
   case 'startrestream':
   $getir->logincheck();
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');

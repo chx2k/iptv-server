@@ -147,20 +147,37 @@ public function TSDebugStreamWin($pubname, $tslinks, $configts) {
   die();
 }
 
-public function StartOtherStream($pubname, $tslinks, $url, $config) {
+public function StartOtherStreamLin($pubname, $tslinks, $url, $config, $port) {
   set_time_limit(0);
   $filename = ''.strip_tags($pubname).'.m3u8';
-  $tslink = ''.dirname(__FILE__).''.$filename.'';
+  $tslink = 'udp://localhost:'.$port.'/'.strip_tags($pubname).'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
+  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f mpegts '.$tslink.' >"'.$logfile.'" 2>&1';
   shell_exec($com);
-  echo '<br>Command : <br><pre>'.$com.'</pre><br>';
+  echo '<br>Command : <br>
+  <pre>
+  '.$com.'
+  </pre><br>';
   echo '<br><b>URL : '.$url.'</b><br>';
   echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
 }
 
-
+public function StartOtherStreamWin($pubname, $tslinks, $url, $config, $port) {
+  set_time_limit(0);
+  $filename = ''.strip_tags($pubname).'.m3u8';
+  $tslink = 'udp://localhost:'.$port.'/'.strip_tags($pubname).'';
+  $logfilename = ''.strip_tags($pubname).'-mylog.log';
+  $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
+  $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' -f mpegts '.$tslink.' >"'.$logfile.'" 2>&1';
+  shell_exec($com);
+  echo '<br>Command : <br>
+  <pre>
+  '.$com.'
+  </pre><br>';
+  echo '<br><b>URL : '.$url.'</b><br>';
+  echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
+}
 
 public function StartTwitchTSStreamLinux($pubname, $tslinks, $url, $config, $token) {
   set_time_limit(0);
