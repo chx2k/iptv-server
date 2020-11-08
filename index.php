@@ -620,7 +620,7 @@ echo '
 <th>Type</th>
 <th>Name</th>
 <th>Status</th>
-<th></th>
+<th>UDP Link</th>
 <th></th>
 <th></th>
 </tr></thead><tbody>';
@@ -646,7 +646,6 @@ echo '<script>console.log("'.strip_tags($row["iptv_adres"]).' address not open")
 fclose($fp);
 }
 
-  echo '<td>udp://localhost:'.$rtmpport.'/'.strip_tags($row2["public_name"]).'</td>
   <td><div class="btn-group">
   <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
     <span class="caret"></span>
