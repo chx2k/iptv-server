@@ -217,6 +217,8 @@ $tab1 = "CREATE TABLE `admin_list` (
 
 $tab2 = "CREATE TABLE `iptv_config` (
   `config_id` int(11) NOT NULL,
+  `logo` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
+  `rtmp_port` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
   `ffmpeg_m3u8cfg` text COLLATE utf8_turkish_ci NOT NULL,
   `ffmpeg_ts` text COLLATE utf8_turkish_ci NOT NULL,
   `ffmpeg_flv` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
@@ -251,8 +253,8 @@ $tab5 = "CREATE TABLE `public_iptv` (
 
 $insert1 = "INSERT INTO `admin_list` (`admin_id`, `admin_email`, `admin_usrname`, `admin_passwd`, `admin_token`) VALUES
 (1, 'alicangonullu@yahoo.com', 'alicangonullu', '060323f33140b4a86b53d01d726a45c7584a3a2b', '060323f33140b4a86b53d01d726a45c7584a3a2b');";
-$insert2 = "INSERT INTO `iptv_config` (`config_id`, `ffmpeg_m3u8cfg`, `ffmpeg_ts`, `ffmpeg_flv`, `twitter_tkn`, `facebook_tkn`, `twitch_tkn`, `restream_tkn`) VALUES
-(1, '-listen 1 -hls_wrap 8 -deinterlace -vcodec libx264 -pix_fmt yuv420p -preset veryfast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '-c:v copy -c:a copy -t 00:05:00', '-deinterlace -vcodec libx264 -pix_fmt yuv420p -preset veryfast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '1234', '1234', '1234', '1234');";
+$insert2 = "INSERT INTO `iptv_config` (`config_id`, `logo`, `rtmp_port`, `ffmpeg_m3u8cfg`, `ffmpeg_ts`, `ffmpeg_flv`, `twitter_tkn`, `facebook_tkn`, `twitch_tkn`, `restream_tkn`) VALUES
+(1, 'https://metroui.org.ua/images/logo4.png', '1938', '-listen 1 -hls_wrap 8 -deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '-c:v copy -c:a copy -t 00:05:00', '-deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '1', '719521428773888?s_bl=1&s_hv=0&s_psm=1&s_sc=719521448773886&s_sw=0&s_vt=api-s&a=Abz-nfHySqeTAl13', '123', '12');";
 $insert3 = "INSERT INTO `ip_block` (`ip_id`, `ip_adress`, `ban_reason`, `ip_block_active`) VALUES
 (1, '::1', 'Nobody', '1');";
 
