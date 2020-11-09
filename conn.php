@@ -366,7 +366,7 @@ echo '<div class="sidebar-header" width="400" height="255" data-image="https://a
 } elseif($tarih == date('30-08')) {
 echo '<div class="sidebar-header" width="400" height="255" data-image="https://alicangonullu.info/veri/img/ata.jpg">';
 } else {
-echo '<div class="sidebar-header" width="400" height="255" data-image="https://alicangonullu.info/veri/img/ata.jpg">';
+echo '<div class="sidebar-header" width="400" height="255" data-image="https://metroui.org.ua/images/sb-bg-1.jpg">';
 }
 echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.com.ua"></div>
         <span class="title fg-white">'.strip_tags($baslik).'</span>
