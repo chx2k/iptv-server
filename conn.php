@@ -10,7 +10,7 @@ die("<center><b>PHP IPTV Yüklenemedi / PHP IPTV was not Installed</b>
 try {
 $ip = "localhost"; //host
 $user = "root";  // host id
-$password = "19742008";  // password local olduğu için varsayılan şifre
+$password = "";  // password local olduğu için varsayılan şifre
 $ad = "iptv_data"; // db adı 
 $db = new PDO("mysql:host=$ip;dbname=$ad", "$user", "$password");
 $db->query("SET CHARACTER SET 'utf8'");
@@ -58,6 +58,30 @@ else
 return $ip;
 }
 
+public function M3UVideo($url) {
+echo "<script src='https://cdn.jsdelivr.net/npm/hls.js@latest'></script>
+<!-- Or if you want a more recent alpha version -->
+<!-- <script src='https://cdn.jsdelivr.net/npm/hls.js@alpha'></script> -->
+<script>
+  var video = document.getElementById('video');
+  var videoSrc = '".strip_tags($url)."';
+  if (Hls.isSupported()) {
+    var hls = new Hls();
+    hls.loadSource(videoSrc);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, function() {
+      video.play();
+    });
+  }
+
+  else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = videoSrc;
+    video.addEventListener('loadedmetadata', function() {
+      video.play();
+    });
+  }
+</script>";
+}
 
 public function M3U8DebugStream($pubname, $tslinks, $config) {
   $filename = ''.strip_tags($pubname).'.m3u8';
@@ -150,7 +174,7 @@ public function TSDebugStreamWin($pubname, $tslinks, $configts) {
 public function StartOtherStreamLin($pubname, $tslinks, $url, $config, $port) {
   set_time_limit(0);
   $filename = ''.strip_tags($pubname).'.m3u8';
-  $tslink = 'udp://localhost:'.$port.'/m3u/'.strip_tags($pubname).'';
+  $tslink = 'udp://localhost:'.$port.'/'.strip_tags($pubname).'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
   $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f mpegts '.$tslink.' >"'.$logfile.'" 2>&1';
@@ -166,7 +190,7 @@ public function StartOtherStreamLin($pubname, $tslinks, $url, $config, $port) {
 public function StartOtherStreamWin($pubname, $tslinks, $url, $config, $port) {
   set_time_limit(0);
   $filename = ''.strip_tags($pubname).'.m3u8';
-  $tslink = 'udp://localhost:'.$port.'/m3u/'.strip_tags($pubname).'';
+  $tslink = 'udp://localhost:'.$port.'/'.strip_tags($pubname).'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
   $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' -f mpegts '.$tslink.' >"'.$logfile.'" 2>&1';
