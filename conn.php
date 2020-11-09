@@ -356,24 +356,34 @@ echo '<aside class="sidebar pos-absolute z-2"
        data-role="sidebar"
        data-toggle="#sidebar-toggle-3"
        id="sb3"
-       data-shift=".shifted-content">
-    <div class="sidebar-header" data-image="https://metroui.org.ua/images/sb-bg-1.jpg">
-        <div class="avatar">
-            <img data-role="gravatar" data-email="sergey@pimenov.com.ua">
-        </div>
+       data-shift=".shifted-content">';
+date_default_timezone_set('Europe/Istanbul');
+$tarih = date("d-m");
+if($tarih == date('29-10')) {
+echo '<div class="sidebar-header" width="400" height="255" data-image="https://alicangonullu.info/veri/img/ata.jpg">';
+} elseif($tarih == date('10-11')) {
+echo '<div class="sidebar-header" width="400" height="255" data-image="https://alicangonullu.info/veri/img/ata.jpg">';
+} elseif($tarih == date('30-08')) {
+echo '<div class="sidebar-header" width="400" height="255" data-image="https://alicangonullu.info/veri/img/ata.jpg">';
+} else {
+echo '<div class="sidebar-header" width="400" height="255" data-image="https://alicangonullu.info/veri/img/ata.jpg">';
+}
+echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.com.ua"></div>
         <span class="title fg-white">'.strip_tags($baslik).'</span>
     </div>
     <ul class="sidebar-menu">
         <li><a href="index.php?git=iptv"><span class="mif-home icon"></span>Home</a></li>
-        <li><a href="index.php?git=m3ugenerate"><span class="mif-books icon"></span>M3U8 Generator</a></li>
+        <li><a href="index.php?git=m3ugenerate"><span class="mif-file-download icon"></span>M3U8 Generator</a></li>
 		<li class="divider"></li>
         <li><a href="index.php?git=startstream"><span class="mif-add icon"></span>Add IPTV</a></li>
 		<li><a href="index.php?git=addpriviptv"><span class="mif-add icon"></span>Add Private IPTV</a></li>
         <li><a href="index.php?git=addban"><span class="mif-add icon"></span>Add Ban IP</a></li>
 		<li class="divider"></li>
-        <li><a href="index.php?git=ipblock"><span class="mif-images icon"></span>IP Block</a></li>
+        <li><a href="index.php?git=ipblock"><span class="mif-list icon"></span>IP Block</a></li>
 		<li class="divider"></li>
-		<li><a href="index.php?git=iptv&phpinfo=1"><span class="mif-images icon"></span>PHP Info</a></li>
+		<li><a href="index.php?git=iptv&phpinfo=1"><span class="mif-info icon"></span>PHP Info</a></li>
+		<li class="divider"></li>
+		<li><a href="index.php?git=cikis"><span class="mif-exit icon"></span>Çıkış</a></li>
 	</ul>
 </aside>
 

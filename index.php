@@ -345,10 +345,6 @@ function delpost2(id)
   }
 }
 </script>
-<style>
-@media (max-width:800px) {
-}
-</style>
 <?php
 $getir->NavBar("IPTV Site");
 if(isset($_GET["phpinfo"])) {
