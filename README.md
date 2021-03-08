@@ -2,8 +2,6 @@
 <hr></hr>
 <h1>PHP IPTV Receiver / Router Panel</h1>
 <hr></hr>
-<b>Developed by Ali Can GÖNÜLLÜ</b>
-<br>
 <pre>
 - Facebook, Twitch, Restream and Twitter router
 - M3U8 Player (SelcukPlayer and VideoJS player)
