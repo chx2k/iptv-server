@@ -834,6 +834,28 @@ public function StartIGTSStreamLinux($pubname, $tslinks, $url, $config, $token) 
   echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
 }
 
+public function StartCstTSStreamWin($pubname, $tslinks, $url, $config, $url2, $token) {
+  set_time_limit(0);
+  $logfilename = ''.strip_tags($pubname).'-mylog.log';
+  $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
+  $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "'.$url2.'/'.$token.'" >"'.$logfile.'" 2>&1';
+  shell_exec($com);
+  echo '<br>Command : <br><pre>'.$com.'</pre><br>';
+  echo '<br><b>URL : '.$url.'</b><br>';
+  echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
+}
+
+public function StartCstTSStreamLinux($pubname, $tslinks, $url, $config, $url2, $token) {
+  set_time_limit(0);
+  $logfilename = ''.strip_tags($pubname).'-mylog.log';
+  $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
+  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "'.$url2.'/'.$token.'" >"'.$logfile.'" 2>&1';
+  shell_exec($com);
+  echo '<br>Command : <br><pre>'.$com.'</pre><br>';
+  echo '<br><b>URL : '.$url.'</b><br>';
+  echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
+}
+
 public function StartTwitchTSStreamWin($pubname, $tslinks, $url, $config, $token) {
   set_time_limit(0);
   $logfilename = ''.strip_tags($pubname).'-mylog.log';

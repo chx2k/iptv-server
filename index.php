@@ -566,6 +566,7 @@ fclose($fp);
 <li><a class="dropdown-item" target="_blank" href="index.php?git=starttwitch&id='.intval($row2["public_id"]).'">Start Twitch Stream</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=startyt&id='.intval($row2["public_id"]).'">Start YouTube Stream</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=startig&id='.intval($row2["public_id"]).'">Start Instagram Stream</a></li>
+<li><a class="dropdown-item" target="_blank" href="index.php?git=startcst1&id='.intval($row2["public_id"]).'">Start Custom Stream</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=startrtmp&id='.intval($row2["public_id"]).'">Start RTMP Stream</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=startiptv&id='.intval($row2["public_id"]).'">Start Stream</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=stopiptv&id='.intval($row2["public_id"]).'">Stop Stream</a></li>
@@ -837,6 +838,52 @@ echo '</tr>
 	$getir->StartIGTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($youtubetk));
 	} else {
     $getir->StartIGTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($youtubetk));
+	}
+  }
+}
+  break;
+
+case 'startcst1':
+$getir->logincheck();
+$getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+echo '<body>
+<form class="container" action="index.php?git=startcst" method="post">
+  
+<div class="form-group">
+<label for="exampleFormControlInput1">Link</label>
+<input class="form-control" name="link" placeholder="Link">
+</div>
+
+<div class="form-group">
+<label for="exampleFormControlInput1">Token</label>
+<input class="form-control" name="token" placeholder="Token">
+</div>
+
+<input type="hidden" name="id" value="'.intval($_GET["id"]).'">
+<button type="submit" style="width: 100%;" class="btn btn-primary">Gonder</button><br><br>
+</form></body>';
+break;
+
+case 'startcst':
+  $getir->logincheck();
+  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
+  $stmt->execute(array(':iddegeri' => intval($_POST["id"])));
+  if($row = $stmt->fetch()) {
+  if($row["video_stream"] == "1") {
+    echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
+    <br>';
+	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+	$getir->StartCstTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($_POST["link"]), strip_tags($_POST["token"]));
+	} else {
+	$getir->StartCstTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($_POST["link"]), strip_tags($_POST["token"]));
+	}
+  } else {
+    echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
+    <br>';
+	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+	$getir->StartCstTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($_POST["link"]), strip_tags($_POST["token"]));
+	} else {
+    $getir->StartCstTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($_POST["link"]), strip_tags($_POST["token"]));
 	}
   }
 }
