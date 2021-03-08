@@ -47,6 +47,10 @@ while($row = $stmt->fetch()) {
         die("Channel is Deactive");
       } else {
 		  if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+              if(intval($_GET["selcuk"]) == "1") {
+              $getir->SelcukTheme(strip_tags($row["public_tslink"]));
+              } else {
+              }
 		if(intval($_GET["watchplayer"]) == "1") {
 			  echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 			  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
@@ -69,6 +73,10 @@ while($row = $stmt->fetch()) {
 	}
         die();
 		  } else {
+             if(intval($_GET["selcuk"]) == "1") {
+              $getir->SelcukTheme(strip_tags($row["public_tslink"]));
+              } else {
+              }
 		if(intval($_GET["watchplayer"]) == "1") {
 			  echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 			  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
@@ -100,6 +108,10 @@ while($row = $stmt->fetch()) {
     if($row["public_active"] == 0) {
       die("Channel is Deactive");
     } else {
+                      if(intval($_GET["selcuk"]) == "1") {
+              $getir->SelcukTheme(strip_tags($row["public_tslink"]));
+              } else {
+              }
 		if(intval($_GET["watchplayer"]) == "1") {
 			  echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 			  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
@@ -126,6 +138,10 @@ die();
     if($row["public_active"] == 0) {
       die("Channel is Deactive");
     } else {
+                      if(intval($_GET["selcuk"]) == "1") {
+              $getir->SelcukTheme(strip_tags($row["public_tslink"]));
+              } else {
+              }
 		if(intval($_GET["watchplayer"]) == "1") {
 			  echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 			  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
@@ -346,7 +362,7 @@ function delpost2(id)
 }
 </script>
 <?php
-$getir->NavBar("IPTV Site");
+$getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
 if(isset($_GET["phpinfo"])) {
 if(strip_tags($_GET["phpinfo"]) == "1") {
 $getir->logincheck();
@@ -407,7 +423,8 @@ echo '<body>
 <b>M3U8 File List</b>';
 $_DIR = opendir("m3u");
 $_DIR2 = opendir("log");
-echo '<table class="table">
+echo '
+<table class="table">
 <thead>
 <tr>
 <th>Filename</th>
@@ -416,11 +433,25 @@ echo '<table class="table">
 ';
 while (($_DIRFILE = readdir($_DIR)) !== false){
 if(!is_dir($_DIRFILE)){
-echo '<tr><td><div class="kisalt">'.strip_tags($_DIRFILE).'</td>';
-echo '<td><a class="btn btn-danger"  href="index.php?git=dfile&name='.strip_tags($_DIRFILE).'">Delete</a></td></tr>';
+echo '<tr><td><div class="kisalt"><span class="mif-file-empty"></span> '.strip_tags($_DIRFILE).'</td>';
+echo '<td><a class="btn btn-danger" href="index.php?git=dfile&name='.strip_tags($_DIRFILE).'">Delete</a></td></tr>';
 }
 }
 closedir($_DIR);
+
+echo '</tbody></table><table class="table">
+<thead>
+<tr>
+<th>Log Filename</th>
+<th></th>
+</tr></thead><tbody>
+';
+while (($_DIRFILE2 = readdir($_DIR2)) !== false){
+if(!is_dir($_DIRFILE2)){
+echo '<tr><td><div class="kisalt"><span class="mif-file-empty"></span> '.strip_tags($_DIRFILE2).'</td>';
+echo '<td><a class="btn btn-danger"  href="index.php?git=dlog&name='.strip_tags($_DIRFILE2).'">Delete</a></td></tr>';
+}
+}
 closedir($_DIR2);
 
 echo '
@@ -460,8 +491,8 @@ echo '<script>console.log("'.strip_tags($row["private_iptv"]).' address not open
 fclose($fp);
 }
   echo '
-  <td><a class="btn btn-danger" href="index.php?git=watch&id='.strip_tags($row2["private_id"]).'">Watch</a></td>
-  <td><a class="btn btn-danger" href="index.php?git=deleteprivip&id='.strip_tags($row2["private_id"]).'">Delete</a></td>';
+  <td><a class="btn btn-danger" href="index.php?git=watch&id='.strip_tags($row2["private_id"]).'" target="_blank">Watch</a></td>
+  <td><a class="btn btn-danger" href="index.php?git=deleteprivip&id='.strip_tags($row2["private_id"]).'" target="_blank">Delete</a></td>';
 }
 
 echo '
@@ -502,7 +533,7 @@ echo '<script>console.log("'.strip_tags($row["iptv_adres"]).' address not open")
 fclose($fp);
 }
 
-  echo '<td><div class=kisalt">udp://localhost:'.$rtmpport.'/<div class=kisalt">'.strip_tags($row2["public_name"]).'</div></div></td>
+  echo '<td><div class=kisalt">rtp://localhost:'.$rtmpport.'/<div class=kisalt">'.strip_tags($row2["public_name"]).'</div></div></td>
   <td><div class="btn-group">
   <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
     <span class="caret"></span>
@@ -510,9 +541,10 @@ fclose($fp);
 	IPTV
   </button>
   <ul class="dropdown-menu" role="menu">
-    <li><a class="dropdown-item" href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'">M3U8 Link</a></li>
-    <li><a class="dropdown-item" href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'&watchplayer=1">Watch</a></li>
-    <li><a class="dropdown-item" href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'&debug">Debug</a></li>
+    <li><a class="dropdown-item" target="_blank" href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'">M3U8 Link</a></li>
+    <li><a class="dropdown-item" target="_blank" href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'&watchplayer=1">Watch</a></li>
+    <li><a class="dropdown-item" target="_blank" href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'&selcuk=1">SelcukWatch</a></li>
+    <li><a class="dropdown-item" target="_blank" href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'&debug">Debug</a></li>
   </ul>
 </div></td>
 
@@ -522,15 +554,15 @@ fclose($fp);
 <span class="sr-only">Toggle Dropdown</span>IPTV Edit</button>
 <ul class="dropdown-menu" role="menu">
 
-<li><a class="dropdown-item" href="index.php?git=getlog&id='.intval($row2["public_id"]).'">Logs</a></li>
-<li><a class="dropdown-item" href="index.php?git=startrestream&id='.intval($row2["public_id"]).'">Start Restream.IO Stream</a></li>
-<li><a class="dropdown-item" href="index.php?git=startfacebook&id='.intval($row2["public_id"]).'">Start Facebook Stream</a></li>
-<li><a class="dropdown-item" href="index.php?git=starttwitch&id='.intval($row2["public_id"]).'">Start Twitch Stream</a></li>
-<li><a class="dropdown-item" href="index.php?git=startrtmp&id='.intval($row2["public_id"]).'">Start RTMP Stream</a></li>
-<li><a class="dropdown-item" href="index.php?git=startiptv&id='.intval($row2["public_id"]).'">Start Stream</a></li>
-<li><a class="dropdown-item" href="index.php?git=stopiptv&id='.intval($row2["public_id"]).'">Stop Stream</a></li>
-<li><a class="dropdown-item" href="index.php?git=editpubid&id='.strip_tags($row2["public_id"]).'">Edit Stream</a></li>
-<li><a class="dropdown-item" href="index.php?git=deletepubid&id='.strip_tags($row2["public_id"]).'">Delete Stream</a></li>
+<li><a class="dropdown-item" target="_blank" href="index.php?git=getlog&id='.intval($row2["public_id"]).'">Logs</a></li>
+<li><a class="dropdown-item" target="_blank" href="index.php?git=startrestream&id='.intval($row2["public_id"]).'">Start Restream.IO Stream</a></li>
+<li><a class="dropdown-item" target="_blank" href="index.php?git=startfacebook&id='.intval($row2["public_id"]).'">Start Facebook Stream</a></li>
+<li><a class="dropdown-item" target="_blank" href="index.php?git=starttwitch&id='.intval($row2["public_id"]).'">Start Twitch Stream</a></li>
+<li><a class="dropdown-item" target="_blank" href="index.php?git=startrtmp&id='.intval($row2["public_id"]).'">Start RTMP Stream</a></li>
+<li><a class="dropdown-item" target="_blank" href="index.php?git=startiptv&id='.intval($row2["public_id"]).'">Start Stream</a></li>
+<li><a class="dropdown-item" target="_blank" href="index.php?git=stopiptv&id='.intval($row2["public_id"]).'">Stop Stream</a></li>
+<li><a class="dropdown-item" target="_blank" href="index.php?git=editpubid&id='.strip_tags($row2["public_id"]).'">Edit Stream</a></li>
+<li><a class="dropdown-item" target="_blank" href="index.php?git=deletepubid&id='.strip_tags($row2["public_id"]).'">Delete Stream</a></li>
 </ul>
 </div></td>';
 }
@@ -555,7 +587,7 @@ while($row2 = $stmt3->fetch()) {
 echo '<tr><td><div class=kisalt">'.intval($row2["config_id"]).'</div></td>';
 echo '<td><div class="kisalt">'.strip_tags($row2["ffmpeg_m3u8cfg"]).'</div></td>';
 echo '<td><div class="kisalt">'.strip_tags($row2["ffmpeg_ts"]).'</div></td>';
-echo '<td><a class="btn btn-danger" href="index.php?git=editcfg&id='.intval($row2["config_id"]).'">Edit</a></td>';
+echo '<td><a class="btn btn-danger" target="_blank" href="index.php?git=editcfg&id='.intval($row2["config_id"]).'">Edit</a></td>';
 }
 echo '</tr>
 </tbody></table></div></div><br><br></body>';
@@ -564,7 +596,7 @@ echo '</tr>
 
   case 'editcfg':
   $getir->logincheck();
-  $getir->NavBar("IPTV Site");
+  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
   $stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
@@ -623,7 +655,7 @@ echo '</tr>
   
   case 'peditcfg':
   $getir->logincheck();
-  $getir->NavBar("IPTV Site");
+  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
   $update = $db->prepare("UPDATE iptv_config SET ffmpeg_m3u8cfg = :m3u8, rtmp_port = :rtmpport, logo = :logos, ffmpeg_ts = :ts, twitter_tkn = :twittertkn, restream_tkn = :restreamtkn, facebook_tkn = :facebooktkn, ffmpeg_flv = :flv, twitch_tkn = :twitchtkn WHERE config_id = :gonderid");
   $update->bindValue(':gonderid', intval($_POST["ffmpegid"]));
   $update->bindValue(':m3u8', strip_tags($_POST["ffmpegm3u8"]));
@@ -804,12 +836,12 @@ echo '</tr>
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br><br>';
-	$myfile = fopen('log/'.strip_tags($row["public_name"]).'-mylog.log', "r") or die("Unable to open file!");
+	$myfile = fopen('log/'.strip_tags($row["public_name"]).'-mylog.log', "r") or die("<center><b>Unable to open file!</b></center>");
 	echo '<pre style="width:100%;height:100%" class="container form-control">'.fread($myfile,filesize('log/'.strip_tags($row["public_name"]).'-mylog.log'));'</pre>';
   } else {
 	echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
 	<br><br>';
-	$myfile = fopen('log/'.strip_tags($row["public_name"]).'-mylog.log', "r") or die("Unable to open file!");
+	$myfile = fopen('log/'.strip_tags($row["public_name"]).'-mylog.log', "r") or die("<center><b>Unable to open file!</b></center>");
 	echo '<pre style="width:100%;height:100%" class="container form-control">'.fread($myfile,filesize('log/'.strip_tags($row["public_name"]).'-mylog.log'));'</pre>';
   }
 }
@@ -836,7 +868,7 @@ echo '</tr>
 
   case 'editpubid':
   $getir->logincheck();
-  $getir->NavBar("IPTV Site");
+  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
@@ -955,10 +987,39 @@ if (!unlink($dosyaadi)) {
   }
   break;
 
+  case 'dlog':
+  $getir->logincheck();
+  $dosyaadi = "".dirname(__FILE__)."/log/".strip_tags($_GET["name"])."";
+  if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+  if (!unlink($dosyaadi)) {
+    echo "<script LANGUAGE='JavaScript'>
+    window.alert('".strip_tags($_GET["name"])." Unsuccesfully Deleted');
+    window.location.href='index.php?git=iptv';
+    </script>";
+  } else {
+    echo "<script LANGUAGE='JavaScript'>
+    window.alert('".strip_tags($_GET["name"])." Succesfully Deleted');
+    window.location.href='index.php?git=iptv';
+    </script>";
+  }
+  } else {
+    if (!unlink($dosyaadi)) {
+    echo "<script LANGUAGE='JavaScript'>
+    window.alert('".strip_tags($_GET["name"])." Unsuccesfully Deleted');
+    window.location.href='index.php?git=iptv';
+    </script>";
+  } else {
+    echo "<script LANGUAGE='JavaScript'>
+    window.alert('".strip_tags($_GET["name"])." Succesfully Deleted');
+    window.location.href='index.php?git=iptv';
+    </script>";
+  }
+  }
+  break;
 
   case 'watch':
   $getir->logincheck();
-  $getir->NavBar("IPTV Site");
+  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
   echo '
     			  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
 			  <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet"/>
@@ -1059,7 +1120,7 @@ fclose($fp);
 
 
   case 'editiptv':
-  $getir->NavBar("IPTV Site");
+  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
   $stmt = $db->prepare('SELECT * FROM iptv_list WHERE iptv_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
@@ -1112,7 +1173,7 @@ fclose($fp);
 
   case 'm3ugenerate':
   $getir->logincheck();
-  $getir->NavBar("IPTV Site");
+  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
   if(empty($_GET["s"])) {
 
   } else {
@@ -1167,7 +1228,7 @@ fclose($fp);
 
   case 'ipblock':
   $getir->logincheck();
-  $getir->NavBar("IPTV Site");
+  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
   
   echo '<body class="mx-auto">';
   echo '<center><button onclick="javascript:location.reload();" type="submit" style="right: 0px;width: 60%;padding: 10px;" class="btn btn-warning">Refresh</button>
@@ -1286,7 +1347,7 @@ fclose($fp);
 
   case 'addban':
   $getir->logincheck();
-  $getir->NavBar("IPTV Site");
+  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
   echo '<body class="mx-auto"><center>
   <b>Your IP : '.strip_tags($getir->getIPAddress()).'</b></center><br>
   <form class="container" action="index.php?git=paddban" method="post">
@@ -1305,7 +1366,7 @@ fclose($fp);
 
   case 'startstream':
   $getir->logincheck();
-  $getir->NavBar("IPTV Site");
+  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
   echo '<body class="mx-auto">
   <center><b>Your IP : '.strip_tags($getir->getIPAddress()).'</b></center><br>
   <form class="container" action="index.php?git=pstartstream" method="post">
@@ -1327,7 +1388,7 @@ fclose($fp);
   
   case 'addpriviptv':
   $getir->logincheck();
-  $getir->NavBar("IPTV Site");
+  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
   echo '<body class="mx-auto">
   <center><b>Private Stream IPTV</b>
   <hr></hr></center>
