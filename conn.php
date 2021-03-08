@@ -61,7 +61,6 @@ return $ip;
 public function SelcukTheme($url) {
 ?>
 <!--
-Script Author : Ali Can Gönüllü
 Player Writer : SelcukSports
 2020-2021
 Respect !
