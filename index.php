@@ -3,6 +3,7 @@ include("conn.php");
 $getir = new IPTVClass();
 $stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :iddegeri');
 $stmt->execute(array(':iddegeri' => strip_tags("1")));
+if($stmt->rowCount()) {
 if($row = $stmt->fetch()) {
 $configm3u8 = $row["ffmpeg_m3u8cfg"];
 $configts = $row["ffmpeg_ts"];
@@ -10,9 +11,13 @@ $configflv = $row["ffmpeg_flv"];
 $twittertk = $row["twitter_tkn"];
 $facebooktk = $row["facebook_tkn"];
 $twitchtk = $row["twitch_tkn"];
+$youtubetk = $row["youtube_tk"];
 $restreamtk = $row["restream_tkn"];
 $logo = $row["logo"];
 $rtmpport = $row["rtmp_port"];
+}
+} else {
+die("Config Not Found | Please reload database");
 }
 if(isset($_GET["pubid"])) {
 
@@ -558,6 +563,7 @@ fclose($fp);
 <li><a class="dropdown-item" target="_blank" href="index.php?git=startrestream&id='.intval($row2["public_id"]).'">Start Restream.IO Stream</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=startfacebook&id='.intval($row2["public_id"]).'">Start Facebook Stream</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=starttwitch&id='.intval($row2["public_id"]).'">Start Twitch Stream</a></li>
+<li><a class="dropdown-item" target="_blank" href="index.php?git=startyt&id='.intval($row2["public_id"]).'">Start Instagram Stream</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=startrtmp&id='.intval($row2["public_id"]).'">Start RTMP Stream</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=startiptv&id='.intval($row2["public_id"]).'">Start Stream</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=stopiptv&id='.intval($row2["public_id"]).'">Stop Stream</a></li>
@@ -635,7 +641,10 @@ echo '</tr>
       <label for="exampleFormControlInput1">Facebook Token</label>
 	  <textarea class="form-control" name="facebooktkn" placeholder="Facebook Token">'.$row["facebook_tkn"].'</textarea>
     </div>
-	
+			<div class="form-group">
+      <label for="exampleFormControlInput1">Youtube Token</label>
+	  <textarea class="form-control" name="youtubetkn" placeholder="YouTube Token">'.$row["youtube_tk"].'</textarea>
+    </div>
 		    <div class="form-group">
       <label for="exampleFormControlInput1">Twitch Token</label>
 	  <textarea class="form-control" name="twitchtoken" placeholder="Twitch Token">'.$row["twitch_tkn"].'</textarea>
@@ -656,13 +665,14 @@ echo '</tr>
   case 'peditcfg':
   $getir->logincheck();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
-  $update = $db->prepare("UPDATE iptv_config SET ffmpeg_m3u8cfg = :m3u8, rtmp_port = :rtmpport, logo = :logos, ffmpeg_ts = :ts, twitter_tkn = :twittertkn, restream_tkn = :restreamtkn, facebook_tkn = :facebooktkn, ffmpeg_flv = :flv, twitch_tkn = :twitchtkn WHERE config_id = :gonderid");
+  $update = $db->prepare("UPDATE iptv_config SET ffmpeg_m3u8cfg = :m3u8, rtmp_port = :rtmpport, logo = :logos, ffmpeg_ts = :ts, twitter_tkn = :twittertkn, restream_tkn = :restreamtkn, facebook_tkn = :facebooktkn, ffmpeg_flv = :flv, twitch_tkn = :twitchtkn, youtube_tk = :youtubetk WHERE config_id = :gonderid");
   $update->bindValue(':gonderid', intval($_POST["ffmpegid"]));
   $update->bindValue(':m3u8', strip_tags($_POST["ffmpegm3u8"]));
   $update->bindValue(':flv', strip_tags($_POST["ffmpegflv"]));
   $update->bindValue(':ts', strip_tags($_POST["ffmpegts"]));
   $update->bindValue(':twittertkn', strip_tags($_POST["twittertoken"]));
   $update->bindValue(':facebooktkn', strip_tags($_POST["facebooktkn"]));
+  $update->bindValue(':youtubetk', strip_tags($_POST["youtubetkn"]));
   $update->bindValue(':twitchtkn', strip_tags($_POST["twitchtoken"]));
   $update->bindValue(':restreamtkn', strip_tags($_POST["restreamtoken"]));
   $update->bindValue(':rtmpport', strip_tags($_POST["rtmpport"]));
@@ -769,6 +779,31 @@ echo '</tr>
 	$getir->StartTwitchTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($twitchtk));
 	} else {
     $getir->StartTwitchTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($twitchtk));
+	}
+  }
+}
+  break;
+  
+       case 'startyt':
+  $getir->logincheck();
+  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
+  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
+  if($row = $stmt->fetch()) {
+  if($row["video_stream"] == "1") {
+    echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
+    <br>';
+	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+	$getir->StartYouTubeTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($youtubetk));
+	} else {
+	$getir->StartYouTubeTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($youtubetk));
+	}
+  } else {
+    echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
+    <br>';
+	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+	$getir->StartYouTubeTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($youtubetk));
+	} else {
+    $getir->StartYouTubeTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($youtubetk));
 	}
   }
 }

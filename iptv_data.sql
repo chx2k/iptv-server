@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 08 Mar 2021, 20:22:34
+-- Üretim Zamanı: 08 Mar 2021, 20:34:51
 -- Sunucu sürümü: 10.4.14-MariaDB
 -- PHP Sürümü: 7.4.10
 
@@ -40,7 +40,7 @@ CREATE TABLE `admin_list` (
 --
 
 INSERT INTO `admin_list` (`admin_id`, `admin_email`, `admin_usrname`, `admin_passwd`, `admin_token`) VALUES
-(1, 'xxx@xxx.com', 'alicangonullu', 'cdcf4bc5f38f87b4e748a7dbcd3e78a6d2c14db4', 'cdcf4bc5f38f87b4e748a7dbcd3e78a6d2c14db4');
+(1, 'alicangonullu@yahoo.com', 'alicangonullu', 'cdcf4bc5f38f87b4e748a7dbcd3e78a6d2c14db4', 'cdcf4bc5f38f87b4e748a7dbcd3e78a6d2c14db4');
 
 -- --------------------------------------------------------
 
@@ -58,15 +58,16 @@ CREATE TABLE `iptv_config` (
   `twitter_tkn` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
   `facebook_tkn` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
   `twitch_tkn` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
-  `restream_tkn` varchar(255) COLLATE utf8_turkish_ci NOT NULL
+  `restream_tkn` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
+  `youtube_tk` varchar(255) COLLATE utf8_turkish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 --
 -- Tablo döküm verisi `iptv_config`
 --
 
-INSERT INTO `iptv_config` (`config_id`, `logo`, `rtmp_port`, `ffmpeg_m3u8cfg`, `ffmpeg_ts`, `ffmpeg_flv`, `twitter_tkn`, `facebook_tkn`, `twitch_tkn`, `restream_tkn`) VALUES
-(1, 'https://metroui.org.ua/images/logo4.png', '1938', '-listen 1 -hls_wrap 8 -deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '-c:v copy -c:a copy -t 00:05:00', '-deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '1', '775403586519005?s_bl=1&s_psm=1&s_sc=775403629852334&s_sw=0&s_vt=api-s&a=AbxrIJUhn1u4xCBn', '123', '12');
+INSERT INTO `iptv_config` (`config_id`, `logo`, `rtmp_port`, `ffmpeg_m3u8cfg`, `ffmpeg_ts`, `ffmpeg_flv`, `twitter_tkn`, `facebook_tkn`, `twitch_tkn`, `restream_tkn`, `youtube_tk`) VALUES
+(1, 'https://metroui.org.ua/images/logo4.png', '1938', '-listen 1 -hls_wrap 8 -deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '-c:v copy -c:a copy -t 00:05:00', '-deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '1', '775403586519005?s_bl=1&s_psm=1&s_sc=775403629852334&s_sw=0&s_vt=api-s&a=AbxrIJUhn1u4xCBn', '123', '12', '123');
 
 -- --------------------------------------------------------
 
@@ -107,7 +108,7 @@ CREATE TABLE `private_iptv` (
 --
 
 INSERT INTO `private_iptv` (`private_id`, `private_name`, `private_resim`, `private_iptv`, `private_active`) VALUES
-(1, 'TRT1', '', 'https://tv-trt1.live.trt.com.tr/master_720.m3u8', '1'),
+(1, 'TRT1', '', 'https://tv-trt1.live.trt.com.tr/master_720.m3u8', '1');
 
 -- --------------------------------------------------------
 
@@ -128,7 +129,7 @@ CREATE TABLE `public_iptv` (
 --
 
 INSERT INTO `public_iptv` (`public_id`, `public_name`, `public_tslink`, `video_stream`, `public_active`) VALUES
-(1, '25daeb9b3072e9c53f66a2196a92a011', 'https://tv-trt1.live.trt.com.tr/master_720.m3u8', '0', '1'),
+(1, '25daeb9b3072e9c53f66a2196a92a011', 'https://tv-trt1.live.trt.com.tr/master_720.m3u8', '0', '1');
 --
 -- Dökümü yapılmış tablolar için indeksler
 --
@@ -171,31 +172,31 @@ ALTER TABLE `public_iptv`
 -- Tablo için AUTO_INCREMENT değeri `admin_list`
 --
 ALTER TABLE `admin_list`
-  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `iptv_config`
 --
 ALTER TABLE `iptv_config`
-  MODIFY `config_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `config_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `ip_block`
 --
 ALTER TABLE `ip_block`
-  MODIFY `ip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `private_iptv`
 --
 ALTER TABLE `private_iptv`
-  MODIFY `private_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `private_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `public_iptv`
 --
 ALTER TABLE `public_iptv`
-  MODIFY `public_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `public_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

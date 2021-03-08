@@ -61,6 +61,7 @@ return $ip;
 public function SelcukTheme($url) {
 ?>
 <!--
+Script Author : Ali Can Gönüllü
 Player Writer : SelcukSports
 2020-2021
 Respect !
@@ -641,10 +642,7 @@ window.adsConfig = {enabled:0}
                     }
                 })
             }(jQuery);
-        </script>
-
-
-</body></html>
+</script></body></html>
 <?php
 }
 public function M3UVideo($url) {
@@ -792,7 +790,29 @@ public function StartOtherStreamWin($pubname, $tslinks, $url, $config, $port) {
   echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
 }
 
-public function StartTwitchTSStreamLinux($pubname, $tslinks, $url, $config, $token) {
+public function StartYouTubeTSStreamLinux($pubname, $tslinks, $url, $config, $token) {
+  set_time_limit(0);
+  $logfilename = ''.strip_tags($pubname).'-mylog.log';
+  $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
+  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://a.rtmp.youtube.com/live2/'.$token.'" >"'.$logfile.'" 2>&1';
+  shell_exec($com);
+  echo '<br>Command : <br><pre>'.$com.'</pre><br>';
+  echo '<br><b>URL : '.$url.'</b><br>';
+  echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
+}
+
+public function StartYouTubeTSStreamWin($pubname, $tslinks, $url, $config, $token) {
+  set_time_limit(0);
+  $logfilename = ''.strip_tags($pubname).'-mylog.log';
+  $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
+  $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://a.rtmp.youtube.com/live2/'.$token.'" >"'.$logfile.'" 2>&1';
+  shell_exec($com);
+  echo '<br>Command : <br><pre>'.$com.'</pre><br>';
+  echo '<br><b>URL : '.$url.'</b><br>';
+  echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
+}
+
+public function StartIGTSStreamLinux($pubname, $tslinks, $url, $config, $token) {
   set_time_limit(0);
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
