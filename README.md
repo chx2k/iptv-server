@@ -10,4 +10,7 @@
 - IP Banning
 - FFMpeg Logger
 - Windows & Linux Supports
+
+Default Username : alicangonullu
+Default Password : 53174
 </pre>
