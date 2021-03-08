@@ -1,5 +1,3 @@
-# IPTV PHP Panel
-<hr></hr>
 <h1>PHP IPTV Receiver / Router Panel</h1>
 <hr></hr>
 <pre>
