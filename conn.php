@@ -61,6 +61,7 @@ return $ip;
 public function SelcukTheme($url) {
 ?>
 <!--
+Script Author : Ali Can Gönüllü
 Player Writer : SelcukSports
 2020-2021
 Respect !
@@ -811,11 +812,22 @@ public function StartYouTubeTSStreamWin($pubname, $tslinks, $url, $config, $toke
   echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
 }
 
+public function StartIGTSStreamWin($pubname, $tslinks, $url, $config, $token) {
+  set_time_limit(0);
+  $logfilename = ''.strip_tags($pubname).'-mylog.log';
+  $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
+  $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmps://live-upload.instagram.com:443/rtmp/'.$token.'" >"'.$logfile.'" 2>&1';
+  shell_exec($com);
+  echo '<br>Command : <br><pre>'.$com.'</pre><br>';
+  echo '<br><b>URL : '.$url.'</b><br>';
+  echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
+}
+
 public function StartIGTSStreamLinux($pubname, $tslinks, $url, $config, $token) {
   set_time_limit(0);
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://live-cdg.twitch.tv/app/'.$token.'" >"'.$logfile.'" 2>&1';
+  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmps://live-upload.instagram.com:443/rtmp/'.$token.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
   echo '<br>Command : <br><pre>'.$com.'</pre><br>';
   echo '<br><b>URL : '.$url.'</b><br>';
@@ -992,6 +1004,8 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.c
 		<li class="divider"></li>
         <li><a href="index.php?git=ipblock"><span class="mif-list icon"></span>IP Block</a></li>
 		<li class="divider"></li>
+        <li><a href="index.php?git=user"><span class="mif-add icon"></span>Users</a></li>
+        <li class="divider"></li>
 		<li><a href="index.php?git=iptv&phpinfo=1"><span class="mif-info icon"></span>PHP Info</a></li>
 		<li class="divider"></li>
 		<li><a href="index.php?git=cikis"><span class="mif-exit icon"></span>Çıkış</a></li>
@@ -1030,12 +1044,6 @@ die('<script>location.replace("index.php")</script>');
 } else {
 die('<script>location.replace("index.php")</script>');
 }
-}
-
-public function check_yt($url)
-{
-$data = file_get_contents("https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=".strip_tags($url)."&format=json");
-echo $data;
 }
 
 public function Style() {
