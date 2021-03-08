@@ -40,7 +40,7 @@ CREATE TABLE `admin_list` (
 --
 
 INSERT INTO `admin_list` (`admin_id`, `admin_email`, `admin_usrname`, `admin_passwd`, `admin_token`) VALUES
-(1, 'alicangonullu@yahoo.com', 'alicangonullu', 'cdcf4bc5f38f87b4e748a7dbcd3e78a6d2c14db4', 'cdcf4bc5f38f87b4e748a7dbcd3e78a6d2c14db4');
+(1, 'alicangonullu@yahoo.com', 'alicangonullu', '5a6a73a13efd448510b6c4c41acda5ef890c3b7a', '5a6a73a13efd448510b6c4c41acda5ef890c3b7a');
 
 -- --------------------------------------------------------
 
