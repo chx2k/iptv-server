@@ -21,8 +21,18 @@ $rtmpport = $row["rtmp_port"];
 die("Config Not Found | Please reload database");
 }
 if(isset($_GET["pubid"])) {
-
 $streamlink = strip_tags($_GET["pubid"]);
+  $update = $db->prepare("INSERT INTO ip_logger(ip, browserinf, date) VALUES (:ipz, :browserz, :datez)");
+  $update->bindValue(':ipz', strip_tags($_SERVER['REMOTE_ADDR']));
+  $update->bindValue(':browserz', json_encode(apache_request_headers()));
+  $update->bindValue(':datez', date("Y-m-d H:i:s"));
+  $update->execute();
+  if($row = $update->rowCount()) {
+    echo "<script LANGUAGE='JavaScript'>console.log('OK');</script>";
+  } else {
+    echo "<script LANGUAGE='JavaScript'>console.log('NO');</script>";
+    unlink($data);
+  }
 $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_name = :iddegeri');
 $stmt->execute(array(':iddegeri' => $streamlink));
 while($row = $stmt->fetch()) {
@@ -1523,6 +1533,18 @@ fclose($fp);
     <button type="submit" style="width: 100%;" class="btn btn-primary">Add</button>
   </form>
   </body>';
+  break;
+  
+  case 'iplog':
+  $getir->logincheck();
+    $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  echo '<body class="mx-auto"><pre class="container">';
+  	$stmt = $db->prepare('SELECT * FROM ip_logger ORDER BY id DESC');
+	$stmt->execute();
+	while($rowh = $stmt->fetch()) {
+        echo '['.strip_tags($rowh["date"]).'] : '.strip_tags($rowh["ip"]).' / '.var_dump($rowh["browserinf"]).'<br>';
+    }
+    echo '</pre></body>';
   break;
   
   case 'paddpriviptv':

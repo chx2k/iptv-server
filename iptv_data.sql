@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 08 Mar 2021, 20:50:52
+-- Üretim Zamanı: 09 Mar 2021, 12:18:14
 -- Sunucu sürümü: 10.4.14-MariaDB
 -- PHP Sürümü: 7.4.10
 
@@ -68,7 +68,7 @@ CREATE TABLE `iptv_config` (
 --
 
 INSERT INTO `iptv_config` (`config_id`, `logo`, `rtmp_port`, `ffmpeg_m3u8cfg`, `ffmpeg_ts`, `ffmpeg_flv`, `twitter_tkn`, `facebook_tkn`, `twitch_tkn`, `restream_tkn`, `youtube_tk`, `instagram_tk`) VALUES
-(1, 'https://metroui.org.ua/images/logo4.png', '1938', '-listen 1 -hls_wrap 8 -deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '-c:v copy -c:a copy -t 00:05:00', '-deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '1', '775403586519005?s_bl=1&s_psm=1&s_sc=775403629852334&s_sw=0&s_vt=api-s&a=AbxrIJUhn1u4xCBn', '123', '12', '123', '');
+(1, 'https://metroui.org.ua/images/logo4.png', '1938', '-listen 1 -hls_wrap 8 -deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '-c:v copy -c:a copy -t 00:05:00', '-deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '1', '775403586519005?s_bl=1&s_psm=1&s_sc=775403629852334&s_sw=0&s_vt=api-s&a=AbxrIJUhn1u4xCBn', '123', '12', '123', '123');
 
 -- --------------------------------------------------------
 
@@ -89,6 +89,19 @@ CREATE TABLE `ip_block` (
 
 INSERT INTO `ip_block` (`ip_id`, `ip_adress`, `ban_reason`, `ip_block_active`) VALUES
 (1, '::1', 'Nobody', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `ip_logger`
+--
+
+CREATE TABLE `ip_logger` (
+  `id` int(11) NOT NULL,
+  `ip` varchar(255) NOT NULL,
+  `browserinf` varchar(255) NOT NULL,
+  `date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -155,6 +168,12 @@ ALTER TABLE `ip_block`
   ADD PRIMARY KEY (`ip_id`);
 
 --
+-- Tablo için indeksler `ip_logger`
+--
+ALTER TABLE `ip_logger`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Tablo için indeksler `private_iptv`
 --
 ALTER TABLE `private_iptv`
@@ -187,6 +206,12 @@ ALTER TABLE `iptv_config`
 --
 ALTER TABLE `ip_block`
   MODIFY `ip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `ip_logger`
+--
+ALTER TABLE `ip_logger`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `private_iptv`

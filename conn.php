@@ -1025,6 +1025,7 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.c
         <li><a href="index.php?git=addban"><span class="mif-add icon"></span>Add Ban IP</a></li>
 		<li class="divider"></li>
         <li><a href="index.php?git=ipblock"><span class="mif-list icon"></span>IP Block</a></li>
+        <li><a href="index.php?git=iplog"><span class="mif-list icon"></span>IP Log</a></li>
 		<li class="divider"></li>
         <li><a href="index.php?git=user"><span class="mif-add icon"></span>Users</a></li>
         <li class="divider"></li>
