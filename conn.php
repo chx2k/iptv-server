@@ -23,6 +23,8 @@ die('<table>
 <center>Sistem Yöneticinizle Irtibata Geçin</center>
 </table>');
 }
+  
+  
 class IPTVClass {
 
 public function extControl($name) {

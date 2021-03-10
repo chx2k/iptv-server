@@ -1,6 +1,25 @@
 <?php
 include("conn.php");
 $getir = new IPTVClass();
+
+$update = $db->prepare("INSERT INTO ip_logger(ip, browserinf, date) VALUES (:ipz, :browserz, :datez)");
+$update->bindValue(':ipz', strip_tags("".$_SERVER['REMOTE_ADDR']."".$_SERVER["REQUEST_URI"].""));
+$update->bindValue(':browserz', json_encode(getallheaders()));
+$update->bindValue(':datez', date("Y-m-d H:i:s"));
+$update->execute();
+while($row = $update->fetch()) {
+echo "<script LANGUAGE='JavaScript'>console.log('OK');</script>";
+}
+
+$stmt = $db->prepare('SELECT * FROM ip_block WHERE ip_adress = :iddegeri');
+$stmt->execute(array(':iddegeri' => $_SERVER['REMOTE_ADDR']));
+while($row = $stmt->fetch()) {
+if($row["ip_block_active"] == "1") {
+die("Banned Your IP Adress (Reason : ".strip_tags($row["ban_reason"]).")");
+} else {
+}
+}
+
 $stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :iddegeri');
 $stmt->execute(array(':iddegeri' => strip_tags("1")));
 if($stmt->rowCount()) {
@@ -22,17 +41,6 @@ die("Config Not Found | Please reload database");
 }
 if(isset($_GET["pubid"])) {
 $streamlink = strip_tags($_GET["pubid"]);
-  $update = $db->prepare("INSERT INTO ip_logger(ip, browserinf, date) VALUES (:ipz, :browserz, :datez)");
-  $update->bindValue(':ipz', strip_tags($_SERVER['REMOTE_ADDR']));
-  $update->bindValue(':browserz', json_encode(apache_request_headers()));
-  $update->bindValue(':datez', date("Y-m-d H:i:s"));
-  $update->execute();
-  if($row = $update->rowCount()) {
-    echo "<script LANGUAGE='JavaScript'>console.log('OK');</script>";
-  } else {
-    echo "<script LANGUAGE='JavaScript'>console.log('NO');</script>";
-    unlink($data);
-  }
 $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_name = :iddegeri');
 $stmt->execute(array(':iddegeri' => $streamlink));
 while($row = $stmt->fetch()) {
