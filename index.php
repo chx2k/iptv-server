@@ -75,7 +75,9 @@ while($row = $stmt->fetch()) {
 			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
 			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
 			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
+              <script charset="UTF-8" src="./selcuk_files/jquery.min.js"></script>
 			  <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>';
+
 			  echo '<body class="container">
 			  <video style="width:100%;height:100%;" id="video" class="video-js vjs-default-skin" data-logo="'.$logo.'" data-aspect-ratio="hd" controls autoplay></video>
 			  </div></body>';
@@ -101,7 +103,22 @@ while($row = $stmt->fetch()) {
 			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
 			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
 			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
+              <script charset="UTF-8" src="./selcuk_files/jquery.min.js"></script>
 			  <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>';
+echo '<script charset="UTF-8">
+jQuery(document).ready(function($){
+function kontrol(data){
+$.post( "denetle.php", {cont: data}, function(result) {
+var obj = JSON.parse(JSON.stringify(result));
+if(obj.status == true) {
+} else {
+document.body.innerHTML = "<center><h1>Lütfen 2-3 Saniye Bekleyin Sayfayı Yenileyin</h1><img src=selcuk_files/necef.jpg width=100% height=90%></center>";
+}
+});
+}
+setInterval(function(){kontrol("'.strip_tags($_GET["pubid"]).'");}, 3000);
+});
+</script>';
 			  echo '<body class="container">
 			  <video style="width:100%;height:100%;" id="video" class="video-js vjs-default-skin" data-logo="'.$logo.'" data-aspect-ratio="hd" controls autoplay></video>
 			  </div></body>';
@@ -136,7 +153,22 @@ while($row = $stmt->fetch()) {
 			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
 			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
 			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
+              <script charset="UTF-8" src="./selcuk_files/jquery.min.js"></script>
 			  <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>';
+echo '<script charset="UTF-8">
+jQuery(document).ready(function($){
+function kontrol(data){
+$.post( "denetle.php", {cont: data}, function(result) {
+var obj = JSON.parse(JSON.stringify(result));
+if(obj.status == true) {
+} else {
+document.body.innerHTML = "<center><h1>Lütfen 2-3 Saniye Bekleyin Sayfayı Yenileyin</h1><img src=selcuk_files/necef.jpg width=100% height=90%></center>";
+}
+});
+}
+setInterval(function(){kontrol("'.strip_tags($_GET["pubid"]).'");}, 3000);
+});
+</script>';
 			  echo '<body class="container">
 			  <center><video style="width:100%;height:100%;" id="video" class="video-js vjs-default-skin" data-logo="'.$logo.'" data-aspect-ratio="hd" controls autoplay></video>
 			  </div></center></body>';	  
@@ -166,7 +198,23 @@ die();
 			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
 			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
 			  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
+              <script charset="UTF-8" src="./selcuk_files/jquery.min.js"></script>
 			  <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>';
+
+echo '<script charset="UTF-8">
+jQuery(document).ready(function($){
+function kontrol(data){
+$.post( "denetle.php", {cont: data}, function(result) {
+var obj = JSON.parse(JSON.stringify(result));
+if(obj.status == true) {
+} else {
+document.body.innerHTML = "<center><h1>Lütfen 2-3 Saniye Bekleyin Sayfayı Yenileyin</h1><img src=selcuk_files/necef.jpg width=100% height=90%></center>";
+}
+});
+}
+setInterval(function(){kontrol("'.strip_tags($_GET["pubid"]).'");}, 3000);
+});
+</script>';
 			  echo '<body class="container">
 			  <center><video style="width:100%;height:100%;" id="video" data-role="video-player" data-logo="'.$logo.'"  data-aspect-ratio="hd" controls autoplay></video>
 			  </div></center></body>';

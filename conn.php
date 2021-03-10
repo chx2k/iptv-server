@@ -83,11 +83,11 @@ var die = function(msg) {
 }
 
 function kontrol(data){
-$.post( "../iptv/denetle.php", {cont: data}, function(result) {
+$.post( "denetle.php", {cont: data}, function(result) {
 var obj = JSON.parse(JSON.stringify(result));
 if(obj.status == true) {
 } else {
-document.body.innerHTML = '<center><h1>Lütfen 2-3 Saniye Bekleyin Sayfayı Yenileyin</h1><img src="../iptv/selcuk_files/necef.jpg" width="100%" height="90%"></center>';
+document.body.innerHTML = '<center><h1>Lütfen 2-3 Saniye Bekleyin Sayfayı Yenileyin</h1><img src="selcuk_files/necef.jpg" width="100%" height="90%"></center>';
 die('');
 }
 });
