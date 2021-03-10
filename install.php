@@ -206,8 +206,9 @@ die('<body class="container">
 <br><br><a href="install.php?git=sql_install" " class="btn btn-dark">Tekrar Dene</button><br>
 </div></div></div></body>');
 }
-$tab1 = readfile("iptv_data.sql");
-if ($conn2->query($tab1) === TRUE) {
+
+$tab1 = "".file_get_contents("iptv_data.sql")."";
+if ($conn2->exec($tab1) === TRUE) {
 } else {
 die('<body class="container">
 <br><br><br>
