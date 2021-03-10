@@ -10,7 +10,7 @@ die("<center><b>PHP IPTV Yüklenemedi / PHP IPTV was not Installed</b>
 try {
 $ip = "localhost"; //host
 $user = "root";  // host id
-$password = "";  // password local olduğu için varsayılan şifre
+$password = "19742008";  // password local olduğu için varsayılan şifre
 $ad = "iptv_data"; // db adı 
 $db = new PDO("mysql:host=$ip;dbname=$ad", "$user", "$password");
 $db->query("SET CHARACTER SET 'utf8'");
@@ -58,7 +58,7 @@ else
 return $ip;
 }
 
-public function SelcukTheme($url) {
+public function SelcukTheme($url, $id) {
 ?>
 <!--
 Script Author : Ali Can Gönüllü
@@ -72,7 +72,29 @@ Respect !
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta content="unsafe-url" name="referrer">
 <meta content="initial-scale=1,width=device-width" name="viewport">
+<script charset="UTF-8" src="./selcuk_files/jquery.min.js"></script>
+<script charset="UTF-8" src="./selcuk_files/clappr.min.js"></script>
+<script charset="UTF-8" src="./selcuk_files/level-selector.min.js"></script>
+<script charset="UTF-8" src="./selcuk_files/dashshakaplayback.js"></script>
 <script charset="UTF-8">
+jQuery(document).ready(function($){
+var die = function(msg) {
+    throw new Error(msg);
+}
+
+function kontrol(data){
+$.post( "../iptv/denetle.php", {cont: data}, function(result) {
+var obj = JSON.parse(JSON.stringify(result));
+if(obj.status == true) {
+} else {
+document.body.innerHTML = '<center><h1>Lütfen 2-3 Saniye Bekleyin Sayfayı Yenileyin</h1><img src="../iptv/selcuk_files/necef.jpg" width="100%" height="90%"></center>';
+die('');
+}
+});
+}
+setInterval(function(){kontrol("<?php echo strip_tags($id); ?>");}, 3000);
+});
+
 window.facePlay = 0;
 window.faceStreams = [""];
 window.mainSource = ["<?php echo htmlentities($url); ?>","<?php echo htmlentities($url); ?>"];
@@ -393,12 +415,9 @@ window.adsConfig = {enabled:0}
 <div id="reload_disabled">
 <div onclick="window.document.location.reload()"></div>
 </div>
-<script charset="UTF-8" src="./selcuk_files/jquery.min.js"></script>
-<script charset="UTF-8" src="./selcuk_files/clappr.min.js"></script>
-<script charset="UTF-8" src="./selcuk_files/level-selector.min.js"></script>
-<script charset="UTF-8" src="./selcuk_files/dashshakaplayback.js"></script>
 <script>
-            !function(n) {
+
+!function(n) {
                 n(window.document).ready(function() {
                     var e, i, t, o, a = !Clappr.Browser.isiOS, r = Clappr.Browser.isiOS, p = "@media screen and (orientation:landscape){video{object-fit:fill!important}}", d = [], pllluuuggg = [LevelSelector], s = !1, l = {
                         back_to_live: "canlı yayına dön",

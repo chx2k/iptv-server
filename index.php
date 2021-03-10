@@ -64,7 +64,7 @@ while($row = $stmt->fetch()) {
       } else {
 		  if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
               if(intval($_GET["selcuk"]) == "1") {
-              $getir->SelcukTheme(strip_tags($row["public_tslink"]));
+              $getir->SelcukTheme(strip_tags($row["public_tslink"]), strip_tags($_GET["pubid"]));
               } else {
               }
 		if(intval($_GET["watchplayer"]) == "1") {
@@ -90,7 +90,7 @@ while($row = $stmt->fetch()) {
         die();
 		  } else {
              if(intval($_GET["selcuk"]) == "1") {
-              $getir->SelcukTheme(strip_tags($row["public_tslink"]));
+              $getir->SelcukTheme(strip_tags($row["public_tslink"]), strip_tags($_GET["pubid"]));
               } else {
               }
 		if(intval($_GET["watchplayer"]) == "1") {
@@ -125,7 +125,7 @@ while($row = $stmt->fetch()) {
       die("Channel is Deactive");
     } else {
                       if(intval($_GET["selcuk"]) == "1") {
-              $getir->SelcukTheme(strip_tags($row["public_tslink"]));
+              $getir->SelcukTheme(strip_tags($row["public_tslink"]), strip_tags($_GET["pubid"]));
               } else {
               }
 		if(intval($_GET["watchplayer"]) == "1") {
@@ -155,7 +155,7 @@ die();
       die("Channel is Deactive");
     } else {
                       if(intval($_GET["selcuk"]) == "1") {
-              $getir->SelcukTheme(strip_tags($row["public_tslink"]));
+              $getir->SelcukTheme(strip_tags($row["public_tslink"]), strip_tags($_GET["pubid"]));
               } else {
               }
 		if(intval($_GET["watchplayer"]) == "1") {
@@ -994,9 +994,21 @@ case 'startcst':
   case 'editpubid':
   $getir->logincheck();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  function get_tiny_url($url)  {  
+	$ch = curl_init();  
+	$timeout = 5;  
+	curl_setopt($ch,CURLOPT_URL,'http://tinyurl.com/api-create.php?url='.$url);  
+	curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);  
+	curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);  
+	$data = curl_exec($ch);  
+	curl_close($ch);  
+	return $data;  
+    }
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
+  $new_url = get_tiny_url('http://'.$_SERVER["HTTP_HOST"].'/index.php?pubid='.strip_tags($row["public_name"]).'&live=0&selcuk=1');
+  $new_url2 = "Yakında";
   echo '<body>
   <form class="container" action="index.php?git=peditpubid" method="post">
     <div class="form-group">
@@ -1025,7 +1037,9 @@ case 'startcst':
     </div>
       <input type="hidden" name="iptvid" value="'.strip_tags($row["public_id"]).'" class="form-control">
     <button type="submit" style="width: 100%;" class="btn btn-primary">Guncelle</button>
-  </form>
+  </form><br>
+  <center><b>SelcukWatch Player : '.strip_tags($new_url).'</b></center><br>
+  <center><b>M3U8 Player : '.strip_tags($new_url2).'</b></center>
   </body>';
 }
   break;
