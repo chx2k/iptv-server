@@ -631,21 +631,26 @@ fclose($fp);
     <span class="sr-only">Toggle Dropdown</span>
 	IPTV
   </button>
-  <ul class="dropdown-menu" role="menu">
-    <li><a class="dropdown-item" target="_blank" href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'">M3U8 Link</a></li>
-    <li><a class="dropdown-item" target="_blank" href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'&watchplayer=1">Watch</a></li>
-    <li><a class="dropdown-item" target="_blank" href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'&selcuk=1">SelcukWatch</a></li>
-    <li><a class="dropdown-item" target="_blank" href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'&debug">Debug</a></li>
-  </ul>
-</div></td>
+  <ul class="dropdown-menu" role="menu">';
+if($_COOKIE["yetki"] == md5("uye")) {
+} else {
+echo '<li><a class="dropdown-item" target="_blank" href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'">M3U8 Link</a></li>
+<li><a class="dropdown-item" target="_blank" href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'&debug">Debug</a></li>';
+}
+echo '<li><a class="dropdown-item" target="_blank" href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'&watchplayer=1">Watch</a></li>
+    <li><a class="dropdown-item" target="_blank" href="index.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'&selcuk=1">SelcukWatch</a></li>';
+echo '</ul></div></td>
 
 <td><div class="btn-group">
 <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
 <span class="caret"></span>
 <span class="sr-only">Toggle Dropdown</span>IPTV Edit</button>
-<ul class="dropdown-menu" role="menu">
-
-<li><a class="dropdown-item" target="_blank" href="index.php?git=getlog&id='.intval($row2["public_id"]).'">Logs</a></li>
+<ul class="dropdown-menu" role="menu">';
+if($_COOKIE["yetki"] == md5("uye")) {
+echo '<li><a class="dropdown-item" target="_blank" href="index.php?git=startcst1&id='.intval($row2["public_id"]).'">Start Custom Stream</a></li>';
+} elseif($_COOKIE["yetki"] == md5("gold")) {
+} else  {
+echo '<li><a class="dropdown-item" target="_blank" href="index.php?git=getlog&id='.intval($row2["public_id"]).'">Logs</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=startrestream&id='.intval($row2["public_id"]).'">Start Restream.IO Stream</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=startfacebook&id='.intval($row2["public_id"]).'">Start Facebook Stream</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=starttwitch&id='.intval($row2["public_id"]).'">Start Twitch Stream</a></li>
@@ -654,8 +659,9 @@ fclose($fp);
 <li><a class="dropdown-item" target="_blank" href="index.php?git=startcst1&id='.intval($row2["public_id"]).'">Start Custom Stream</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=startrtmp&id='.intval($row2["public_id"]).'">Start RTMP Stream</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=startiptv&id='.intval($row2["public_id"]).'">Start Stream</a></li>
-<li><a class="dropdown-item" target="_blank" href="index.php?git=stopiptv&id='.intval($row2["public_id"]).'">Stop Stream</a></li>
-<li><a class="dropdown-item" target="_blank" href="index.php?git=editpubid&id='.strip_tags($row2["public_id"]).'">Edit Stream</a></li>
+<li><a class="dropdown-item" target="_blank" href="index.php?git=stopiptv&id='.intval($row2["public_id"]).'">Stop Stream</a></li>';
+}
+echo '<li><a class="dropdown-item" target="_blank" href="index.php?git=editpubid&id='.strip_tags($row2["public_id"]).'">Edit Stream</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=deletepubid&id='.strip_tags($row2["public_id"]).'">Delete Stream</a></li>
 </ul>
 </div></td>';
@@ -689,6 +695,11 @@ echo '</tr>
 
   case 'editcfg':
   $getir->logincheck();
+  if($_COOKIE["yetki"] == md5("uye")) {
+  die("<center class='mt-5'>Daha fazla seçenek için üyeliğinizi yükseltin</center>");
+  } else {
+      
+  }
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
   $stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
@@ -826,10 +837,14 @@ echo '</tr>
 
   case 'startiptv':
   $getir->logincheck();
+    if($_COOKIE["yetki"] == md5("uye")) {
+  die("NO");
+  } else {
+  }
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-      if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["user_id"])) {
+  if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["user_id"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -855,6 +870,10 @@ echo '</tr>
   
    case 'startfacebook':
   $getir->logincheck();
+    if($_COOKIE["yetki"] == md5("uye")) {
+  die("NO");
+  } else {
+  }
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
@@ -884,6 +903,10 @@ echo '</tr>
   
      case 'starttwitch':
   $getir->logincheck();
+    if($_COOKIE["yetki"] == md5("uye")) {
+  die("NO");
+  } else {
+  }
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
@@ -913,6 +936,10 @@ echo '</tr>
   
        case 'startyt':
   $getir->logincheck();
+    if($_COOKIE["yetki"] == md5("uye")) {
+  die("NO");
+  } else {
+  }
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
@@ -942,6 +969,10 @@ echo '</tr>
   
          case 'startig':
   $getir->logincheck();
+    if($_COOKIE["yetki"] == md5("uye")) {
+  die("NO");
+  } else {
+  }
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
@@ -971,6 +1002,10 @@ echo '</tr>
 
 case 'startcst1':
 $getir->logincheck();
+if($_COOKIE["yetki"] == md5("uye")) {
+die("<center>Daha fazla seçenek için üyeliğinizi yükseltin</center>");
+} else {
+}
 $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
 echo '<body>
 <form class="container" action="index.php?git=startcst" method="post">
@@ -992,6 +1027,10 @@ break;
 
 case 'startcst':
   $getir->logincheck();
+    if($_COOKIE["yetki"] == md5("uye")) {
+  die("NO");
+  } else {
+  }
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_POST["id"])));
   if($row = $stmt->fetch()) {
@@ -1021,6 +1060,10 @@ case 'startcst':
   
     case 'startrtmp':
   $getir->logincheck();
+    if($_COOKIE["yetki"] == md5("uye")) {
+  die("NO");
+  } else {
+  }
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
@@ -1049,6 +1092,10 @@ case 'startcst':
   break;
   case 'startrestream':
   $getir->logincheck();
+  if($_COOKIE["yetki"] == md5("uye")) {
+  die("NO");
+  } else {
+  }
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
@@ -1083,6 +1130,10 @@ case 'startcst':
 	window.onload = timedRefresh(5000);
 </script>';
   $getir->logincheck();
+    if($_COOKIE["yetki"] == md5("uye")) {
+  die("NO");
+  } else {
+  }
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
@@ -1106,6 +1157,10 @@ case 'startcst':
   
   case 'stopiptv':
   $getir->logincheck();
+    if($_COOKIE["yetki"] == md5("uye")) {
+  die("NO");
+  } else {
+  }
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {

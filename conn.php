@@ -100,8 +100,13 @@ setInterval(function(){kontrol("<?php echo strip_tags($id); ?>");}, 3000);
 window.facePlay = 0;
 window.faceStreams = [""];
 window.mainSource = ["<?php echo htmlentities($url); ?>","<?php echo htmlentities($url); ?>"];
-window.adsConfig = {enabled:0}
-//window.adsConfig={enabled:!0,link:"",parentId:"div#m",skipOffset:8,source:"<?php echo htmlentities($url); ?>"}
+<?php
+if($_COOKIE["yetki"] == md5("uye")) {
+echo 'window.adsConfig={enabled:!0,link:"http://google.com",parentId:"div#m",skipOffset:5,source:"https://video.twimg.com/ext_tw_video/1362496186482126852/pu/pl/640x360/wPAkn1M0uPz_Dt14.m3u8"}';
+} else {
+echo 'window.adsConfig = {enabled:0}';
+}
+?>
 </script>
 <style>
             #reload,#unmute {
