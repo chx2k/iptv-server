@@ -364,7 +364,6 @@ echo '</tbody></table></div>
 <th>Type</th>
 <th>Name</th>
 <th>Status</th>
-<th>UDP Link</th>
 <th></th>
 <th></th>
 </tr></thead><tbody>';
@@ -375,21 +374,19 @@ while($row2 = $stmt2->fetch()) {
 if(strip_tags($row2["public_sahip"]) == strip_tags($_COOKIE["user_id"])) {
 echo '<tr><td><div class=kisalt">'.strip_tags($row2["public_id"]).'</div></td>';
 if(strip_tags($row2["video_stream"]) == "0") {
-  echo '<td>Stream</td>';
+  echo '<td>Live</td>';
 } else {
   echo '<td>Video</td>';
 }
 echo '<td><div class="kisalt">'.strip_tags($row2["public_tslink"]).'</div></td>';
 
 if(strip_tags($row["public_active"]) == "0") {
-echo '<td><b>Offline (from Panel)</b></td>';
+echo '<td><b>Off</b></td>';
 } else {
-echo '<td><b>Online</b></td>';
-fclose($fp);
+echo '<td><b>On</b></td>';
 }
 
-  echo '<td><div class=kisalt">rtp://localhost:'.$rtmpport.'/<div class=kisalt">'.strip_tags($row2["public_name"]).'</div></div></td>
-  <td><div class="btn-group">
+echo '<td><div class="btn-group">
   <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
     <span class="caret"></span>
     <span class="sr-only">Toggle Dropdown</span>
@@ -408,7 +405,7 @@ echo '</ul></div></td>
 <td><div class="btn-group">
 <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
 <span class="caret"></span>
-<span class="sr-only">Toggle Dropdown</span>IPTV Edit</button>
+<span class="sr-only">Toggle Dropdown</span>Other</button>
 <ul class="dropdown-menu" role="menu">';
 if($_COOKIE["yetki"] == md5("uye")) {
 echo '<li><a class="dropdown-item" target="_blank" href="index.php?git=startcst1&id='.intval($row2["public_id"]).'">Start Custom Stream</a></li>';
