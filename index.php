@@ -969,7 +969,7 @@ case 'startcst':
   <form class="container" action="index.php?git=peditpubid" method="post">
     <div class="form-group">
       <label for="exampleFormControlInput1">IPTV Name</label>
-      <input type="text" name="iptvname" value="'.strip_tags($row["public_name"]).'" class="form-control" placeholder="IPTV Name">
+      <input type="text" name="iptvname" value="'.strip_tags($row["public_name"]).'" class="form-control" placeholder="IPTV Name" readonly>
     </div>
 		  <div class="form-group">
     <label for="exampleFormControlSelect1">IPTV Type | '.strip_tags($row["video_stream"]).'</label>
