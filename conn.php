@@ -10,7 +10,7 @@ die("<center><b>PHP IPTV Yüklenemedi / PHP IPTV was not Installed</b>
 try {
 $ip = "localhost"; //host
 $user = "root";  // host id
-$password = "";  // password local olduğu için varsayılan şifre
+$password = "19742008";  // password local olduğu için varsayılan şifre
 $ad = "iptv_data"; // db adı 
 $db = new PDO("mysql:host=$ip;dbname=$ad", "$user", "$password");
 $db->query("SET CHARACTER SET 'utf8'");
@@ -1047,6 +1047,7 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.c
         <li><a href="index.php?git=iplog"><span class="mif-list icon"></span>IP Log</a></li>
 		<li class="divider"></li>
         <li><a href="index.php?git=user"><span class="mif-add icon"></span>Users</a></li>
+        <li><a href="../tv/index.php"><span class="mif-tablet-landscape icon"></span>TV</a></li>
         <li class="divider"></li>
 		<li><a href="index.php?git=iptv&phpinfo=1"><span class="mif-info icon"></span>PHP Info</a></li>
 		<li class="divider"></li>
@@ -1082,9 +1083,9 @@ echo '<head>
 public function logincheck() {
 if(isset($_COOKIE['user_id'])) {
 } elseif($_COOKIE['user_id'] == "1") {
-die('<script>location.replace("index.php")</script>');
+die('<script>location.replace("../index.php")</script>');
 } else {
-die('<script>location.replace("index.php")</script>');
+die('<script>location.replace("../index.php")</script>');
 }
 }
 

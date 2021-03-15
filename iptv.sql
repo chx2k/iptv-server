@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
--- https://www.phpmyadmin.net/
+-- version 4.5.4.1deb2ubuntu2.1
+-- http://www.phpmyadmin.net
 --
--- Anamakine: 127.0.0.1
--- Üretim Zamanı: 09 Mar 2021, 12:18:14
--- Sunucu sürümü: 10.4.14-MariaDB
--- PHP Sürümü: 7.4.10
+-- Anamakine: localhost
+-- Üretim Zamanı: 15 Mar 2021, 11:23:51
+-- Sunucu sürümü: 5.7.33-0ubuntu0.16.04.1
+-- PHP Sürümü: 7.0.33-0ubuntu0.16.04.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -32,15 +31,16 @@ CREATE TABLE `admin_list` (
   `admin_email` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
   `admin_usrname` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
   `admin_passwd` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
-  `admin_token` varchar(255) COLLATE utf8_turkish_ci NOT NULL
+  `admin_token` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
+  `admin_yetki` varchar(255) COLLATE utf8_turkish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 --
 -- Tablo döküm verisi `admin_list`
 --
 
-INSERT INTO `admin_list` (`admin_id`, `admin_email`, `admin_usrname`, `admin_passwd`, `admin_token`) VALUES
-(1, 'alicangonullu@yahoo.com', 'alicangonullu', '5a6a73a13efd448510b6c4c41acda5ef890c3b7a', '5a6a73a13efd448510b6c4c41acda5ef890c3b7a');
+INSERT INTO `admin_list` (`admin_id`, `admin_email`, `admin_usrname`, `admin_passwd`, `admin_token`, `admin_yetki`) VALUES
+(1, 'xxx@xxx.com', 'alicangonullu', '5a6a73a13efd448510b6c4c41acda5ef890c3b7a', '5a6a73a13efd448510b6c4c41acda5ef890c3b7a', 'admin'),
 
 -- --------------------------------------------------------
 
@@ -68,7 +68,7 @@ CREATE TABLE `iptv_config` (
 --
 
 INSERT INTO `iptv_config` (`config_id`, `logo`, `rtmp_port`, `ffmpeg_m3u8cfg`, `ffmpeg_ts`, `ffmpeg_flv`, `twitter_tkn`, `facebook_tkn`, `twitch_tkn`, `restream_tkn`, `youtube_tk`, `instagram_tk`) VALUES
-(1, 'https://metroui.org.ua/images/logo4.png', '1938', '-listen 1 -hls_wrap 8 -deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '-c:v copy -c:a copy -t 00:05:00', '-deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '1', '775403586519005?s_bl=1&s_psm=1&s_sc=775403629852334&s_sw=0&s_vt=api-s&a=AbxrIJUhn1u4xCBn', '123', '12', '123', '123');
+(1, 'https://metroui.org.ua/images/logo4.png', '1938', '-listen 1 -hls_wrap 8 -deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '-c:v copy -c:a copy -t 00:05:00', '-deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '1', '775403586519005?s_bl=1&s_psm=1&s_sc=775403629852334&s_sw=0&s_vt=api-s&a=AbxrIJUhn1u4xCBn', '123', '12', 'q9m8-sfd2-jgwr-y7sf-4evz', '123');
 
 -- --------------------------------------------------------
 
@@ -103,6 +103,12 @@ CREATE TABLE `ip_logger` (
   `date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Tablo döküm verisi `ip_logger`
+--
+
+INSERT INTO `ip_logger` (`id`, `ip`, `browserinf`, `date`) VALUES
+(1, '111.111.111.111/', '{"Host":"111.111.111.111:80","User-Agent":"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/86.0.4240.111 Safari\\/537.36","Accept":"*\\/*","Accept-Language":"en-US,en;q=0.5","Accept-Encoding":"gzip"}', '2021-03-10 19:55:00'),
 -- --------------------------------------------------------
 
 --
@@ -114,15 +120,18 @@ CREATE TABLE `private_iptv` (
   `private_name` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
   `private_resim` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
   `private_iptv` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
-  `private_active` varchar(255) COLLATE utf8_turkish_ci NOT NULL
+  `private_active` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
+  `private_sahip` varchar(255) COLLATE utf8_turkish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 --
 -- Tablo döküm verisi `private_iptv`
 --
 
-INSERT INTO `private_iptv` (`private_id`, `private_name`, `private_resim`, `private_iptv`, `private_active`) VALUES
-(1, 'TRT1', '', 'https://tv-trt1.live.trt.com.tr/master_720.m3u8', '1');
+INSERT INTO `private_iptv` (`private_id`, `private_name`, `private_resim`, `private_iptv`, `private_active`, `private_sahip`) VALUES
+(4, 'TRT1', '', 'https://tv-trt1.live.trt.com.tr/master_720.m3u8', '1', 'alicangonullu'),
+(5, 'Bein', '', 'https://xxx.buneamkya.xyz/72fe9bb58e02e669273c902c1f48f501/601/qs.m3u8', '1', 'alicangonullu'),
+(6, 'Bein', '', 'https://srvbbbb.cunkuanlatmasizor.xyz/kaynakstreamradarco/selcukbein1/strmrdr.m3u8', '1', 'demohesap');
 
 -- --------------------------------------------------------
 
@@ -135,15 +144,17 @@ CREATE TABLE `public_iptv` (
   `public_name` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
   `public_tslink` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
   `video_stream` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
-  `public_active` varchar(255) COLLATE utf8_turkish_ci NOT NULL
+  `public_active` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
+  `public_sahip` varchar(255) COLLATE utf8_turkish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 --
 -- Tablo döküm verisi `public_iptv`
 --
 
-INSERT INTO `public_iptv` (`public_id`, `public_name`, `public_tslink`, `video_stream`, `public_active`) VALUES
-(1, '25daeb9b3072e9c53f66a2196a92a011', 'https://tv-trt1.live.trt.com.tr/master_720.m3u8', '0', '1');
+INSERT INTO `public_iptv` (`public_id`, `public_name`, `public_tslink`, `video_stream`, `public_active`, `public_sahip`) VALUES
+(1, 'a0046ad4c1bafc4ef04e41e755f28368', 'https://xxx.buneamkya.xyz/72fe9bb58e02e669273c902c1f48f501/601/qs.m3u8', '0', '1', 'alicangonullu'),
+(5, 'a62dd1eb9b15f8d11a8bf167591c2f17', 'https://xxx.buneamkya.xyz/72fe9bb58e02e669273c902c1f48f501/601/qs.m3u8', '0', '1', 'demohesap');
 
 --
 -- Dökümü yapılmış tablolar için indeksler
@@ -194,38 +205,31 @@ ALTER TABLE `public_iptv`
 --
 ALTER TABLE `admin_list`
   MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
 --
 -- Tablo için AUTO_INCREMENT değeri `iptv_config`
 --
 ALTER TABLE `iptv_config`
   MODIFY `config_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
 --
 -- Tablo için AUTO_INCREMENT değeri `ip_block`
 --
 ALTER TABLE `ip_block`
   MODIFY `ip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
 --
 -- Tablo için AUTO_INCREMENT değeri `ip_logger`
 --
 ALTER TABLE `ip_logger`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
 --
 -- Tablo için AUTO_INCREMENT değeri `private_iptv`
 --
 ALTER TABLE `private_iptv`
   MODIFY `private_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
 --
 -- Tablo için AUTO_INCREMENT değeri `public_iptv`
 --
 ALTER TABLE `public_iptv`
   MODIFY `public_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-COMMIT;
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
