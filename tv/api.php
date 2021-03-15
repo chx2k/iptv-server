@@ -1,5 +1,5 @@
 <?php
-include("../conn.php");
+include("tvcon.php");
 $getir = new IPTVClass();
 $getir->logincheck();
 header("Access-Control-Allow-Origin: *");

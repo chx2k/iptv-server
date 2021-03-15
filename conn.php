@@ -103,6 +103,8 @@ window.mainSource = ["<?php echo htmlentities($url); ?>","<?php echo htmlentitie
 <?php
 if($_COOKIE["yetki"] == md5("uye")) {
 echo 'window.adsConfig={enabled:!0,link:"http://google.com",parentId:"div#m",skipOffset:5,source:"https://video.twimg.com/ext_tw_video/1362496186482126852/pu/pl/640x360/wPAkn1M0uPz_Dt14.m3u8"}';
+} elseif($_COOKIE["yetki"] == md5("gold")) { 
+echo 'window.adsConfig = {enabled:0}';
 } else {
 echo 'window.adsConfig = {enabled:0}';
 }
@@ -1059,6 +1061,28 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.c
         <li class="divider"></li>
 		<li><a href="index.php?git=iptv&phpinfo=1"><span class="mif-info icon"></span>PHP Info</a></li>
 		<li class="divider"></li>
+		<li><a href="index.php?git=cikis"><span class="mif-exit icon"></span>Çıkış</a></li>
+	</ul>
+</aside>
+
+<div class="shifted-content h-100 p-ab">
+    <div class="app-bar pos-absolute bg-red z-1" data-role="appbar">
+        <button class="app-bar-item c-pointer" id="sidebar-toggle-3">
+            <span class="mif-menu fg-white"></span>
+        </button>
+    </div><br>';
+} elseif($_COOKIE["yetki"] == md5("gold")) { 
+echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.com.ua"></div>
+        <span class="title fg-white">'.strip_tags($baslik).'</span>
+    </div>
+    <ul class="sidebar-menu">
+        <li><a href="index.php?git=iptv"><span class="mif-home icon"></span>Home</a></li>
+		<li class="divider"></li>
+        <li><a href="index.php?git=startstream"><span class="mif-add icon"></span>Add IPTV</a></li>
+		<li><a href="index.php?git=addpriviptv"><span class="mif-add icon"></span>Add Private IPTV</a></li>
+		<li class="divider"></li>
+        <li><a href="../tv/index.php"><span class="mif-tablet-landscape icon"></span>TV</a></li>
+        <li class="divider"></li>
 		<li><a href="index.php?git=cikis"><span class="mif-exit icon"></span>Çıkış</a></li>
 	</ul>
 </aside>

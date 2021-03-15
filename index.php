@@ -427,6 +427,8 @@ $_SESSION["yetki"] == "admin";
 echo('<script>document.cookie = "yetki='.md5("admin").'";</script>');
 } elseif(strip_tags($row["admin_yetki"]) == "sus") {
 die("Hesabınız Bloklanmıştır");
+} elseif($_COOKIE["yetki"] == md5("gold")) { 
+echo('<script>document.cookie = "yetki='.md5("gold").'";</script>');
 } else {
 $_SESSION["yetki"] == "uye";
 echo('<script>document.cookie = "yetki='.md5("uye").'";</script>');
@@ -1744,6 +1746,111 @@ die("NO");
         echo '['.strip_tags($rowh["date"]).'] : '.strip_tags($rowh["ip"]).' / '.var_dump($rowh["browserinf"]).'<br>';
     }
     echo '</pre></body>';
+  break;
+  
+  case 'user':
+  $getir->logincheck();
+  if($_COOKIE["yetki"] == md5("uye")) {
+  die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
+  } else {
+  }
+  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  echo '<div class="container">
+  <table class="table">
+  <thead>
+  <tr>
+  <th>ID</th>
+  <th>Gravatar</th>
+  <th>Username</th>
+  <th>Type</th>
+  <th></th>
+  </tr></head><tbody>';
+  $stmt = $db->prepare('SELECT * FROM admin_list');
+  $stmt->execute();
+  while($row = $stmt->fetch()) {
+  echo '<tr>
+  <th scope="row">'.intval($row["admin_id"]).'</th>
+  <th><img data-role="gravatar" data-email="'.strip_tags($row["admin_email"]).'" data-size="30"></th>
+  <th>'.strip_tags($row["admin_usrname"]).'</th>
+  <th>'.strip_tags($row["admin_yetki"]).'</th>
+  <th><a href="index.php?git=edituser&id='.intval($row["admin_id"]).'">Edit User</a></th>
+  </tr>';
+  }
+  echo '</table></div>';
+  break;
+  
+  case 'edituser':
+  $getir->logincheck();
+  if($_COOKIE["yetki"] == md5("uye")) {
+  die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
+  } else {
+  }
+  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  $stmt = $db->prepare('SELECT * FROM admin_list WHERE admin_id = :usr');
+  $stmt->execute(array(':usr' => intval($_GET["id"])));
+  if($row = $stmt->fetch()) {
+  echo '<body>
+  <center><img data-role="gravatar" data-email="'.strip_tags($row["admin_email"]).'" data-size="150"></center>
+  <form class="container" action="index.php?git=pupdusr" method="post">
+  <input name="id" value="'.intval($_GET["id"]).'" type="hidden"/>
+    <div class="form-group">
+        <label>Username</label>
+        <input class="form-control" name="usrname" value="'.strip_tags($row["admin_usrname"]).'" type="text" placeholder="Enter Username"/>
+    </div>
+        <div class="form-group">
+        <label>Username</label>
+        <input class="form-control" name="usremail" value="'.strip_tags($row["admin_email"]).'" type="email" placeholder="Enter email"/>
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        <input class="form-control" name="usrpass" type="password" placeholder="Enter Password"/>
+    </div>
+        <div class="form-group">
+        <label>Token</label>
+        <input class="form-control" name="usrtkn" type="password" placeholder="Enter Token"/>
+    </div>
+    <div class="form-group">
+    <label for="exampleFormControlSelect1">User Type</label>
+    <select class="form-control" name="usrtype" id="exampleFormControlSelect1">
+    <option value="uye">User</option>
+    <option value="admin">Admin</option>
+    <option value="gold">Gold</option>
+    </select>
+    </div>
+  
+    <div class="form-group">
+        <button class="button success">Submit data</button>
+    </div>
+  </form></body>';
+  }
+  break;
+  
+  case 'pupdusr':
+  $getir->logincheck();
+  if($_COOKIE["yetki"] == md5("uye")) {
+  die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
+  } else {
+  }
+  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  $update = $db->prepare("UPDATE admin_list SET admin_usrname = :usrname, admin_email = :usremail, admin_passwd = :usrpass, admin_token = :usrtkn, admin_yetki = :usrtype WHERE admin_id = :gonderid");
+  $update->bindValue(':gonderid', intval($_POST["id"]));
+  $update->bindValue(':usrname', strip_tags($_POST["usrname"]));
+  $update->bindValue(':usremail', strip_tags($_POST["usremail"]));
+  $update->bindValue(':usrtype', strip_tags($_POST["usrtype"]));
+  $update->bindValue(':usrpass', sha1(md5($_POST["usrpass"])));
+  $update->bindValue(':usrtkn', sha1(md5($_POST["usrtkn"])));
+  $update->execute();
+  if($row = $update->rowCount()) {
+    echo "<script LANGUAGE='JavaScript'>
+    window.alert('Succesfully Added');
+    window.location.href='index.php?git=startstream';
+    </script>";
+  } else {
+    echo "<script LANGUAGE='JavaScript'>
+    window.alert('Unsuccesfully Added');
+    window.location.href='index.php?git=startstream';
+    </script>";
+  }
   break;
   
   case 'paddpriviptv':

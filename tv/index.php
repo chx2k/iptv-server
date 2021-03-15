@@ -1,5 +1,5 @@
 <?php
-include("../conn.php");
+include("tvcon.php");
 $getir = new IPTVClass();
 $getir->logincheck();
 ?>
@@ -29,7 +29,7 @@ color:white;
 }
 </style>
 
-<div class="col-12 left">
+<div onmouseover="gizleGoster('panelip')" id="panelip" class="col-12 left">
 <div class="row">
 <div class="np col-12">
 <div class="tab-content mt-3">
@@ -37,7 +37,7 @@ color:white;
 <hr></hr>
 <button onclick="javascript:location.reload();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Refresh</button>
 <br>
-<div class="tab-panel">
+<div id="panelip" class="tab-panel">
 <nav class="dropdown">
 <ul class="list-group list-group-flush display-3">
 <?php
@@ -52,14 +52,24 @@ while($row = $stmt->fetch()) {
 }
 ?>
 </ul></nav></div>
-
 </div></div></div></div>
+
 <div class="col-12 right">
 <iframe id="iptv"></iframe>
 </div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" ></script>
 <script>
+
+function gizleGoster(ID) {
+  var secilenID = document.getElementById(ID);
+  if (secilenID.style.display == "none") {
+  } else {
+    secilenID.style.display = "";
+  }
+}
+
 function getiriptv(sayd) {
 $.post("api.php", {get: sayd}, function(result) {
 var stringified = JSON.stringify(result);
