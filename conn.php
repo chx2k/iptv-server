@@ -1,5 +1,7 @@
 <?php
 error_reporting(0);
+session_destroy();
+session_start();
 if(file_exists("yukle.lock")) {
 } else {
 die("<center><b>PHP IPTV Yüklenemedi / PHP IPTV was not Installed</b>
@@ -1032,6 +1034,7 @@ echo '<div class="sidebar-header" width="400" height="255" data-image="https://a
 } else {
 echo '<div class="sidebar-header" width="400" height="255" data-image="'.strip_tags($logo).'">';
 }
+if($_COOKIE["yetki"] == md5("admin")) {
 echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.com.ua"></div>
         <span class="title fg-white">'.strip_tags($baslik).'</span>
     </div>
@@ -1061,6 +1064,29 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.c
             <span class="mif-menu fg-white"></span>
         </button>
     </div><br>';
+} else {
+echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.com.ua"></div>
+        <span class="title fg-white">'.strip_tags($baslik).'</span>
+    </div>
+    <ul class="sidebar-menu">
+        <li><a href="index.php?git=iptv"><span class="mif-home icon"></span>Home</a></li>
+		<li class="divider"></li>
+        <li><a href="index.php?git=startstream"><span class="mif-add icon"></span>Add IPTV</a></li>
+		<li><a href="index.php?git=addpriviptv"><span class="mif-add icon"></span>Add Private IPTV</a></li>
+		<li class="divider"></li>
+        <li><a href="../tv/index.php"><span class="mif-tablet-landscape icon"></span>TV</a></li>
+        <li class="divider"></li>
+		<li><a href="index.php?git=cikis"><span class="mif-exit icon"></span>Çıkış</a></li>
+	</ul>
+</aside>
+
+<div class="shifted-content h-100 p-ab">
+    <div class="app-bar pos-absolute bg-red z-1" data-role="appbar">
+        <button class="app-bar-item c-pointer" id="sidebar-toggle-3">
+            <span class="mif-menu fg-white"></span>
+        </button>
+    </div><br>';
+}
 }
 
 public function Head($baslik) {
@@ -1087,6 +1113,11 @@ die('<script>location.replace("../index.php")</script>');
 } else {
 die('<script>location.replace("../index.php")</script>');
 }
+if($_COOKIE["yetki"] == md5("sus")) {
+die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
+} else {
+}
+
 }
 
 public function Style() {

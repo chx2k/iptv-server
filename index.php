@@ -425,9 +425,15 @@ while($row = $stmt->fetch()) {
 if(strip_tags($row["admin_yetki"]) == "admin") {
 $_SESSION["yetki"] == "admin";
 echo('<script>document.cookie = "yetki='.md5("admin").'";</script>');
+} elseif(strip_tags($row["admin_yetki"]) == "sus") {
+die("Hesabınız Bloklanmıştır");
 } else {
 $_SESSION["yetki"] == "uye";
 echo('<script>document.cookie = "yetki='.md5("uye").'";</script>');
+}
+if(isset($_COOKIE["yetki"])) {
+} else {
+echo '<script>location.reload();</script>';
 }
 
 }
@@ -668,8 +674,8 @@ echo '
 <th>TS Config</th>
 <th></th>
 </tr></thead><tbody>';
-$stmt3 = $db->prepare('SELECT * FROM iptv_config');
-$stmt3->execute();
+$stmt3 = $db->prepare('SELECT * FROM iptv_config WHERE sahip = :iddegeri');
+$stmt3->execute(array(':iddegeri' => $_COOKIE["user_id"]));
 while($row2 = $stmt3->fetch()) {
 echo '<tr><td><div class=kisalt">'.intval($row2["config_id"]).'</div></td>';
 echo '<td><div class="kisalt">'.strip_tags($row2["ffmpeg_m3u8cfg"]).'</div></td>';
@@ -687,6 +693,7 @@ echo '</tr>
   $stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
+  if($row["sahip"] == $_COOKIE["user_id"]) {
 	  echo '<body>
   <form class="container" action="index.php?git=peditcfg" method="post">
   
@@ -745,12 +752,23 @@ echo '</tr>
     <button type="submit" style="width: 100%;" class="btn btn-primary">Guncelle</button><br><br>
   </form>
   </body>';
+  } else {
+  die("NO");
+  }
   }
   break;
   
   case 'peditcfg':
   $getir->logincheck();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  $stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :iddegeri');
+  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
+  if($row = $stmt->fetch()) {
+  if($row["sahip"] == $_COOKIE["user_id"]) {
+  } else {
+  die("NO");
+  }
+  }
   $update = $db->prepare("UPDATE iptv_config SET ffmpeg_m3u8cfg = :m3u8, rtmp_port = :rtmpport, logo = :logos, ffmpeg_ts = :ts, twitter_tkn = :twittertkn, restream_tkn = :restreamtkn, facebook_tkn = :facebooktkn, ffmpeg_flv = :flv, twitch_tkn = :twitchtkn, youtube_tk = :youtubetk, instagram_tk = :instagramtk WHERE config_id = :gonderid");
   $update->bindValue(':gonderid', intval($_POST["ffmpegid"]));
   $update->bindValue(':m3u8', strip_tags($_POST["ffmpegm3u8"]));
@@ -1221,6 +1239,10 @@ if (!unlink($dosyaadi)) {
   
   case 'dfile':
   $getir->logincheck();
+    if($_COOKIE["yetki"] == md5("uye")) {
+      die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
+      } else {
+      }
   $dosyaadi = "".dirname(__FILE__)."/m3u/".strip_tags($_GET["name"])."";
   if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
   if (!unlink($dosyaadi)) {
@@ -1251,6 +1273,10 @@ if (!unlink($dosyaadi)) {
 
   case 'dlog':
   $getir->logincheck();
+    if($_COOKIE["yetki"] == md5("uye")) {
+      die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
+      } else {
+      }
   $dosyaadi = "".dirname(__FILE__)."/log/".strip_tags($_GET["name"])."";
   if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
   if (!unlink($dosyaadi)) {
@@ -1295,6 +1321,7 @@ echo '<div class="container">';
   $stmt = $db->prepare('SELECT * FROM private_iptv WHERE private_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   while($row = $stmt->fetch()) {
+  if(strip_tags($row["private_sahip"]) == strip_tags($_COOKIE["user_id"])) {
     if(strip_tags($row["private_active"]) == "0") {
       echo '<div class="alert alert-warning" role="alert">This channel suspended by admin!</div>';
     } else {
@@ -1358,57 +1385,10 @@ URI : '.$data->uri.'<br><br><br>
 
 </div>';
 fclose($fp);
+} else {
+die("NO");
 }
-  break;
-
-  case 'deleteiptv':
-  $getir->logincheck();
-  $stmt = $db->prepare('DELETE FROM iptv_list WHERE iptv_id = :iddegeri');
-  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
-  if($row = $stmt->rowCount()) {
-    echo "<script LANGUAGE='JavaScript'>
-    window.alert('Succesfully Updated');
-    window.location.href='index.php?git=iptv';
-    </script>";
-    $data = "m3u/".strip_tags($row["iptv_adi"]).".m3u8";
-    unlink($data);
-  } else {
-    echo "<script LANGUAGE='JavaScript'>
-    window.alert('Not Updated');
-    window.location.href='index.php?git=iptv';
-    </script>";
   }
-  break;
-
-
-  case 'editiptv':
-  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
-  $stmt = $db->prepare('SELECT * FROM iptv_list WHERE iptv_id = :iddegeri');
-  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
-  if($row = $stmt->fetch()) {
-  echo '<body class="container mx-auto">
-  <form action="index.php?git=pupdateiptv" method="post">
-    <div class="form-group">
-      <label for="exampleFormControlInput1">IPTV Adı</label>
-      <input type="text" name="iptvname" value="'.strip_tags($row["iptv_adi"]).'" class="form-control" placeholder="IPTV Name">
-    </div>
-    <div class="form-group">
-      <label for="exampleFormControlInput1">IPTV Resmi</label>
-      <input type="text" name="iptvpic" value="'.strip_tags($row["iptv_pic"]).'" class="form-control" placeholder="IPTV Picture">
-    </div>
-    <div class="form-group">
-      <label for="exampleFormControlInput1">IPTV Adresi</label>
-      <input type="text" name="iptvadres" value="'.strip_tags($row["iptv_adres"]).'" class="form-control" placeholder="IPTV URL">
-    </div>
-    <div class="form-group">
-      <label for="exampleFormControlInput1">IPTV Stream</label>
-      <input type="text" name="iptvstr" value="'.strip_tags($row["iptv_acik"]).'" class="form-control" placeholder="IPTV (1 = ON / 0 = OFF)">
-    </div>
-      <input type="hidden" name="iptvid" value="'.strip_tags($_GET["id"]).'" class="form-control">
-    <button type="submit" style="width: 100%;" class="btn btn-primary">Guncelle</button>
-  </form>
-  </body>';
-}
   break;
 
   case 'pupdateiptv':
@@ -1436,6 +1416,10 @@ fclose($fp);
   case 'm3ugenerate':
   $getir->logincheck();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+    if($_COOKIE["yetki"] == md5("uye")) {
+      die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
+      } else {
+      }
   if(empty($_GET["s"])) {
 
   } else {
@@ -1462,6 +1446,10 @@ fclose($fp);
 
   case 'pm3ugenerate':
   $getir->logincheck();
+    if($_COOKIE["yetki"] == md5("uye")) {
+      die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
+      } else {
+      }
   $data = "m3u/".strip_tags($_POST["iptvfln"]).".m3u8";
   $fp = fopen($data, 'w');
   fwrite($fp, "#EXTM3U\n");
@@ -1491,7 +1479,10 @@ fclose($fp);
   case 'ipblock':
   $getir->logincheck();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
-  
+    if($_COOKIE["yetki"] == md5("uye")) {
+      die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
+      } else {
+      }
   echo '<body class="mx-auto">';
   echo '<center><button onclick="javascript:location.reload();" type="submit" style="right: 0px;width: 60%;padding: 10px;" class="btn btn-warning">Refresh</button>
   </center><div class="container"><br>
@@ -1571,6 +1562,10 @@ fclose($fp);
 
   case 'remipblok';
   $getir->logincheck();
+    if($_COOKIE["yetki"] == md5("uye")) {
+      die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
+      } else {
+      }
   $update = $db->prepare("UPDATE ip_block SET ip_block_active = :iptvdrm WHERE ip_id = :iptvid");
   $update->bindValue(':iptvid', intval($_GET["ip"]));
   $update->bindValue(':iptvdrm', "1");
@@ -1590,6 +1585,10 @@ fclose($fp);
 
   case 'banip';
   $getir->logincheck();
+    if($_COOKIE["yetki"] == md5("uye")) {
+      die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
+      } else {
+      }
   $update = $db->prepare("UPDATE ip_block SET ip_block_active = :iptvdrm WHERE ip_id = :iptvid");
   $update->bindValue(':iptvid', intval($_GET["ip"]));
   $update->bindValue(':iptvdrm', "0");
@@ -1610,6 +1609,10 @@ fclose($fp);
   case 'addban':
   $getir->logincheck();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+    if($_COOKIE["yetki"] == md5("uye")) {
+      die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
+      } else {
+      }
   echo '<body class="mx-auto"><center>
   <b>Your IP : '.strip_tags($getir->getIPAddress()).'</b></center><br>
   <form class="container" action="index.php?git=paddban" method="post">
@@ -1674,7 +1677,11 @@ fclose($fp);
   
   case 'iplog':
   $getir->logincheck();
-    $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+    if($_COOKIE["yetki"] == md5("uye")) {
+      die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
+      } else {
+      }
   echo '<body class="mx-auto"><pre class="container">';
   	$stmt = $db->prepare('SELECT * FROM ip_logger ORDER BY id DESC');
 	$stmt->execute();
@@ -1731,6 +1738,10 @@ fclose($fp);
 
   case 'paddban':
   $getir->logincheck();
+  if($_COOKIE["yetki"] == md5("uye")) {
+      die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
+      } else {
+      }
   $update = $db->prepare("INSERT INTO ip_block(ip_adress, ban_reason, ip_block_active) VALUES (:ipadress, :resns, :acceptban)");
   $update->bindValue(':ipadress', strip_tags($_POST["ipadres"]));
   $update->bindValue(':resns', strip_tags($_POST["resn"]));
@@ -1753,6 +1764,7 @@ fclose($fp);
   $getir->logincheck();
   die('<script>document.cookie = "user_id= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
   document.cookie = "capt= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
+  document.cookie = "yetki= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
   location.replace("index.php")</script>');
   break;
 }
