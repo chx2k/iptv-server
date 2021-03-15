@@ -1384,11 +1384,6 @@ echo '<div class="container">';
     } else {
       echo '<div class="alert alert-success" role="alert">This channel is online!</div>';
     }
-if(!$fp = @fopen(strip_tags($row["private_iptv"]), "r")) {
-  echo '<body class="mx-auto">
-  <div class="alert alert-danger" role="alert">This channel is not running!</div>
-  </body>';
-} else {
 
 echo '<body class="mx-auto">
 <video id="video" class="video-js vjs-default-skin" data-aspect-ratio="hd" controls autoplay>
@@ -1419,7 +1414,7 @@ echo '<body class="mx-auto">
   }
 </script>
 <?php
-}
+
 if (!$fp = fopen(strip_tags($row["private_iptv"]), 'r')) {
 echo '<script>console.log("'.strip_tags($row["private_iptv"]).' address not open");</script>';
 }
