@@ -46,7 +46,7 @@ $stmt->execute(array(':pubid' => $_COOKIE['user_id']));
 while($row = $stmt->fetch()) {
 ?>
 <li class='list-group-item'>
-<a onclick="getiriptv('<?php echo strip_tags($row["public_name"]); ?>')">Yayın <?php echo intval($row["public_id"]); ?></a>
+<a onclick="getiriptv('<?php echo strip_tags($row["public_name"]); ?>')"> <?php echo intval($row["public_name"]); ?></a>
 </li>
 <?php
 }
