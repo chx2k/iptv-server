@@ -150,7 +150,7 @@ CREATE TABLE `public_iptv` (
 --
 
 INSERT INTO `public_iptv` (`public_id`, `public_name`, `public_tslink`, `video_stream`, `public_active`, `public_sahip`) VALUES
-(1, 'a0046ad4c1bafc4ef04e41e755f28368', 'https://xxx.buneamkya.xyz/72fe9bb58e02e669273c902c1f48f501/601/qs.m3u8', '0', '1', 'alicangonullu');
+(1, 'a0046ad4c1bafc4ef04e41e755f28368', 'https://tv-trt1.live.trt.com.tr/master_720.m3u8', '0', '1', 'alicangonullu');
 --
 -- Dökümü yapılmış tablolar için indeksler
 --
