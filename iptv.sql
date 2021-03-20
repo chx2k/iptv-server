@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Anamakine: localhost
--- Üretim Zamanı: 15 Mar 2021, 12:02:43
+-- Üretim Zamanı: 18 Mar 2021, 12:49:42
 -- Sunucu sürümü: 5.7.33-0ubuntu0.16.04.1
 -- PHP Sürümü: 7.0.33-0ubuntu0.16.04.16
 
@@ -68,7 +68,7 @@ CREATE TABLE `iptv_config` (
 --
 
 INSERT INTO `iptv_config` (`config_id`, `logo`, `rtmp_port`, `ffmpeg_m3u8cfg`, `ffmpeg_ts`, `ffmpeg_flv`, `twitter_tkn`, `facebook_tkn`, `twitch_tkn`, `restream_tkn`, `youtube_tk`, `instagram_tk`, `sahip`) VALUES
-(1, 'https://metroui.org.ua/images/logo4.png', '1938', '-listen 1 -hls_wrap 8 -deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '-c:v copy -c:a copy -t 00:05:00', '-deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '123', '123', '123', '123', '1234', '123', 'alicangonullu');
+(1, 'https://metroui.org.ua/images/logo4.png', '1938', '-listen 1 -hls_wrap 8 -deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '-c:v copy -c:a copy -t 00:05:00', '-deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '123', '123', '123', '123', '123', '123', 'alicangonullu');
 -- --------------------------------------------------------
 
 --
@@ -101,6 +101,13 @@ CREATE TABLE `ip_logger` (
   `browserinf` varchar(255) NOT NULL,
   `date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Tablo döküm verisi `ip_logger`
+--
+
+INSERT INTO `ip_logger` (`id`, `ip`, `browserinf`, `date`) VALUES
+(1, '192.241.223.219/', '{"Host":"185.114.23.199","User-Agent":"Mozilla\\/5.0 zgrab\\/0.x","Accept":"*\\/*","Accept-Encoding":"gzip"}', '2021-03-15 13:55:55');
 
 -- --------------------------------------------------------
 
@@ -144,7 +151,6 @@ CREATE TABLE `public_iptv` (
 
 INSERT INTO `public_iptv` (`public_id`, `public_name`, `public_tslink`, `video_stream`, `public_active`, `public_sahip`) VALUES
 (1, 'a0046ad4c1bafc4ef04e41e755f28368', 'https://xxx.buneamkya.xyz/72fe9bb58e02e669273c902c1f48f501/601/qs.m3u8', '0', '1', 'alicangonullu');
-
 --
 -- Dökümü yapılmış tablolar için indeksler
 --

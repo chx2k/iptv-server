@@ -6,7 +6,7 @@ $getir->funcControl('exec');
 $getir->funcControl('system');
 
 $update = $db->prepare("INSERT INTO ip_logger(ip, browserinf, date) VALUES (:ipz, :browserz, :datez)");
-$update->bindValue(':ipz', strip_tags("".$_SERVER['REMOTE_ADDR']."".$_SERVER["REQUEST_URI"].""));
+$update->bindValue(':ipz', strip_tags($_SERVER['REMOTE_ADDR']));
 $update->bindValue(':browserz', json_encode(getallheaders()));
 $update->bindValue(':datez', date("Y-m-d H:i:s"));
 $update->execute();
@@ -50,14 +50,16 @@ $stmt->execute(array(':iddegeri' => $streamlink));
 while($row = $stmt->fetch()) {
 if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["user_id"])) {
 //Control Permission
-
 if($row["public_active"] == 0) {
 die("<center><b>Channel Deactivated</b></center>");
 } else {
 }
-
 if(isset($_GET["debug"])) {
 //Video Debug Started
+if($row["public_active"] == 0) {
+die("<center><b>Channel Deactivated</b></center>");
+} else {
+}
 if($row["video_stream"] == 1) {
 if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 //Windows TS Debug
@@ -105,12 +107,21 @@ $getir->M3U8DebugStream(strip_tags($row["public_name"]), strip_tags($row["public
 }
 
 if(intval($_GET["selcuk"]) == "1") {
+if($row["public_active"] == 0) {
+die("<center><b>Channel Deactivated</b></center>");
+} else {
+}
 $getir->SelcukTheme(strip_tags($row["public_tslink"]), strip_tags($_GET["pubid"]));
+die();
 } else {
 }
 
 if(isset($_GET["watchplayer"])) {
 //WatchPlayer Started
+if($row["public_active"] == 0) {
+die("<center><b>Channel Deactivated</b></center>");
+} else {
+}
 if($row["video_stream"] == 1) {
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
@@ -139,8 +150,13 @@ echo '<body class="container">
 <center><video style="width:100%;height:100%;" id="video" class="video-js vjs-default-skin" data-logo="'.$logo.'" data-aspect-ratio="hd" controls autoplay></video>
 </div></center></body>';	  
 $getir->M3UVideo("m3u/".strip_tags($_GET["pubid"]).".ts");
+echo '<center>Yayını paylaşmak için http://'.$_SERVER['HTTP_HOST'].'/m3u/'.strip_tags($_GET["pubid"]).'.m3u8</center>';
 } else {
 //M3U8 Player Started
+if($row["public_active"] == 0) {
+die("<center><b>Channel Deactivated</b></center>");
+} else {
+}
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
 <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet"/>
@@ -168,9 +184,15 @@ echo '<body class="container">
 <center><video style="width:100%;height:100%;" id="video" data-role="video-player" data-logo="'.$logo.'"  data-aspect-ratio="hd" controls autoplay></video>
 </div></center></body>';
 $getir->M3UVideo("m3u/".strip_tags($_GET["pubid"]).".m3u8");
+echo '<center>Yayını paylaşmak için http://'.$_SERVER['HTTP_HOST'].'/m3u/'.strip_tags($_GET["pubid"]).'.m3u8</center>';
 }
 } else {
+if($row["public_active"] == 0) {
+die("<center><b>Channel Deactivated</b></center>");
+} else {
+}
 $getir->M3U8Stream(strip_tags($row["public_name"]));
+echo '<center>Yayını paylaşmak için http://'.$_SERVER['HTTP_HOST'].'/m3u/'.strip_tags($_GET["pubid"]).'.m3u8</center>';
 }
 
 }

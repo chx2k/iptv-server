@@ -1007,7 +1007,7 @@ die("NO");
   $update->bindValue(':iptvadi', strip_tags($_POST["iptvname"]));
   $update->bindValue(':iptvtype', strip_tags($_POST["iptvstrorvid"]));
   $update->bindValue(':iptvactive', strip_tags($_POST["iptvclsopn"]));
-  $update->bindValue(':iptvlink', strip_tags($_POST["iptvlink"]));
+  $update->bindValue(':iptvlink', htmlentities($_POST["iptvlink"]));
   $update->bindValue(':iptvsahip', strip_tags($_COOKIE["user_id"]));
   $update->execute();
   if($row = $update->rowCount()) {
@@ -1532,8 +1532,74 @@ die("NO");
   }
   echo '</table>
     <br>
-  <a href="" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Add User</a>
+  <a href="index.php?git=adduser" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Add User</a>
   </div>';
+  break;
+  
+  case 'adduser':
+  $getir->logincheck();
+  if($_COOKIE["yetki"] == md5("uye")) {
+  die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
+  } else {
+  }
+  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+    echo '<body>
+  <form class="mt-5 container" action="index.php?git=paddusr" method="post">
+    <div class="form-group">
+        <label>Username</label>
+        <input class="form-control" name="usrname" type="text" placeholder="Enter Username"/>
+    </div>
+        <div class="form-group">
+        <label>Username</label>
+        <input class="form-control" name="usremail" type="email" placeholder="Enter email"/>
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        <input class="form-control" name="usrpass" type="password" placeholder="Enter Password"/>
+    </div>
+        <div class="form-group">
+        <label>Token</label>
+        <input class="form-control" name="usrtkn" type="password" placeholder="Enter Token"/>
+    </div>
+    <div class="form-group">
+    <label for="usrtype">User Type</label>
+    <select class="form-control" name="usrtype" id="usrtype">
+    <option value="uye">User</option>
+    <option value="admin">Admin</option>
+    <option value="gold">Gold</option>
+    </select>
+    </div>
+  
+    <div class="form-group">
+        <button class="button success">Ekle</button>
+    </div>
+  </form></body>';
+  break;
+  
+  case 'paddusr':
+  $getir->logincheck();
+  if($_COOKIE["yetki"] == md5("uye")) {
+  die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
+  } else {
+  }
+  $update = $db->prepare("INSERT INTO admin_list(admin_usrname, admin_email, admin_passwd, admin_token, admin_yetki) VALUES (:usrname, :usremail, :usrpass, :usrtkn, :usrtype)");
+  $update->bindValue(':usrname', strip_tags($_POST["usrname"]));
+  $update->bindValue(':usremail', strip_tags($_POST["usremail"]));
+  $update->bindValue(':usrpass', sha1(md5($_POST["usrpass"])));
+  $update->bindValue(':usrtkn', sha1(md5($_POST["usrtkn"])));
+  $update->bindValue(':usrtype', strip_tags($_POST["usrtype"]));
+  $update->execute();
+  if($row = $update->rowCount()) {
+    echo "<script LANGUAGE='JavaScript'>
+    window.alert('Succesfully Added');
+    window.location.href='index.php?git=user';
+    </script>";
+  } else {
+    echo "<script LANGUAGE='JavaScript'>
+    window.alert('Unsuccesfully Added');
+    window.location.href='index.php?git=user';
+    </script>";
+  }
   break;
   
   case 'edituser':
