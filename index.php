@@ -848,8 +848,8 @@ case 'startcst':
   break;
   
   case 'startrecord':
-    $getir->logincheck();
-    if($_COOKIE["yetki"] == md5("uye")) {
+  $getir->logincheck();
+  if($_COOKIE["yetki"] == md5("uye")) {
   die("NO");
   } else {
   }
@@ -861,17 +861,17 @@ case 'startcst':
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartRecordStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configrec, strip_tags($_POST["link"]), strip_tags($_POST["token"]));
+	$getir->StartRecordStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configrec);
 	} else {
-	$getir->StartRecordStreamLin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configrec, strip_tags($_POST["link"]), strip_tags($_POST["token"]));
+	$getir->StartRecordStreamLin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configrec);
 	}
   } else {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartRecordStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configrec, strip_tags($_POST["link"]), strip_tags($_POST["token"]));
+	$getir->StartRecordStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configrec);
 	} else {
-    $getir->StartRecordStreamLin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configrec, strip_tags($_POST["link"]), strip_tags($_POST["token"]));
+    $getir->StartRecordStreamLin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configrec);
 	}
   }
    } else {

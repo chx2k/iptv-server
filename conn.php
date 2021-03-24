@@ -783,34 +783,26 @@ public function TSDebugStreamWin($pubname, $tslinks, $configts) {
   die();
 }
 
-public function StartRecordStreamLin($pubname, $tslinks, $url, $config, $port) {
+public function StartRecordStreamLin($pubname, $tslinks, $url, $config) {
   set_time_limit(0);
-  $filename = ''.strip_tags($pubname).'.m3u8';
-  $tslink = 'rtp://localhost:'.$port.'/'.strip_tags($pubname).'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f mp4 '.$tslink.' >"'.$logfile.'" 2>&1';
+  $recfile = ''.dirname(__FILE__).'/log/'.strip_tags($pubname).'.mp4';
+  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' -f mp4 '.$recfile.' >"'.$logfile.'" 2>&1';
   shell_exec($com);
-  echo '<br>Command : <br>
-  <pre>
-  '.$com.'
-  </pre><br>';
+  echo '<br>Command : <br><pre>'.$com.'</pre><br>';
   echo '<br><b>URL : '.$url.'</b><br>';
   echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
 }
 
-public function StartRecordStreamWin($pubname, $tslinks, $url, $config, $port) {
+public function StartRecordStreamWin($pubname, $tslinks, $url, $config) {
   set_time_limit(0);
-  $filename = ''.strip_tags($pubname).'.m3u8';
-  $tslink = 'rtp://localhost:'.$port.'/'.strip_tags($pubname).'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' -f mp4 '.$tslink.' >"'.$logfile.'" 2>&1';
+  $recfile = ''.dirname(__FILE__).'/log/'.strip_tags($pubname).'.mp4';
+  $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' -f mp4 '.$recfile.' >"'.$logfile.'" 2>&1';
   shell_exec($com);
-  echo '<br>Command : <br>
-  <pre>
-  '.$com.'
-  </pre><br>';
+  echo '<br>Command : <br><pre>'.$com.'</pre><br>';
   echo '<br><b>URL : '.$url.'</b><br>';
   echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
 }
