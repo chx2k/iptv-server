@@ -810,7 +810,6 @@ public function StartRecordStreamWin($pubname, $tslinks, $url, $config) {
 
 public function StartOtherStreamLin($pubname, $tslinks, $url, $config, $port) {
   set_time_limit(0);
-  $filename = ''.strip_tags($pubname).'.m3u8';
   $tslink = 'rtp://localhost:'.$port.'/'.strip_tags($pubname).'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
@@ -826,7 +825,6 @@ public function StartOtherStreamLin($pubname, $tslinks, $url, $config, $port) {
 
 public function StartOtherStreamWin($pubname, $tslinks, $url, $config, $port) {
   set_time_limit(0);
-  $filename = ''.strip_tags($pubname).'.m3u8';
   $tslink = 'rtp://localhost:'.$port.'/'.strip_tags($pubname).'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
