@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu2.1
--- http://www.phpmyadmin.net
+-- version 5.1.0
+-- https://www.phpmyadmin.net/
 --
 -- Anamakine: localhost
--- Üretim Zamanı: 18 Mar 2021, 12:49:42
--- Sunucu sürümü: 5.7.33-0ubuntu0.16.04.1
--- PHP Sürümü: 7.0.33-0ubuntu0.16.04.16
+-- Üretim Zamanı: 24 Mar 2021, 20:20:23
+-- Sunucu sürümü: 10.3.27-MariaDB
+-- PHP Sürümü: 7.2.24
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -41,6 +42,7 @@ CREATE TABLE `admin_list` (
 
 INSERT INTO `admin_list` (`admin_id`, `admin_email`, `admin_usrname`, `admin_passwd`, `admin_token`, `admin_yetki`) VALUES
 (1, 'alicangonullu@yahoo.com', 'alicangonullu', '5a6a73a13efd448510b6c4c41acda5ef890c3b7a', '5a6a73a13efd448510b6c4c41acda5ef890c3b7a', 'admin');
+
 -- --------------------------------------------------------
 
 --
@@ -68,7 +70,8 @@ CREATE TABLE `iptv_config` (
 --
 
 INSERT INTO `iptv_config` (`config_id`, `logo`, `rtmp_port`, `ffmpeg_m3u8cfg`, `ffmpeg_ts`, `ffmpeg_flv`, `twitter_tkn`, `facebook_tkn`, `twitch_tkn`, `restream_tkn`, `youtube_tk`, `instagram_tk`, `sahip`) VALUES
-(1, 'https://metroui.org.ua/images/logo4.png', '1938', '-listen 1 -hls_wrap 8 -deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '-c:v copy -c:a copy -t 00:05:00', '-deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '123', '123', '123', '123', '123', '123', 'alicangonullu');
+(1, 'https://metroui.org.ua/images/logo4.png', '1938', '-listen 1 -hls_wrap 8 -deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '-c:v copy -c:a copy -t 00:05:00', '-deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '1', '775403586519005?s_bl=1&s_psm=1&s_sc=775403629852334&s_sw=0&s_vt=api-s&a=AbxrIJUhn1u4xCBn', '123', '12', 'q9m8-sfd2-jgwr-y7sf-4evz', '123', 'alicangonullu');
+
 -- --------------------------------------------------------
 
 --
@@ -107,7 +110,7 @@ CREATE TABLE `ip_logger` (
 --
 
 INSERT INTO `ip_logger` (`id`, `ip`, `browserinf`, `date`) VALUES
-(1, '192.241.223.219/', '{"Host":"185.114.23.199","User-Agent":"Mozilla\\/5.0 zgrab\\/0.x","Accept":"*\\/*","Accept-Encoding":"gzip"}', '2021-03-15 13:55:55');
+(1, '192.241.223.219/', '{\"Host\":\"185.114.23.199\",\"User-Agent\":\"Mozilla\\/5.0 zgrab\\/0.x\",\"Accept\":\"*\\/*\",\"Accept-Encoding\":\"gzip\"}', '2021-03-15 13:55:55');
 
 -- --------------------------------------------------------
 
@@ -130,6 +133,7 @@ CREATE TABLE `private_iptv` (
 
 INSERT INTO `private_iptv` (`private_id`, `private_name`, `private_resim`, `private_iptv`, `private_active`, `private_sahip`) VALUES
 (1, 'TRT1', '', 'https://tv-trt1.live.trt.com.tr/master_720.m3u8', '1', 'alicangonullu');
+
 -- --------------------------------------------------------
 
 --
@@ -139,6 +143,7 @@ INSERT INTO `private_iptv` (`private_id`, `private_name`, `private_resim`, `priv
 CREATE TABLE `public_iptv` (
   `public_id` int(11) NOT NULL,
   `public_name` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
+  `stream_othname` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
   `public_tslink` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
   `video_stream` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
   `public_active` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
@@ -149,8 +154,9 @@ CREATE TABLE `public_iptv` (
 -- Tablo döküm verisi `public_iptv`
 --
 
-INSERT INTO `public_iptv` (`public_id`, `public_name`, `public_tslink`, `video_stream`, `public_active`, `public_sahip`) VALUES
-(1, 'a0046ad4c1bafc4ef04e41e755f28368', 'https://tv-trt1.live.trt.com.tr/master_720.m3u8', '0', '1', 'alicangonullu');
+INSERT INTO `public_iptv` (`public_id`, `public_name`, `stream_othname`, `public_tslink`, `video_stream`, `public_active`, `public_sahip`) VALUES
+(1, 'a0046ad4c1bafc4ef04e41e755f28368', 'TRT1', 'https://tv-trt1.live.trt.com.tr/master_720.m3u8', '0', '0', 'alicangonullu');
+
 --
 -- Dökümü yapılmış tablolar için indeksler
 --
@@ -200,31 +206,38 @@ ALTER TABLE `public_iptv`
 --
 ALTER TABLE `admin_list`
   MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
 --
 -- Tablo için AUTO_INCREMENT değeri `iptv_config`
 --
 ALTER TABLE `iptv_config`
   MODIFY `config_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
 --
 -- Tablo için AUTO_INCREMENT değeri `ip_block`
 --
 ALTER TABLE `ip_block`
   MODIFY `ip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
 --
 -- Tablo için AUTO_INCREMENT değeri `ip_logger`
 --
 ALTER TABLE `ip_logger`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
 --
 -- Tablo için AUTO_INCREMENT değeri `private_iptv`
 --
 ALTER TABLE `private_iptv`
   MODIFY `private_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
 --
 -- Tablo için AUTO_INCREMENT değeri `public_iptv`
 --
 ALTER TABLE `public_iptv`
   MODIFY `public_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

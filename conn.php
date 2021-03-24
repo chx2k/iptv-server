@@ -1,7 +1,4 @@
 <?php
-error_reporting(0);
-session_destroy();
-session_start();
 if(file_exists("yukle.lock")) {
 } else {
 die("<center><b>PHP IPTV Yüklenemedi / PHP IPTV was not Installed</b>
@@ -786,6 +783,39 @@ public function TSDebugStreamWin($pubname, $tslinks, $configts) {
   die();
 }
 
+public function StartRecordStreamLin($pubname, $tslinks, $url, $config, $port) {
+  set_time_limit(0);
+  $filename = ''.strip_tags($pubname).'.m3u8';
+  $tslink = 'rtp://localhost:'.$port.'/'.strip_tags($pubname).'';
+  $logfilename = ''.strip_tags($pubname).'-mylog.log';
+  $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
+  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f mp4 '.$tslink.' >"'.$logfile.'" 2>&1';
+  shell_exec($com);
+  echo '<br>Command : <br>
+  <pre>
+  '.$com.'
+  </pre><br>';
+  echo '<br><b>URL : '.$url.'</b><br>';
+  echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
+}
+
+public function StartRecordStreamWin($pubname, $tslinks, $url, $config, $port) {
+  set_time_limit(0);
+  $filename = ''.strip_tags($pubname).'.m3u8';
+  $tslink = 'rtp://localhost:'.$port.'/'.strip_tags($pubname).'';
+  $logfilename = ''.strip_tags($pubname).'-mylog.log';
+  $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
+  $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' -f mp4 '.$tslink.' >"'.$logfile.'" 2>&1';
+  shell_exec($com);
+  echo '<br>Command : <br>
+  <pre>
+  '.$com.'
+  </pre><br>';
+  echo '<br><b>URL : '.$url.'</b><br>';
+  echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
+}
+
+
 public function StartOtherStreamLin($pubname, $tslinks, $url, $config, $port) {
   set_time_limit(0);
   $filename = ''.strip_tags($pubname).'.m3u8';
@@ -1136,12 +1166,15 @@ echo '<head>
 }
 
 public function logincheck() {
-if(isset($_COOKIE['user_id'])) {
-} elseif($_COOKIE['user_id'] == "1") {
-die('<script>location.replace("../index.php")</script>');
+if(isset($_COOKIE['login'])) {
 } else {
-die('<script>location.replace("../index.php")</script>');
+if(session_status() == "2") {
+die('<center><b>ERROR : Cannot login<br>Session Status : WORKING</b></center>');
+} else {
+die('<center><b>ERROR : Cannot login<br>Session Status : NOT WORKING</b></center>');
 }
+}
+
 if($_COOKIE["yetki"] == md5("sus")) {
 die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
 } else {

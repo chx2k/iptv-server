@@ -1,7 +1,7 @@
 <?php
 include("conn.php");
-$getir = new IPTVClass();
 
+$getir = new IPTVClass();
 $getir->funcControl('shell_exec');
 $getir->funcControl('exec');
 $getir->funcControl('system');
@@ -9,6 +9,20 @@ $getir->funcControl('system');
 
 $getir->Head("IPTV Player");
 $getir->Style();
+$stmt = $db->prepare('SELECT * FROM iptv_config');
+$stmt->execute();
+if($row = $stmt->fetch()) {
+$configm3u8 = $row["ffmpeg_m3u8cfg"];
+$configts = $row["ffmpeg_ts"];
+$configflv = $row["ffmpeg_flv"];
+$twittertk = $row["twitter_tkn"];
+$facebooktk = $row["facebook_tkn"];
+$twitchtk = $row["twitch_tkn"];
+$youtubetk = $row["youtube_tk"];
+$instagramtk = $row["instagram_tk"];
+$restreamtk = $row["restream_tkn"];
+$rtmpport = $row["rtmp_port"];
+}
 
 if(!isset($_GET['git'])) {
 $sayfa = 'index';
@@ -27,6 +41,9 @@ $sayfa = strip_tags($_GET['git']);
 switch ($sayfa) {
 
 case 'postlgn':
+session_destroy();
+session_start();
+session_regenerate_id();
 if($_POST) {
 
 $name = strip_tags($_POST["mail"]);
@@ -35,8 +52,9 @@ $pass = sha1(md5($_POST['pass']));
 $query  = $db->query("SELECT * FROM admin_list WHERE admin_usrname =" . $db->quote($name) . " AND admin_passwd = " . $db->quote($pass). "",PDO::FETCH_ASSOC);
 if ( $say = $query -> rowCount() ){
 if( $say > 0 ){
-echo('<script>document.cookie = "user_id='.strip_tags($_POST["mail"]).'";
-location.replace("index.php?git=iptv")</script>');
+$_SESSION["login"] = strip_tags($_POST["mail"]);
+setcookie("login", strip_tags($_POST["mail"]), time()+3600);
+echo('<script>location.replace("index.php?git=control2")</script>');
 }
 
 } else {
@@ -45,6 +63,34 @@ echo('<script>location.replace("index.php")</script>');
 
 } else {
   $getir->Error("Non-POST");
+}
+break;
+
+case 'control2':
+$getir->logincheck();
+$stmt = $db->prepare('SELECT * FROM admin_list WHERE admin_usrname = :iddegeri');
+$stmt->execute(array(':iddegeri' => $_COOKIE["login"]));
+while($row = $stmt->fetch()) {
+if(strip_tags($row["admin_yetki"]) == "admin") {
+$_SESSION["yetki"] = md5("admin");
+setcookie("yetki", md5("admin"), time()+3600);
+echo('<script>location.replace("index.php?git=iptv")</script>');
+} elseif(strip_tags($row["admin_yetki"]) == "sus") {
+die("Hesabınız Bloklanmıştır");
+} elseif($_SESSION["yetki"] == md5("gold")) { 
+$_SESSION["yetki"] = md5("gold");
+setcookie("yetki", md5("gold"), time()+3600);
+echo('<script>location.replace("index.php?git=iptv")</script>');
+} else {
+$_SESSION["yetki"] = md5("uye");
+setcookie("yetki", md5("uye"), time()+3600);
+echo('<script>location.replace("index.php?git=iptv")</script>');
+}
+if(isset($_SESSION["yetki"])) {
+} else {
+echo '<script>location.reload();</script>';
+}
+
 }
 break;
 
@@ -180,27 +226,6 @@ break;
 
 case 'iptv':
 $getir->logincheck();
-
-$stmt = $db->prepare('SELECT * FROM admin_list WHERE admin_usrname = :iddegeri');
-$stmt->execute(array(':iddegeri' => $_COOKIE["user_id"]));
-while($row = $stmt->fetch()) {
-if(strip_tags($row["admin_yetki"]) == "admin") {
-$_SESSION["yetki"] == "admin";
-echo('<script>document.cookie = "yetki='.md5("admin").'";</script>');
-} elseif(strip_tags($row["admin_yetki"]) == "sus") {
-die("Hesabınız Bloklanmıştır");
-} elseif($_COOKIE["yetki"] == md5("gold")) { 
-echo('<script>document.cookie = "yetki='.md5("gold").'";</script>');
-} else {
-$_SESSION["yetki"] == "uye";
-echo('<script>document.cookie = "yetki='.md5("uye").'";</script>');
-}
-if(isset($_COOKIE["yetki"])) {
-} else {
-echo '<script>location.reload();</script>';
-}
-
-}
 ?>
 <script language="JavaScript" type="text/javascript">
 function delpost(id)
@@ -331,7 +356,7 @@ echo '<div class="mt-5 container">
 $stmt2 = $db->prepare('SELECT * FROM private_iptv');
 $stmt2->execute();
 while($row2 = $stmt2->fetch()) {
-if(strip_tags($row2["private_sahip"]) == strip_tags($_COOKIE["user_id"])) {
+if(strip_tags($row2["private_sahip"]) == strip_tags($_COOKIE["login"])) {
 echo '<tr><td><div class=kisalt">'.strip_tags($row2["private_id"]).'</div></td>';
 echo '<td><div class="kisalt">'.strip_tags($row2["private_name"]).'</div></td>';
 
@@ -371,14 +396,14 @@ echo '</tbody></table></div>
 $stmt2 = $db->prepare('SELECT * FROM public_iptv');
 $stmt2->execute();
 while($row2 = $stmt2->fetch()) {
-if(strip_tags($row2["public_sahip"]) == strip_tags($_COOKIE["user_id"])) {
+if(strip_tags($row2["public_sahip"]) == strip_tags($_COOKIE["login"])) {
 echo '<tr><td><div class=kisalt">'.strip_tags($row2["public_id"]).'</div></td>';
 if(strip_tags($row2["video_stream"]) == "0") {
   echo '<td>Live</td>';
 } else {
   echo '<td>Video</td>';
 }
-echo '<td><div class="kisalt">'.strip_tags($row2["public_tslink"]).'</div></td>';
+echo '<td><div class="kisalt">'.strip_tags($row2["stream_othname"]).'</div></td>';
 
 if(strip_tags($row["public_active"]) == "0") {
 echo '<td><b>Off</b></td>';
@@ -395,11 +420,11 @@ echo '<td><div class="btn-group">
   <ul class="dropdown-menu" role="menu">';
 if($_COOKIE["yetki"] == md5("uye")) {
 } else {
-echo '<li><a class="dropdown-item" target="_blank" href="../watch.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'">M3U8 Link</a></li>
-<li><a class="dropdown-item" target="_blank" href="../watch.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'&debug">Debug</a></li>';
+echo '<li><a class="dropdown-item" target="_blank" href="../watch.php?pubid='.strip_tags($row2["public_name"]).'">M3U8 Link</a></li>
+<li><a class="dropdown-item" target="_blank" href="../watch.php?pubid='.strip_tags($row2["public_name"]).'&debug">Debug</a></li>';
 }
-echo '<li><a class="dropdown-item" target="_blank" href="../watch.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'&watchplayer=1">Watch</a></li>
-    <li><a class="dropdown-item" target="_blank" href="../watch.php?pubid='.strip_tags($row2["public_name"]).'&live='.strip_tags($row2["video_stream"]).'&selcuk=1">SelcukWatch</a></li>';
+echo '<li><a class="dropdown-item" target="_blank" href="../watch.php?pubid='.strip_tags($row2["public_name"]).'&watchplayer=1">Watch</a></li>
+    <li><a class="dropdown-item" target="_blank" href="../watch.php?pubid='.strip_tags($row2["public_name"]).'&selcuk=1">SelcukWatch</a></li>';
 echo '</ul></div></td>
 
 <td><div class="btn-group">
@@ -420,6 +445,7 @@ echo '<li><a class="dropdown-item" target="_blank" href="index.php?git=getlog&id
 <li><a class="dropdown-item" target="_blank" href="index.php?git=startcst1&id='.intval($row2["public_id"]).'">Start Custom Stream</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=startrtmp&id='.intval($row2["public_id"]).'">Start RTMP Stream</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=startiptv&id='.intval($row2["public_id"]).'">Start Stream</a></li>
+<li><a class="dropdown-item" target="_blank" href="index.php?git=startrecord&id='.intval($row2["public_id"]).'">Start Stream Record</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=stopiptv&id='.intval($row2["public_id"]).'">Stop Stream</a></li>';
 }
 echo '<li><a class="dropdown-item" target="_blank" href="index.php?git=editpubid&id='.strip_tags($row2["public_id"]).'">Edit Stream</a></li>
@@ -442,7 +468,7 @@ echo '
 <th></th>
 </tr></thead><tbody>';
 $stmt3 = $db->prepare('SELECT * FROM iptv_config WHERE sahip = :iddegeri');
-$stmt3->execute(array(':iddegeri' => $_COOKIE["user_id"]));
+$stmt3->execute(array(':iddegeri' => $_COOKIE["login"]));
 while($row2 = $stmt3->fetch()) {
 echo '<tr><td><div class=kisalt">'.intval($row2["config_id"]).'</div></td>';
 echo '<td><div class="kisalt">'.strip_tags($row2["ffmpeg_m3u8cfg"]).'</div></td>';
@@ -465,7 +491,7 @@ echo '</tr>
   $stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-  if($row["sahip"] == $_COOKIE["user_id"]) {
+  if($row["sahip"] == $_COOKIE["login"]) {
 	  echo '<body>
   <form class="container" action="index.php?git=peditcfg" method="post">
   
@@ -536,7 +562,7 @@ echo '</tr>
   $stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-  if($row["sahip"] == $_COOKIE["user_id"]) {
+  if($row["sahip"] == $_COOKIE["login"]) {
   } else {
   die("NO");
   }
@@ -573,7 +599,7 @@ echo '</tr>
   $stmt = $db->prepare('DELETE FROM private_iptv WHERE private_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   while($row2 = $stmt->fetch()) {
-      if(strip_tags($row2["private_sahip"]) == strip_tags($_COOKIE["user_id"])) {
+      if(strip_tags($row2["private_sahip"]) == strip_tags($_COOKIE["login"])) {
           
       } else {
           die("<script LANGUAGE='JavaScript'>
@@ -605,7 +631,7 @@ echo '</tr>
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-  if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["user_id"])) {
+  if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -638,7 +664,7 @@ echo '</tr>
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-  if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["user_id"])) {
+  if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -671,7 +697,7 @@ echo '</tr>
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-   if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["user_id"])) {
+   if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -704,7 +730,7 @@ echo '</tr>
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-   if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["user_id"])) {
+   if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -737,7 +763,7 @@ echo '</tr>
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-   if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["user_id"])) {
+   if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -795,7 +821,7 @@ case 'startcst':
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_POST["id"])));
   if($row = $stmt->fetch()) {
-   if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["user_id"])) {
+   if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -819,6 +845,39 @@ case 'startcst':
 }
   break;
   
+  case 'startrecord':
+    $getir->logincheck();
+    if($_COOKIE["yetki"] == md5("uye")) {
+  die("NO");
+  } else {
+  }
+  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
+  $stmt->execute(array(':iddegeri' => intval($_POST["id"])));
+  if($row = $stmt->fetch()) {
+   if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
+  if($row["video_stream"] == "1") {
+    echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
+    <br>';
+	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+	$getir->StartRecordStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configrec, strip_tags($_POST["link"]), strip_tags($_POST["token"]));
+	} else {
+	$getir->StartRecordStreamLin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configrec, strip_tags($_POST["link"]), strip_tags($_POST["token"]));
+	}
+  } else {
+    echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
+    <br>';
+	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+	$getir->StartRecordStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configrec, strip_tags($_POST["link"]), strip_tags($_POST["token"]));
+	} else {
+    $getir->StartRecordStreamLin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configrec, strip_tags($_POST["link"]), strip_tags($_POST["token"]));
+	}
+  }
+   } else {
+   die("NO");
+   }
+}
+  break;
+  
     case 'startrtmp':
   $getir->logincheck();
     if($_COOKIE["yetki"] == md5("uye")) {
@@ -828,7 +887,7 @@ case 'startcst':
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-   if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["user_id"])) {
+   if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -860,7 +919,7 @@ case 'startcst':
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-   if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["user_id"])) {
+   if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -898,7 +957,7 @@ case 'startcst':
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-   if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["user_id"])) {
+   if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br><br>';
@@ -925,7 +984,7 @@ case 'startcst':
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-  if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["user_id"])) {
+  if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -959,14 +1018,15 @@ case 'startcst':
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-  if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["user_id"])) {
-  $new_url = get_tiny_url('http://'.$_SERVER["HTTP_HOST"].'/watch.php?pubid='.strip_tags($row["public_name"]).'&live=0&selcuk=1');
+  if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
+  $new_url = get_tiny_url('http://'.$_SERVER["HTTP_HOST"].'/watch.php?pubid='.strip_tags($row["public_name"]).'&selcuk=1');
   $new_url2 = "Yakında";
   echo '<body>
   <form class="container" action="index.php?git=peditpubid" method="post">
-    <div class="form-group">
+      <input type="hidden" name="iptvname" value="'.strip_tags($row["public_name"]).'" class="form-control" readonly>
+          <div class="form-group">
       <label for="exampleFormControlInput1">IPTV Name</label>
-      <input type="text" name="iptvname" value="'.strip_tags($row["public_name"]).'" class="form-control" placeholder="IPTV Name" readonly>
+      <input type="text" name="iptvothname" value="'.strip_tags($row["stream_othname"]).'" class="form-control" placeholder="IPTV Name">
     </div>
 		  <div class="form-group">
     <label for="exampleFormControlSelect1">IPTV Type | '.strip_tags($row["video_stream"]).'</label>
@@ -1002,13 +1062,14 @@ die("NO");
 
   case 'peditpubid':
   $getir->logincheck();
-  $update = $db->prepare("UPDATE public_iptv SET public_name = :iptvadi, video_stream = :iptvtype, public_active = :iptvactive, public_tslink = :iptvlink, public_sahip = :iptvsahip WHERE public_id = :iptvid");
+  $update = $db->prepare("UPDATE public_iptv SET stream_othname = :pubothname, public_name = :iptvadi, video_stream = :iptvtype, public_active = :iptvactive, public_tslink = :iptvlink, public_sahip = :iptvsahip WHERE public_id = :iptvid");
   $update->bindValue(':iptvid',  intval($_POST["iptvid"]));
   $update->bindValue(':iptvadi', strip_tags($_POST["iptvname"]));
+  $update->bindValue(':pubothname', strip_tags($_POST["iptvothname"]));
   $update->bindValue(':iptvtype', strip_tags($_POST["iptvstrorvid"]));
   $update->bindValue(':iptvactive', strip_tags($_POST["iptvclsopn"]));
   $update->bindValue(':iptvlink', htmlentities($_POST["iptvlink"]));
-  $update->bindValue(':iptvsahip', strip_tags($_COOKIE["user_id"]));
+  $update->bindValue(':iptvsahip', strip_tags($_COOKIE["login"]));
   $update->execute();
   if($row = $update->rowCount()) {
     echo "<script LANGUAGE='JavaScript'>
@@ -1137,7 +1198,7 @@ echo '<div class="container">';
   $stmt = $db->prepare('SELECT * FROM private_iptv WHERE private_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   while($row = $stmt->fetch()) {
-  if(strip_tags($row["private_sahip"]) == strip_tags($_COOKIE["user_id"])) {
+  if(strip_tags($row["private_sahip"]) == strip_tags($_COOKIE["login"])) {
     if(strip_tags($row["private_active"]) == "0") {
       echo '<div class="alert alert-warning" role="alert">This channel suspended by admin!</div>';
     } else {
@@ -1446,6 +1507,10 @@ die("NO");
   echo '<body class="mx-auto">
   <center><b>Your IP : '.strip_tags($getir->getIPAddress()).'</b></center><br>
   <form class="container" action="index.php?git=pstartstream" method="post">
+      <div class="form-group">
+      <label for="exampleFormControlInput1">Stream Name</label>
+      <input type="text" name="streamname" class="form-control" placeholder="Stream Name">
+    </div>
     <div class="form-group">
       <label for="exampleFormControlInput1">Stream Link</label>
       <input type="text" name="streamlink" class="form-control" placeholder="M3U8 Link">
@@ -1683,7 +1748,7 @@ die("NO");
   $update->bindValue(':streampics', strip_tags($_POST["privpics"]));
   $update->bindValue(':streamiptv', strip_tags($_POST["priviptv"]));
   $update->bindValue(':streamactive', "1");
-  $update->bindValue(':sahip', strip_tags($_COOKIE["user_id"]));
+  $update->bindValue(':sahip', strip_tags($_COOKIE["login"]));
   $update->execute();
   if($row = $update->rowCount()) {
     echo "<script LANGUAGE='JavaScript'>
@@ -1701,12 +1766,13 @@ die("NO");
   case 'pstartstream':
   $getir->logincheck();
   $getdata = strip_tags(md5(rand(1000,9999)));
-  $update = $db->prepare("INSERT INTO public_iptv(public_name, public_tslink, public_active, video_stream, public_sahip) VALUES (:streamname, :streamadress, :streamactive, :streamorvideo, :pubsahip)");
+  $update = $db->prepare("INSERT INTO public_iptv(public_name, public_tslink, public_active, video_stream, public_sahip, stream_othname) VALUES (:streamname, :streamadress, :streamactive, :streamorvideo, :pubsahip, :streamothname)");
   $update->bindValue(':streamname', $getdata);
+  $update->bindValue(':streamothname', strip_tags($_POST["streamname"]));
   $update->bindValue(':streamadress', strip_tags($_POST["streamlink"]));
   $update->bindValue(':streamactive', "1");
   $update->bindValue(':streamorvideo',  strip_tags($_POST["streamorvid"]));
-  $update->bindValue(':pubsahip',  strip_tags($_COOKIE["user_id"]));
+  $update->bindValue(':pubsahip',  strip_tags($_COOKIE["login"]));
   $update->execute();
   if($row = $update->rowCount()) {
     echo "<script LANGUAGE='JavaScript'>
@@ -1747,7 +1813,8 @@ die("NO");
 
   case 'cikis':
   $getir->logincheck();
-  die('<script>document.cookie = "user_id= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
+  session_destroy();
+  die('<script>document.cookie = "login= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
   document.cookie = "capt= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
   document.cookie = "yetki= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
   location.replace("index.php")</script>');
