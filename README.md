@@ -2,6 +2,7 @@
 IPTV PHP Panel
 <br>
 <pre>
+NOTE : This program has been written for legal purposes. The author of this program is not responsible for illegal uses.
 Default Username : alicangonullu
 Default Password : 19654
 Default Token : 19654
