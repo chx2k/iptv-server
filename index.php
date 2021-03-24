@@ -22,6 +22,8 @@ $youtubetk = $row["youtube_tk"];
 $instagramtk = $row["instagram_tk"];
 $restreamtk = $row["restream_tkn"];
 $rtmpport = $row["rtmp_port"];
+$instatk = $row["youtube_tk"]; 
+$configrec = "";
 }
 
 if(!isset($_GET['git'])) {
@@ -768,17 +770,17 @@ echo '</tr>
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartIGTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($youtubetk));
+	$getir->StartIGTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($instatk));
 	} else {
-	$getir->StartIGTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($youtubetk));
+	$getir->StartIGTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($instatk));
 	}
   } else {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartIGTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($youtubetk));
+	$getir->StartIGTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($instatk));
 	} else {
-    $getir->StartIGTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($youtubetk));
+    $getir->StartIGTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($instatk));
 	}
   }
    } else {
