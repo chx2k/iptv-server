@@ -9,7 +9,7 @@ die("<center><b>PHP IPTV Yüklenemedi / PHP IPTV was not Installed</b>
 try {
 $ip = "localhost"; //host
 $user = "root";  // host id
-$password = "";  // password local olduğu için varsayılan şifre
+$password = "19742008";  // password local olduğu için varsayılan şifre
 $ad = "iptv_data"; // db adı 
 $db = new PDO("mysql:host=$ip;dbname=$ad", "$user", "$password");
 $db->query("SET CHARACTER SET 'utf8'");
@@ -1075,7 +1075,7 @@ echo '<div class="sidebar-header" width="400" height="255" data-image="'.strip_t
 }
 if($_SESSION["yetki"] == md5("admin")) {
 echo '<div class="avatar"><img data-role="gravatar" data-email="'.strip_tags($_SESSION["login"]).'"></div>
-        <span class="title fg-white">Uye</span>
+        <span class="title fg-white">'.strip_tags($_SESSION["login"]).'</span>
     </div>
     <ul class="sidebar-menu">
         <li><a href="index.php?git=iptv"><span class="mif-home icon"></span>Home</a></li>
@@ -1105,7 +1105,7 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="'.strip_tags($_S
     </div><br>';
 } elseif($_SESSION["yetki"] == md5("gold")) { 
 echo '<div class="avatar"><img data-role="gravatar" data-email="'.strip_tags($_SESSION["login"]).'"></div>
-        <span class="title fg-white">Gold</span>
+        <span class="title fg-white">'.strip_tags($_SESSION["login"]).'</span>
     </div>
     <ul class="sidebar-menu">
         <li><a href="index.php?git=iptv"><span class="mif-home icon"></span>Home</a></li>
@@ -1127,7 +1127,7 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="'.strip_tags($_S
     </div><br>';
 } else {
 echo '<div class="avatar"><img data-role="gravatar" data-email="'.strip_tags($_SESSION["login"]).'"></div>
-        <span class="title fg-white">Uye</span>
+        <span class="title fg-white">'.strip_tags($_SESSION["login"]).'</span>
     </div>
     <ul class="sidebar-menu">
         <li><a href="index.php?git=iptv"><span class="mif-home icon"></span>Home</a></li>

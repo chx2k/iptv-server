@@ -54,7 +54,7 @@ $pass = sha1(md5($_POST['pass']));
 $query  = $db->query("SELECT * FROM admin_list WHERE admin_usrname =" . $db->quote($name) . " AND admin_passwd = " . $db->quote($pass). "",PDO::FETCH_ASSOC);
 if ( $say = $query -> rowCount() ){
 if( $say > 0 ){
-$_SESSION["login"] = strip_tags($_POST["mail"]);
+$_SESSION["login"] = $name;
 echo('<script>location.replace("index.php?git=control2")</script>');
 }
 
@@ -353,10 +353,10 @@ echo '<div class="mt-5 container">
 <th></th>
 <th></th>
 </tr></thead><tbody>';
-$stmt2 = $db->prepare('SELECT * FROM private_iptv');
+$stmt2 = $db->prepare('SELECT * FROM private_iptv WHERE private_sahip = :perm');
+$stmt2->bindValue(':perm', strip_tags($_SESSION["login"]));
 $stmt2->execute();
 while($row2 = $stmt2->fetch()) {
-if(strip_tags($row2["private_sahip"]) == strip_tags($_SESSION["login"])) {
 echo '<tr><td><div class=kisalt">'.strip_tags($row2["private_id"]).'</div></td>';
 echo '<td><div class="kisalt">'.strip_tags($row2["private_name"]).'</div></td>';
 
@@ -373,8 +373,6 @@ if(strip_tags($row2["private_active"]) == "0") {
   echo '
   <td><a class="btn btn-danger" href="index.php?git=watch&id='.strip_tags($row2["private_id"]).'" target="_blank">Watch</a></td>
   <td><a class="btn btn-danger" href="index.php?git=deleteprivip&id='.strip_tags($row2["private_id"]).'" target="_blank">Delete</a></td>';
-} else {
-}
 }
 
 echo '</tbody></table></div>
@@ -394,10 +392,10 @@ echo '</tbody></table></div>
 <th></th>
 </tr></thead><tbody>';
 
-$stmt2 = $db->prepare('SELECT * FROM public_iptv');
+$stmt2 = $db->prepare('SELECT * FROM public_iptv WHERE public_sahip = :perm');
+$stmt2->bindValue(':perm', strip_tags($_SESSION["login"]));
 $stmt2->execute();
 while($row2 = $stmt2->fetch()) {
-if(strip_tags($row2["public_sahip"]) == strip_tags($_SESSION["login"])) {
 echo '<tr><td><div class=kisalt">'.strip_tags($row2["public_id"]).'</div></td>';
 if(strip_tags($row2["video_stream"]) == "0") {
   echo '<td>Live</td>';
@@ -453,11 +451,9 @@ echo '<li><a class="dropdown-item" target="_blank" href="index.php?git=editpubid
 <li><a class="dropdown-item" target="_blank" href="index.php?git=deletepubid&id='.strip_tags($row2["public_id"]).'">Delete Stream</a></li>
 </ul>
 </div></td>';
-} else {
 }
-}
-echo '</tr></tbody></table></div>';
-echo '
+echo '</tr></tbody></table></div>
+
 <div class="mt-5 container">
 <b>IPTV Config</b>
 <table class="table">
@@ -468,9 +464,10 @@ echo '
 <th>TS Config</th>
 <th></th>
 </tr></thead><tbody>';
-$stmt3 = $db->prepare('SELECT * FROM iptv_config WHERE sahip = :iddegeri');
-$stmt3->execute(array(':iddegeri' => $_SESSION["login"]));
-while($row2 = $stmt3->fetch()) {
+$stmt3 = $db->prepare('SELECT * FROM iptv_config WHERE sahip = :perm');
+$stmt3->bindValue(':perm', strip_tags($_SESSION["login"]));
+$stmt3->execute();
+if($row2 = $stmt3->fetch()) {
 echo '<tr><td><div class=kisalt">'.intval($row2["config_id"]).'</div></td>';
 echo '<td><div class="kisalt">'.strip_tags($row2["ffmpeg_m3u8cfg"]).'</div></td>';
 echo '<td><div class="kisalt">'.strip_tags($row2["ffmpeg_ts"]).'</div></td>';
@@ -489,8 +486,10 @@ echo '</tr>
       
   }
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
-  $stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :iddegeri');
-  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
+  $stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :iddegeri AND sahip = :iddegeri');
+  $stmt->bindValue(':iddegeri', intval($_GET["id"]));
+  $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
+  $stmt->execute();
   if($row = $stmt->fetch()) {
   if($row["sahip"] == $_SESSION["login"]) {
 	  echo '<body>
@@ -560,8 +559,10 @@ echo '</tr>
   case 'peditcfg':
   $getir->logincheck();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
-  $stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :iddegeri');
-  $stmt->execute(array(':iddegeri' => intval($_POST["ffmpegid"])));
+  $stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :iddegeri AND sahip = :perm');
+  $stmt->bindValue(':iddegeri', intval($_POST["ffmpegid"]));
+  $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
+  $stmt->execute();
   if($row = $stmt->fetch()) {
   if($row["sahip"] == $_SESSION["login"]) {
   } else {
@@ -597,8 +598,10 @@ echo '</tr>
   
   case 'deleteprivip':
   $getir->logincheck();
-  $stmt = $db->prepare('DELETE FROM private_iptv WHERE private_id = :iddegeri');
-  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
+  $stmt = $db->prepare('DELETE FROM private_iptv WHERE private_id = :iddegeri AND private_sahip = :perm');
+  $stmt->bindValue(':iddegeri', intval($_GET["id"]));
+  $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
+  $stmt->execute();
   while($row2 = $stmt->fetch()) {
       if(strip_tags($row2["private_sahip"]) == strip_tags($_SESSION["login"])) {
           
@@ -629,10 +632,11 @@ echo '</tr>
   die("NO");
   } else {
   }
-  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
-  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
+  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri AND public_sahip = :perm');
+  $stmt->bindValue(':iddegeri', intval($_GET["id"]));
+  $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
+  $stmt->execute();
   if($row = $stmt->fetch()) {
-  if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -650,9 +654,6 @@ echo '</tr>
     $getir->StartM3U8Stream(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configm3u8);
 	}
   }
-      } else {
-      die("NO");
-      }
 }
   break;
   
@@ -662,10 +663,11 @@ echo '</tr>
   die("NO");
   } else {
   }
-  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
-  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
+  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri AND public_sahip = :perm');
+  $stmt->bindValue(':iddegeri', intval($_GET["id"]));
+  $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
+  $stmt->execute();
   if($row = $stmt->fetch()) {
-  if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -683,22 +685,20 @@ echo '</tr>
     $getir->StartFacebookTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($facebooktk));
 	}
   }
-  } else {
-  die("NO");
-  }
 }
   break;
   
-     case 'starttwitch':
+  case 'starttwitch':
   $getir->logincheck();
     if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
   }
-  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
-  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
+  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri AND public_sahip = :perm');
+  $stmt->bindValue(':iddegeri', intval($_GET["id"]));
+  $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
+  $stmt->execute();
   if($row = $stmt->fetch()) {
-   if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -716,22 +716,20 @@ echo '</tr>
     $getir->StartTwitchTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($twitchtk));
 	}
   }
-   } else {
-   die("NO");
-   }
 }
   break;
   
-       case 'startyt':
+  case 'startyt':
   $getir->logincheck();
     if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
   }
-  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
-  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
+  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri AND public_sahip = :perm');
+  $stmt->bindValue(':iddegeri', intval($_GET["id"]));
+  $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
+  $stmt->execute();
   if($row = $stmt->fetch()) {
-   if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -749,9 +747,6 @@ echo '</tr>
     $getir->StartYouTubeTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($youtubetk));
 	}
   }
-   } else {
-       die("NO");
-   }
 }
   break;
   
@@ -761,10 +756,11 @@ echo '</tr>
   die("NO");
   } else {
   }
-  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
-  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
+  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri AND public_sahip = :perm');
+  $stmt->bindValue(':iddegeri', intval($_GET["id"]));
+  $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
+  $stmt->execute();
   if($row = $stmt->fetch()) {
-   if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -782,9 +778,6 @@ echo '</tr>
     $getir->StartIGTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($instatk));
 	}
   }
-   } else {
-   die("NO");
-   }
 }
   break;
 
@@ -819,10 +812,11 @@ case 'startcst':
   die("NO");
   } else {
   }
-  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
-  $stmt->execute(array(':iddegeri' => intval($_POST["id"])));
+  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri AND public_sahip = :perm');
+  $stmt->bindValue(':iddegeri', intval($_GET["id"]));
+  $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
+  $stmt->execute();
   if($row = $stmt->fetch()) {
-   if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -840,9 +834,6 @@ case 'startcst':
     $getir->StartCstTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($_POST["link"]), strip_tags($_POST["token"]));
 	}
   }
-   } else {
-   die("NO");
-   }
 }
   break;
   
@@ -852,10 +843,11 @@ case 'startcst':
   die("NO");
   } else {
   }
-  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
-  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
+  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri AND public_sahip = :perm');
+  $stmt->bindValue(':iddegeri', intval($_GET["id"]));
+  $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
+  $stmt->execute();
   if($row = $stmt->fetch()) {
-   if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -873,9 +865,6 @@ case 'startcst':
     $getir->StartRecordStreamLin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configrec);
 	}
   }
-   } else {
-   die("NO");
-   }
 }
   break;
   
@@ -885,10 +874,11 @@ case 'startcst':
   die("NO");
   } else {
   }
-  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
-  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
+  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri AND public_sahip = :perm');
+  $stmt->bindValue(':iddegeri', intval($_GET["id"]));
+  $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
+  $stmt->execute();
   if($row = $stmt->fetch()) {
-   if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -906,9 +896,6 @@ case 'startcst':
     $getir->StartOtherStreamLin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($rtmpport));
 	}
   }
-   } else {
-   die("NO");
-   }
 }
   break;
   case 'startrestream':
@@ -917,10 +904,11 @@ case 'startcst':
   die("NO");
   } else {
   }
-  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
-  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
+  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri AND public_sahip = :perm');
+  $stmt->bindValue(':iddegeri', intval($_GET["id"]));
+  $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
+  $stmt->execute();
   if($row = $stmt->fetch()) {
-   if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -938,9 +926,6 @@ case 'startcst':
     $getir->StartRestreamTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($restreamtk));
 	}
   }
-   } else {
-   die("NO");
-   }
 }
   break;
   case 'getlog':
@@ -955,10 +940,11 @@ case 'startcst':
   die("NO");
   } else {
   }
-  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
-  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
+  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri AND public_sahip = :perm');
+  $stmt->bindValue(':iddegeri', intval($_GET["id"]));
+  $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
+  $stmt->execute();
   if($row = $stmt->fetch()) {
-   if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br><br>';
@@ -970,9 +956,6 @@ case 'startcst':
 	$myfile = fopen('log/'.strip_tags($row["public_name"]).'-mylog.log', "r") or die("<center><b>Unable to open file!</b></center>");
 	echo '<pre style="width:100%;height:100%" class="container form-control">'.fread($myfile,filesize('log/'.strip_tags($row["public_name"]).'-mylog.log'));'</pre>';
   }
-   } else {
-   die("NO");
-   }
 }
   break;
   
@@ -982,10 +965,11 @@ case 'startcst':
   die("NO");
   } else {
   }
-  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
-  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
+  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri AND public_sahip = :perm');
+  $stmt->bindValue(':iddegeri', intval($_GET["id"]));
+  $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
+  $stmt->execute();
   if($row = $stmt->fetch()) {
-  if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -996,9 +980,6 @@ case 'startcst':
     <br>';
 	unlink('log/'.strip_tags($row["public_name"]).'-mylog.log');
     $getir->StopFFMPEG();
-  }
-  } else {
-  die("NO");
   }
 }
   break;
@@ -1016,15 +997,22 @@ case 'startcst':
 	curl_close($ch);  
 	return $data;  
     }
-  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
-  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
+  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri AND public_sahip = :perm');
+  $stmt->bindValue(':iddegeri', intval($_GET["id"]));
+  $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
+  $stmt->execute();
   if($row = $stmt->fetch()) {
-  if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   $new_url = get_tiny_url('http://'.$_SERVER["HTTP_HOST"].'/watch.php?pubid='.strip_tags($row["public_name"]).'&selcuk=1');
   $new_url2 = "Yakında";
   echo '<body>
   <form class="container" action="index.php?git=peditpubid" method="post">
       <input type="hidden" name="iptvname" value="'.strip_tags($row["public_name"]).'" class="form-control" readonly>
+      
+                <div class="form-group">
+      <label for="exampleFormControlInput1">IPTV Owner</label>
+      <input type="text" name="iptvshb" value="'.strip_tags($row["public_sahip"]).'" class="form-control" placeholder="IPTV Owner" readonly>
+    </div>
+    
           <div class="form-group">
       <label for="exampleFormControlInput1">IPTV Name</label>
       <input type="text" name="iptvothname" value="'.strip_tags($row["stream_othname"]).'" class="form-control" placeholder="IPTV Name">
@@ -1055,15 +1043,12 @@ case 'startcst':
   <center><b>SelcukWatch Player : '.strip_tags($new_url).'</b></center><br>
   <center><b>M3U8 Player : '.strip_tags($new_url2).'</b></center>
   </body>';
-} else {
-die("NO");
 }
-  }
   break;
 
   case 'peditpubid':
   $getir->logincheck();
-  $update = $db->prepare("UPDATE public_iptv SET stream_othname = :pubothname, public_name = :iptvadi, video_stream = :iptvtype, public_active = :iptvactive, public_tslink = :iptvlink, public_sahip = :iptvsahip WHERE public_id = :iptvid");
+  $update = $db->prepare("UPDATE public_iptv SET stream_othname = :pubothname, public_name = :iptvadi, video_stream = :iptvtype, public_active = :iptvactive, public_tslink = :iptvlink WHERE public_id = :iptvid AND public_sahip = :iptvsahip");
   $update->bindValue(':iptvid',  intval($_POST["iptvid"]));
   $update->bindValue(':iptvadi', strip_tags($_POST["iptvname"]));
   $update->bindValue(':pubothname', strip_tags($_POST["iptvothname"]));
@@ -1087,8 +1072,10 @@ die("NO");
 
   case 'deletepubid':
   $getir->logincheck();
-  $stmt = $db->prepare('DELETE FROM public_iptv WHERE public_id = :iddegeri');
-  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
+  $stmt = $db->prepare('DELETE FROM public_iptv WHERE public_id = :iddegeri AND public_sahip = :perm');
+  $stmt->bindValue(':iddegeri', intval($_GET["id"]));
+  $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
+  $stmt->execute();
   if($row = $stmt->rowCount()) {
 	  if($row["video_stream"] == "0") {
 	$dosyaadi = "".dirname(__FILE__)."/m3u/".base64_decode(strip_tags($row["public_name"])).".m3u8";
@@ -1196,8 +1183,10 @@ if (!unlink($dosyaadi)) {
 			  <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>';
   
 echo '<div class="container">';
-  $stmt = $db->prepare('SELECT * FROM private_iptv WHERE private_id = :iddegeri');
-  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
+  $stmt = $db->prepare('SELECT * FROM private_iptv WHERE private_id = :iddegeri AND private_sahip = :perm');
+  $stmt->bindValue(':iddegeri', intval($_GET["id"]));
+  $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
+  $stmt->execute();
   while($row = $stmt->fetch()) {
   if(strip_tags($row["private_sahip"]) == strip_tags($_SESSION["login"])) {
     if(strip_tags($row["private_active"]) == "0") {
@@ -1264,28 +1253,6 @@ die("NO");
   }
   break;
 
-  case 'pupdateiptv':
-  $getir->logincheck();
-  $update = $db->prepare("UPDATE iptv_list SET iptv_adi = :iptvadi, iptv_pic = :iptvpic, iptv_adres = :iptvadres, iptv_acik = :iptvacik WHERE iptv_id = :iptvid");
-  $update->bindValue(':iptvid',  intval($_POST["iptvid"]));
-  $update->bindValue(':iptvadi', strip_tags($_POST["iptvname"]));
-  $update->bindValue(':iptvadres', strip_tags($_POST["iptvadres"]));
-  $update->bindValue(':iptvpic', strip_tags($_POST["iptvpic"]));
-  $update->bindValue(':iptvacik', strip_tags($_POST["iptvstr"]));
-  $update->execute();
-  if($row = $update->rowCount()) {
-    echo "<script LANGUAGE='JavaScript'>
-    window.alert('Succesfully Updated');
-    window.location.href='index.php?git=iptv';
-    </script>";
-  } else {
-    echo "<script LANGUAGE='JavaScript'>
-    window.alert('Unsuccesfully Updated');
-    window.location.href='index.php?git=iptv';
-    </script>";
-  }
-  break;
-
   case 'm3ugenerate':
   $getir->logincheck();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
@@ -1329,11 +1296,12 @@ die("NO");
   fwrite($fp, "#EXTINF:-1,".strip_tags($_POST["iptvfln"])."\n");
   fwrite($fp, strip_tags($_POST["iptvname"]));
   fclose($fp);
-  $update = $db->prepare("INSERT INTO iptv_list(iptv_adi, iptv_pic, iptv_adres, iptv_acik) VALUES (:iptvadi, :iptvpic, :iptvadres, :iptvacik) ");
+  $update = $db->prepare("INSERT INTO private_iptv(private_name, private_resim, private_iptv, private_active, private_sahip) VALUES (:iptvadi, :iptvpic, :iptvadres, :iptvacik, :iptvsahip) ");
   $update->bindValue(':iptvadi', strip_tags($_POST["iptvfln"]));
   $update->bindValue(':iptvadres', "http://".strip_tags($_SERVER['SERVER_NAME'])."/".strip_tags($data)."");
   $update->bindValue(':iptvpic',  strip_tags($_POST["iptvpic"]));
   $update->bindValue(':iptvacik', "1");
+  $update->bindValue(':iptvsahip', strip_tags($_SESSION["login"]));
   $update->execute();
   if($row = $update->rowCount()) {
     echo "<script LANGUAGE='JavaScript'>
