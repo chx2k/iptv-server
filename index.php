@@ -560,7 +560,7 @@ echo '</tr>
   $getir->logincheck();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
   $stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :iddegeri');
-  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
+  $stmt->execute(array(':iddegeri' => intval($_POST["ffmpegid"])));
   if($row = $stmt->fetch()) {
   if($row["sahip"] == $_SESSION["login"]) {
   } else {
@@ -1795,10 +1795,7 @@ die("NO");
   case 'cikis':
   $getir->logincheck();
   session_destroy();
-  die('<script>document.cookie = "login= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
-  document.cookie = "capt= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
-  document.cookie = "yetki= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
-  location.replace("index.php")</script>');
+  die('<script>location.replace("index.php")</script>');
   break;
 }
 ?>
