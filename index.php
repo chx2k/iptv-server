@@ -75,16 +75,14 @@ $stmt->execute(array(':iddegeri' => $_SESSION["login"]));
 while($row = $stmt->fetch()) {
 if(strip_tags($row["admin_yetki"]) == "admin") {
 $_SESSION["yetki"] = md5("admin");
-setcookie("yetki", md5("admin"), time()+3600);
 echo('<script>location.replace("index.php?git=iptv")</script>');
 } elseif(strip_tags($row["admin_yetki"]) == "sus") {
 die("Hesabınız Bloklanmıştır");
-} elseif($_SESSION["yetki"] == "gold") { 
+} elseif(strip_tags($row["admin_yetki"]) == "gold") { 
 $_SESSION["yetki"] = md5("gold");
 echo('<script>location.replace("index.php?git=iptv")</script>');
 } else {
-$_SESSION["yetki"] = "uye";
-setcookie("yetki", md5("uye"), time()+3600);
+$_SESSION["yetki"] = md5("uye");
 echo('<script>location.replace("index.php?git=iptv")</script>');
 }
 if(isset($_SESSION["yetki"])) {
@@ -323,6 +321,7 @@ closedir($_DIR);
 
 echo '</tbody></table>';
 }
+
 if($_SESSION["yetki"] == md5("uye")) {
 } else {
 echo '<table class="table container">

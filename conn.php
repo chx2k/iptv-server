@@ -98,9 +98,9 @@ window.facePlay = 0;
 window.faceStreams = [""];
 window.mainSource = ["<?php echo htmlentities($url); ?>","<?php echo htmlentities($url); ?>"];
 <?php
-if($_COOKIE["yetki"] == md5("uye")) {
+if($_SESSION["yetki"] == md5("uye")) {
 echo 'window.adsConfig={enabled:!0,link:"http://google.com",parentId:"div#m",skipOffset:5,source:"https://video.twimg.com/ext_tw_video/1362496186482126852/pu/pl/640x360/wPAkn1M0uPz_Dt14.m3u8"}';
-} elseif($_COOKIE["yetki"] == md5("gold")) { 
+} elseif($_SESSION["yetki"] == md5("gold")) { 
 echo 'window.adsConfig = {enabled:0}';
 } else {
 echo 'window.adsConfig = {enabled:0}';
@@ -1071,9 +1071,9 @@ echo '<div class="sidebar-header" width="400" height="255" data-image="https://a
 } else {
 echo '<div class="sidebar-header" width="400" height="255" data-image="'.strip_tags($logo).'">';
 }
-if($_COOKIE["yetki"] == md5("admin")) {
+if($_SESSION["yetki"] == md5("admin")) {
 echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.com.ua"></div>
-        <span class="title fg-white">Admin</span>
+        <span class="title fg-white">'.strip_tags($_SESSION["yetki"]).'</span>
     </div>
     <ul class="sidebar-menu">
         <li><a href="index.php?git=iptv"><span class="mif-home icon"></span>Home</a></li>
@@ -1101,9 +1101,9 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.c
             <span class="mif-menu fg-white"></span>
         </button>
     </div><br>';
-} elseif($_COOKIE["yetki"] == md5("gold")) { 
+} elseif($_SESSION["yetki"] == md5("gold")) { 
 echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.com.ua"></div>
-        <span class="title fg-white">'.strip_tags($baslik).'</span>
+        <span class="title fg-white">'.strip_tags($_SESSION["yetki"]).'</span>
     </div>
     <ul class="sidebar-menu">
         <li><a href="index.php?git=iptv"><span class="mif-home icon"></span>Home</a></li>
@@ -1125,7 +1125,7 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.c
     </div><br>';
 } else {
 echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.com.ua"></div>
-        <span class="title fg-white">'.strip_tags($baslik).'</span>
+        <span class="title fg-white">'.strip_tags($_SESSION["yetki"]).'</span>
     </div>
     <ul class="sidebar-menu">
         <li><a href="index.php?git=iptv"><span class="mif-home icon"></span>Home</a></li>
@@ -1166,7 +1166,7 @@ echo '<head>
 }
 
 public function logincheck() {
-if(isset($_COOKIE['login'])) {
+if(isset($_SESSION['login'])) {
 } else {
 if(session_status() == "2") {
 die('<center><b>ERROR : Cannot login<br>Session Status : WORKING</b></center>');
@@ -1175,7 +1175,7 @@ die('<center><b>ERROR : Cannot login<br>Session Status : NOT WORKING</b></center
 }
 }
 
-if($_COOKIE["yetki"] == md5("sus")) {
+if($_SESSION["yetki"] == md5("sus")) {
 die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
 } else {
 }
