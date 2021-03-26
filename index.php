@@ -486,12 +486,11 @@ echo '</tr>
       
   }
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
-  $stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :iddegeri AND sahip = :iddegeri');
-  $stmt->bindValue(':iddegeri', intval($_GET["id"]));
-  $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
-  $stmt->execute();
-  if($row = $stmt->fetch()) {
-  if($row["sahip"] == $_SESSION["login"]) {
+  $stmt3 = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :iddegeri AND sahip = :perm');
+  $stmt3->bindValue(':iddegeri', intval($_GET["id"]));
+  $stmt3->bindValue(':perm', strip_tags($_SESSION["login"]));
+  $stmt3->execute();
+  if($row2 = $stmt3->fetch()) {
 	  echo '<body>
   <form class="container" action="index.php?git=peditcfg" method="post">
   
@@ -550,9 +549,6 @@ echo '</tr>
     <button type="submit" style="width: 100%;" class="btn btn-primary">Guncelle</button><br><br>
   </form>
   </body>';
-  } else {
-  die("NO");
-  }
   }
   break;
   
