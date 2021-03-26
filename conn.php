@@ -1072,8 +1072,8 @@ echo '<div class="sidebar-header" width="400" height="255" data-image="https://a
 echo '<div class="sidebar-header" width="400" height="255" data-image="'.strip_tags($logo).'">';
 }
 if($_SESSION["yetki"] == md5("admin")) {
-echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.com.ua"></div>
-        <span class="title fg-white">'.strip_tags($_SESSION["yetki"]).'</span>
+echo '<div class="avatar"><img data-role="gravatar" data-email="'.strip_tags($_SESSION["login"]).'"></div>
+        <span class="title fg-white">Uye</span>
     </div>
     <ul class="sidebar-menu">
         <li><a href="index.php?git=iptv"><span class="mif-home icon"></span>Home</a></li>
@@ -1102,8 +1102,8 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.c
         </button>
     </div><br>';
 } elseif($_SESSION["yetki"] == md5("gold")) { 
-echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.com.ua"></div>
-        <span class="title fg-white">'.strip_tags($_SESSION["yetki"]).'</span>
+echo '<div class="avatar"><img data-role="gravatar" data-email="'.strip_tags($_SESSION["login"]).'"></div>
+        <span class="title fg-white">Gold</span>
     </div>
     <ul class="sidebar-menu">
         <li><a href="index.php?git=iptv"><span class="mif-home icon"></span>Home</a></li>
@@ -1124,8 +1124,8 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.c
         </button>
     </div><br>';
 } else {
-echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.com.ua"></div>
-        <span class="title fg-white">'.strip_tags($_SESSION["yetki"]).'</span>
+echo '<div class="avatar"><img data-role="gravatar" data-email="'.strip_tags($_SESSION["login"]).'"></div>
+        <span class="title fg-white">Uye</span>
     </div>
     <ul class="sidebar-menu">
         <li><a href="index.php?git=iptv"><span class="mif-home icon"></span>Home</a></li>

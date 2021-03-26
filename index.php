@@ -55,7 +55,6 @@ $query  = $db->query("SELECT * FROM admin_list WHERE admin_usrname =" . $db->quo
 if ( $say = $query -> rowCount() ){
 if( $say > 0 ){
 $_SESSION["login"] = strip_tags($_POST["mail"]);
-setcookie("login", strip_tags($_POST["mail"]), time()+3600);
 echo('<script>location.replace("index.php?git=control2")</script>');
 }
 
