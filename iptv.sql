@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: localhost
--- Üretim Zamanı: 24 Mar 2021, 20:20:23
+-- Üretim Zamanı: 26 Mar 2021, 17:15:48
 -- Sunucu sürümü: 10.3.27-MariaDB
 -- PHP Sürümü: 7.2.24
 
@@ -70,7 +70,7 @@ CREATE TABLE `iptv_config` (
 --
 
 INSERT INTO `iptv_config` (`config_id`, `logo`, `rtmp_port`, `ffmpeg_m3u8cfg`, `ffmpeg_ts`, `ffmpeg_flv`, `twitter_tkn`, `facebook_tkn`, `twitch_tkn`, `restream_tkn`, `youtube_tk`, `instagram_tk`, `sahip`) VALUES
-(1, 'https://metroui.org.ua/images/logo4.png', '1935', '-listen 1 -hls_wrap 8 -deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '-c:v copy -c:a copy -t 00:05:00', '-deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '123', '123', '123', '123', '123', '123', 'alicangonullu');
+(1, 'https://metroui.org.ua/images/logo4.png', '1935', '-listen 1 -hls_wrap 8 -deinterlace -vcodec libx264 -pix_fmt yuv420p -preset ultrafast -r 30 -g 60 -b:v 2500k -acodec libmp3lame -ar 44100 -threads 6 -qscale 3 -b:a 712000 -bufsize 512k', '-c:v copy -c:a copy -t 00:05:00', '-vcodec libx264 -preset fast -crf 30 -acodec aac -ab 128k -ar 44100 -strict experimental -f flv', '123', '123', '123', '123', '123', '123', 'alicangonullu');
 
 -- --------------------------------------------------------
 
@@ -90,7 +90,7 @@ CREATE TABLE `ip_block` (
 --
 
 INSERT INTO `ip_block` (`ip_id`, `ip_adress`, `ban_reason`, `ip_block_active`) VALUES
-(1, '::1', 'Nobody', '1');
+(1, '123.123.123.23', 'Nobody', '1');
 
 -- --------------------------------------------------------
 
@@ -155,7 +155,7 @@ CREATE TABLE `public_iptv` (
 --
 
 INSERT INTO `public_iptv` (`public_id`, `public_name`, `stream_othname`, `public_tslink`, `video_stream`, `public_active`, `public_sahip`) VALUES
-(1, 'a0046ad4c1bafc4ef04e41e755f28368', 'TRT1', 'https://tv-trt1.live.trt.com.tr/master_720.m3u8', '0', '0', 'alicangonullu');
+(1, '8b8388180314a337c9aa3c5aa8e2f37a', 'TRT1', 'https://tv-trt1.live.trt.com.tr/master_720.m3u8', '0', '0', 'alicangonullu');
 
 --
 -- Dökümü yapılmış tablolar için indeksler

@@ -1335,7 +1335,7 @@ die("NO");
   <th>IP Adresi</th>
   <th></th>
   </tr></head><tbody>';
-  $stmt = $db->prepare('SELECT * FROM ip_block LIMIT 6');
+  $stmt = $db->prepare('SELECT * FROM ip_block');
   $stmt->execute();
   while($row = $stmt->fetch()) {
   $getirtr = file_get_contents("http://api.wipmania.com/".strip_tags($row["ip_adress"])."");
