@@ -9,7 +9,7 @@ die("<center><b>PHP IPTV Yüklenemedi / PHP IPTV was not Installed</b>
 try {
 $ip = "localhost"; //host
 $user = "root";  // host id
-$password = "19742008";  // password local olduğu için varsayılan şifre
+$password = "";  // password local olduğu için varsayılan şifre
 $ad = "iptv_data"; // db adı 
 $db = new PDO("mysql:host=$ip;dbname=$ad", "$user", "$password");
 $db->query("SET CHARACTER SET 'utf8'");
@@ -739,16 +739,20 @@ public function StopFFMPEG() {
   echo '<b>FFMpeg Killing...</b<br>';
   if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 	$winffmpeg = 'taskkill /F /IM "ffmpeg.exe"';
+    $winrtsp = 'taskkill /F /IM "rtsp-simple-server.exe"';
 	shell_exec($winffmpeg);
+    shell_exec($winrtsp);
 	echo "<script LANGUAGE='JavaScript'>
-    window.alert('Succesfully Exit | ".$winffmpeg."');
+    window.alert('Succesfully Exit | ".$winffmpeg." & ".$winrtsp."');
     window.location.href='index.php?git=iptv';
     </script>";
   } else {
   $linffmpeg = "pkill ffmpeg";
+  $linrtsp = "pkill rtsp-simple-server";
   shell_exec($linffmpeg);
+  shell_exec($linrtsp);
   echo "<script LANGUAGE='JavaScript'>
-  window.alert('Succesfully Exit | ".$linffmpeg."');
+  window.alert('Succesfully Exit | ".$linffmpeg." & ".$linrtsp."');
   window.location.href='index.php?git=iptv';
   </script>";
   }
@@ -788,7 +792,7 @@ public function StartRecordStreamLin($pubname, $tslinks, $url, $config) {
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
   $recfile = ''.dirname(__FILE__).'/log/'.strip_tags($pubname).'.mp4';
-  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' -f mp4 '.$recfile.' >"'.$logfile.'" 2>&1';
+  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' '.$recfile.' >"'.$logfile.'" 2>&1';
   shell_exec($com);
   echo '<br>Command : <br><pre>'.$com.'</pre><br>';
   echo '<br><b>URL : '.$url.'</b><br>';
@@ -800,7 +804,7 @@ public function StartRecordStreamWin($pubname, $tslinks, $url, $config) {
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
   $recfile = ''.dirname(__FILE__).'/log/'.strip_tags($pubname).'.mp4';
-  $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' -f mp4 '.$recfile.' >"'.$logfile.'" 2>&1';
+  $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' '.$recfile.' >"'.$logfile.'" 2>&1';
   shell_exec($com);
   echo '<br>Command : <br><pre>'.$com.'</pre><br>';
   echo '<br><b>URL : '.$url.'</b><br>';
@@ -810,31 +814,37 @@ public function StartRecordStreamWin($pubname, $tslinks, $url, $config) {
 
 public function StartOtherStreamLin($pubname, $tslinks, $url, $config, $port) {
   set_time_limit(0);
-  $tslink = 'rtp://localhost:'.$port.'/'.strip_tags($pubname).'';
+  $tslink = 'rtmp://localhost:'.$port.'/'.strip_tags($pubname).'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f rtp '.$tslink.' >"'.$logfile.'" 2>&1';
+  $com1 = 'screen -mdS '.$pubname.'-rtmp '.dirname(__FILE__).'\rtsp\rtsp-simple-server';
+  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv '.$tslink.' >"'.$logfile.'" 2>&1';
+  shell_exec($com1);
   shell_exec($com);
   echo '<br>Command : <br>
   <pre>
   '.$com.'
-  </pre><br>';
-  echo '<br><b>URL : '.$url.'</b><br>';
+  </pre><br>
+  <b>Server : '.$tslink.'</b><br>';
+  echo '<br><b>URL : rtmp://'.$_SERVER['HTTP_HOST'].':'.$port.'/'.strip_tags($pubname).'</b><br>';
   echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
 }
 
 public function StartOtherStreamWin($pubname, $tslinks, $url, $config, $port) {
   set_time_limit(0);
-  $tslink = 'rtp://localhost:'.$port.'/'.strip_tags($pubname).'';
+  $tslink = 'rtmp://localhost:'.$port.'/'.strip_tags($pubname).'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' -f rtp '.$tslink.' >"'.$logfile.'" 2>&1';
+  $com1 = ''.dirname(__FILE__).'\rtsp\rtsp-simple-server.exe';
+  $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv '.$tslink.' >"'.$logfile.'" 2>&1';
+  shell_exec($com1);
   shell_exec($com);
   echo '<br>Command : <br>
   <pre>
   '.$com.'
-  </pre><br>';
-  echo '<br><b>URL : '.$url.'</b><br>';
+  </pre><br>
+  <b>Server : '.$tslink.'</b><br>';
+  echo '<br><b>URL : rtmp://'.$_SERVER['HTTP_HOST'].':'.$port.'/'.strip_tags($pubname).'</b><br>';
   echo('<pre>'.file_get_contents('log/'.$logfilename.'').'</pre><br>');
 }
 
@@ -1063,7 +1073,7 @@ echo '<div class="sidebar-header" width="400" height="255" data-image="'.strip_t
 }
 if($_COOKIE["yetki"] == md5("admin")) {
 echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.com.ua"></div>
-        <span class="title fg-white">'.strip_tags($baslik).'</span>
+        <span class="title fg-white">Admin</span>
     </div>
     <ul class="sidebar-menu">
         <li><a href="index.php?git=iptv"><span class="mif-home icon"></span>Home</a></li>
@@ -1077,7 +1087,7 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.c
         <li><a href="index.php?git=iplog"><span class="mif-list icon"></span>IP Log</a></li>
 		<li class="divider"></li>
         <li><a href="index.php?git=user"><span class="mif-add icon"></span>Users</a></li>
-        <li><a href="../tv/index.php"><span class="mif-tablet-landscape icon"></span>TV</a></li>
+        <li><a href="tv/index.php"><span class="mif-tablet-landscape icon"></span>TV</a></li>
         <li class="divider"></li>
 		<li><a href="index.php?git=iptv&phpinfo=1"><span class="mif-info icon"></span>PHP Info</a></li>
 		<li class="divider"></li>
@@ -1101,7 +1111,7 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.c
         <li><a href="index.php?git=startstream"><span class="mif-add icon"></span>Add IPTV</a></li>
 		<li><a href="index.php?git=addpriviptv"><span class="mif-add icon"></span>Add Private IPTV</a></li>
 		<li class="divider"></li>
-        <li><a href="../tv/index.php"><span class="mif-tablet-landscape icon"></span>TV</a></li>
+        <li><a href="tv/index.php"><span class="mif-tablet-landscape icon"></span>TV</a></li>
         <li class="divider"></li>
 		<li><a href="index.php?git=cikis"><span class="mif-exit icon"></span>Çıkış</a></li>
 	</ul>
@@ -1123,7 +1133,7 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="sergey@pimenov.c
         <li><a href="index.php?git=startstream"><span class="mif-add icon"></span>Add IPTV</a></li>
 		<li><a href="index.php?git=addpriviptv"><span class="mif-add icon"></span>Add Private IPTV</a></li>
 		<li class="divider"></li>
-        <li><a href="../tv/index.php"><span class="mif-tablet-landscape icon"></span>TV</a></li>
+        <li><a href="tv/index.php"><span class="mif-tablet-landscape icon"></span>TV</a></li>
         <li class="divider"></li>
 		<li><a href="index.php?git=cikis"><span class="mif-exit icon"></span>Çıkış</a></li>
 	</ul>

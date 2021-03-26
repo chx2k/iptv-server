@@ -23,7 +23,7 @@ $instagramtk = $row["instagram_tk"];
 $restreamtk = $row["restream_tkn"];
 $rtmpport = $row["rtmp_port"];
 $instatk = $row["youtube_tk"]; 
-$configrec = "";
+$configrec = "-c copy -flags +global_header -f segment -segment_time 60 -segment_format_options movflags=+faststart -reset_timestamps 1";
 }
 
 if(!isset($_GET['git'])) {
@@ -362,7 +362,7 @@ if(strip_tags($row2["private_sahip"]) == strip_tags($_COOKIE["login"])) {
 echo '<tr><td><div class=kisalt">'.strip_tags($row2["private_id"]).'</div></td>';
 echo '<td><div class="kisalt">'.strip_tags($row2["private_name"]).'</div></td>';
 
-if(strip_tags($row["private_active"]) == "0") {
+if(strip_tags($row2["private_active"]) == "0") {
   echo '<td><div class="progress kisalt">
   <a data-text="Panelden Kapalı" class="progress-bar bg-warning" role="progressbar" data-text="Online" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></a>
 </div></td>';
@@ -390,6 +390,7 @@ echo '</tbody></table></div>
 <th>ID</th>
 <th>Type</th>
 <th>Name</th>
+<th>RTSP</th>
 <th>Status</th>
 <th></th>
 <th></th>
@@ -407,12 +408,12 @@ if(strip_tags($row2["video_stream"]) == "0") {
 }
 echo '<td><div class="kisalt">'.strip_tags($row2["stream_othname"]).'</div></td>';
 
-if(strip_tags($row["public_active"]) == "0") {
+if(strip_tags($row2["public_active"]) == "0") {
 echo '<td><b>Off</b></td>';
 } else {
 echo '<td><b>On</b></td>';
 }
-
+echo '<td>rtmp://localhost:'.$rtmpport.'/'.strip_tags($row2["public_name"]).'</td>';
 echo '<td><div class="btn-group">
   <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
     <span class="caret"></span>
@@ -422,11 +423,11 @@ echo '<td><div class="btn-group">
   <ul class="dropdown-menu" role="menu">';
 if($_COOKIE["yetki"] == md5("uye")) {
 } else {
-echo '<li><a class="dropdown-item" target="_blank" href="../watch.php?pubid='.strip_tags($row2["public_name"]).'">M3U8 Link</a></li>
-<li><a class="dropdown-item" target="_blank" href="../watch.php?pubid='.strip_tags($row2["public_name"]).'&debug">Debug</a></li>';
+echo '<li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_name"]).'">M3U8 Link</a></li>
+<li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_name"]).'&debug">Debug</a></li>';
 }
-echo '<li><a class="dropdown-item" target="_blank" href="../watch.php?pubid='.strip_tags($row2["public_name"]).'&watchplayer=1">Watch</a></li>
-    <li><a class="dropdown-item" target="_blank" href="../watch.php?pubid='.strip_tags($row2["public_name"]).'&selcuk=1">SelcukWatch</a></li>';
+echo '<li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_name"]).'&watchplayer=1">Watch</a></li>
+    <li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_name"]).'&selcuk=1">SelcukWatch</a></li>';
 echo '</ul></div></td>
 
 <td><div class="btn-group">
@@ -1372,21 +1373,10 @@ die("NO");
   <th>IP Adresi</th>
   <th></th>
   </tr></head><tbody>';
-  $sayfa = intval($_GET['page']);
-  $sayfa_limiti  = 10;
-  if($sayfa == '' || $sayfa == 1){
-   $sayfa1 = 0;
-  }else{
-   $sayfa1 = ($sayfa * $sayfa_limiti) - $sayfa_limiti;
-  }
-  $satir_sayisi = $db->query("SELECT * FROM ip_block WHERE 1")->rowCount();
-  $sql = "SELECT * FROM iptv_list LIMIT " . $sayfa1 . "," . $sayfa_limiti;
-  $query = $db->prepare($sql);
-  $query->execute();
-  $stmt = $db->prepare('SELECT * FROM ip_block LIMIT '.$sayfa1.','.$sayfa_limiti);
+  $stmt = $db->prepare('SELECT * FROM ip_block LIMIT 6');
   $stmt->execute();
   while($row = $stmt->fetch()) {
-    $getirtr = file_get_contents("http://api.wipmania.com/".strip_tags($row["ip_adress"])."");
+  $getirtr = file_get_contents("http://api.wipmania.com/".strip_tags($row["ip_adress"])."");
   echo '<tr>
   <th scope="row">'.intval($row["ip_id"]).'</th>';
   if(strip_tags($row["ip_block_active"]) == "0") {
@@ -1421,17 +1411,9 @@ die("NO");
   <td><a href="index.php?git=banip&ip='.intval($row["ip_id"]).'">Remove Ban</a></td>
   </tr>';
   }
-  foreach($row as $row2){
+  
   }
-  $a = ceil($satir_sayisi / $sayfa_limiti);
-  }
-  echo '</tbody></table>';
-  echo '<nav class="bg-dark text-white" aria-label="Page navigation example">
-  <ul class="pagination justify-content-center">';
-  for($b = 1 ; $b <= $a ; $b++){
-  echo '<li class="page-item"><a class="page-link" href="index.php?git=ipblock&ip='.$b.'">'.$b.'</a></li>';
-  }
-  echo '</ul></nav></div></body>';
+  echo '</tbody></table></div></body>';
   break;
 
   case 'remipblok';

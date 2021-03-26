@@ -1,5 +1,6 @@
 <?php
 include("conn.php");
+error_reporting(0);
 $getir = new IPTVClass();
 $getir->funcControl('shell_exec');
 $getir->funcControl('exec');
@@ -48,7 +49,7 @@ if(isset($streamlink)) {
 $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_name = :iddegeri');
 $stmt->execute(array(':iddegeri' => $streamlink));
 while($row = $stmt->fetch()) {
-if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["user_id"])) {
+if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
 //Control Permission
 if($row["public_active"] == 0) {
 die("<center><b>Channel Deactivated</b></center>");
