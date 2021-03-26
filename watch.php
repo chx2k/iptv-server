@@ -49,7 +49,6 @@ if(isset($streamlink)) {
 $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_name = :iddegeri');
 $stmt->execute(array(':iddegeri' => $streamlink));
 while($row = $stmt->fetch()) {
-if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
 //Control Permission
 if($row["public_active"] == 0) {
 die("<center><b>Channel Deactivated</b></center>");
@@ -101,10 +100,6 @@ $getir->M3U8DebugStream(strip_tags($row["public_name"]), strip_tags($row["public
 //Debug End
 } else {
 
-}
-
-} else {
-//Permission End
 }
 
 if(intval($_GET["selcuk"]) == "1") {
