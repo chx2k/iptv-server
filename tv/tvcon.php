@@ -24,15 +24,17 @@ die('<table>
 }
 
 class IPTVClass {
-
 public function logincheck() {
-if(isset($_COOKIE['login'])) {
-} elseif($_COOKIE['login'] == "1") {
-die('<script>location.replace("../index.php")</script>');
+if(isset($_SESSION['login'])) {
 } else {
-die('<script>location.replace("../index.php")</script>');
+if(session_status() == "2") {
+die('<center><b>ERROR : Cannot login<br>Session Status : WORKING</b></center>');
+} else {
+die('<center><b>ERROR : Cannot login<br>Session Status : NOT WORKING</b></center>');
 }
-if($_COOKIE["yetki"] == md5("sus")) {
+}
+
+if($_SESSION["yetki"] == md5("sus")) {
 die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
 } else {
 }
