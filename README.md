@@ -1,5 +1,5 @@
 # iptv-server
-IPTV PHP Panel
+<center><b>IPTV PHP Panel</b></center><br>
 <br>
 <center><img src="algo.png"></center><br>
 <pre>
