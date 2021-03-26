@@ -817,7 +817,7 @@ public function StartOtherStreamLin($pubname, $tslinks, $url, $config, $port) {
   $tslink = 'rtmp://localhost:'.$port.'/'.strip_tags($pubname).'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $com1 = 'screen -mdS '.$pubname.'-rtmp '.dirname(__FILE__).'\rtsp\rtsp-simple-server';
+  $com1 = 'screen -mdS '.$pubname.'-rtmp '.dirname(__FILE__).'/rtsp/rtsp-simple-server';
   $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv '.$tslink.' >"'.$logfile.'" 2>&1';
   shell_exec($com1);
   shell_exec($com);
