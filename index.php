@@ -855,7 +855,7 @@ case 'startcst':
   } else {
   }
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
-  $stmt->execute(array(':iddegeri' => intval($_POST["id"])));
+  $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
    if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
   if($row["video_stream"] == "1") {
