@@ -26,8 +26,8 @@ die('<table>
 class IPTVClass {
 
 public function logincheck() {
-if(isset($_COOKIE['user_id'])) {
-} elseif($_COOKIE['user_id'] == "1") {
+if(isset($_COOKIE['login'])) {
+} elseif($_COOKIE['login'] == "1") {
 die('<script>location.replace("../index.php")</script>');
 } else {
 die('<script>location.replace("../index.php")</script>');

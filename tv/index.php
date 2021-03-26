@@ -42,7 +42,7 @@ color:white;
 <ul class="list-group list-group-flush display-3">
 <?php
 $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_sahip = :pubid');
-$stmt->execute(array(':pubid' => $_COOKIE['user_id']));
+$stmt->execute(array(':pubid' => $_COOKIE['login']));
 while($row = $stmt->fetch()) {
 ?>
 <li class='list-group-item'>
