@@ -388,8 +388,8 @@ echo '</tbody></table></div>
 <th>ID</th>
 <th>Type</th>
 <th>Name</th>
-<th>RTSP</th>
 <th>Status</th>
+<th>RTSP</th>
 <th></th>
 <th></th>
 </tr></thead><tbody>';
