@@ -1,5 +1,6 @@
 <?php
 include("conn.php");
+session_start();
 
 $getir = new IPTVClass();
 $getir->funcControl('shell_exec');
@@ -45,7 +46,6 @@ switch ($sayfa) {
 case 'postlgn':
 session_destroy();
 session_start();
-session_regenerate_id();
 if($_POST) {
 
 $name = strip_tags($_POST["mail"]);
@@ -71,7 +71,7 @@ break;
 case 'control2':
 $getir->logincheck();
 $stmt = $db->prepare('SELECT * FROM admin_list WHERE admin_usrname = :iddegeri');
-$stmt->execute(array(':iddegeri' => $_COOKIE["login"]));
+$stmt->execute(array(':iddegeri' => $_SESSION["login"]));
 while($row = $stmt->fetch()) {
 if(strip_tags($row["admin_yetki"]) == "admin") {
 $_SESSION["yetki"] = md5("admin");
@@ -79,12 +79,11 @@ setcookie("yetki", md5("admin"), time()+3600);
 echo('<script>location.replace("index.php?git=iptv")</script>');
 } elseif(strip_tags($row["admin_yetki"]) == "sus") {
 die("Hesabınız Bloklanmıştır");
-} elseif($_SESSION["yetki"] == md5("gold")) { 
+} elseif($_SESSION["yetki"] == "gold") { 
 $_SESSION["yetki"] = md5("gold");
-setcookie("yetki", md5("gold"), time()+3600);
 echo('<script>location.replace("index.php?git=iptv")</script>');
 } else {
-$_SESSION["yetki"] = md5("uye");
+$_SESSION["yetki"] = "uye";
 setcookie("yetki", md5("uye"), time()+3600);
 echo('<script>location.replace("index.php?git=iptv")</script>');
 }
@@ -248,7 +247,7 @@ function delpost2(id)
 <?php
 $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
 if(isset($_GET["phpinfo"])) {
-if($_COOKIE["yetki"] == md5("uye")) {
+if($_SESSION["yetki"] == md5("uye")) {
 die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
 } else {
 }
@@ -296,7 +295,7 @@ die('
 
 }
 echo '<body>';
-if($_COOKIE["yetki"] == md5("uye")) {
+if($_SESSION["yetki"] == md5("uye")) {
 } else {
 echo '
 <br><br>
@@ -324,7 +323,7 @@ closedir($_DIR);
 
 echo '</tbody></table>';
 }
-if($_COOKIE["yetki"] == md5("uye")) {
+if($_SESSION["yetki"] == md5("uye")) {
 } else {
 echo '<table class="table container">
 <thead>
@@ -358,7 +357,7 @@ echo '<div class="mt-5 container">
 $stmt2 = $db->prepare('SELECT * FROM private_iptv');
 $stmt2->execute();
 while($row2 = $stmt2->fetch()) {
-if(strip_tags($row2["private_sahip"]) == strip_tags($_COOKIE["login"])) {
+if(strip_tags($row2["private_sahip"]) == strip_tags($_SESSION["login"])) {
 echo '<tr><td><div class=kisalt">'.strip_tags($row2["private_id"]).'</div></td>';
 echo '<td><div class="kisalt">'.strip_tags($row2["private_name"]).'</div></td>';
 
@@ -399,7 +398,7 @@ echo '</tbody></table></div>
 $stmt2 = $db->prepare('SELECT * FROM public_iptv');
 $stmt2->execute();
 while($row2 = $stmt2->fetch()) {
-if(strip_tags($row2["public_sahip"]) == strip_tags($_COOKIE["login"])) {
+if(strip_tags($row2["public_sahip"]) == strip_tags($_SESSION["login"])) {
 echo '<tr><td><div class=kisalt">'.strip_tags($row2["public_id"]).'</div></td>';
 if(strip_tags($row2["video_stream"]) == "0") {
   echo '<td>Live</td>';
@@ -421,7 +420,7 @@ echo '<td><div class="btn-group">
 	IPTV
   </button>
   <ul class="dropdown-menu" role="menu">';
-if($_COOKIE["yetki"] == md5("uye")) {
+if($_SESSION["yetki"] == md5("uye")) {
 } else {
 echo '<li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_name"]).'">M3U8 Link</a></li>
 <li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_name"]).'&debug">Debug</a></li>';
@@ -435,9 +434,9 @@ echo '</ul></div></td>
 <span class="caret"></span>
 <span class="sr-only">Toggle Dropdown</span>Other</button>
 <ul class="dropdown-menu" role="menu">';
-if($_COOKIE["yetki"] == md5("uye")) {
+if($_SESSION["yetki"] == md5("uye")) {
 echo '<li><a class="dropdown-item" target="_blank" href="index.php?git=startcst1&id='.intval($row2["public_id"]).'">Start Custom Stream</a></li>';
-} elseif($_COOKIE["yetki"] == md5("gold")) {
+} elseif($_SESSION["yetki"] == md5("gold")) {
 } else  {
 echo '<li><a class="dropdown-item" target="_blank" href="index.php?git=getlog&id='.intval($row2["public_id"]).'">Logs</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=startrestream&id='.intval($row2["public_id"]).'">Start Restream.IO Stream</a></li>
@@ -471,7 +470,7 @@ echo '
 <th></th>
 </tr></thead><tbody>';
 $stmt3 = $db->prepare('SELECT * FROM iptv_config WHERE sahip = :iddegeri');
-$stmt3->execute(array(':iddegeri' => $_COOKIE["login"]));
+$stmt3->execute(array(':iddegeri' => $_SESSION["login"]));
 while($row2 = $stmt3->fetch()) {
 echo '<tr><td><div class=kisalt">'.intval($row2["config_id"]).'</div></td>';
 echo '<td><div class="kisalt">'.strip_tags($row2["ffmpeg_m3u8cfg"]).'</div></td>';
@@ -485,7 +484,7 @@ echo '</tr>
 
   case 'editcfg':
   $getir->logincheck();
-  if($_COOKIE["yetki"] == md5("uye")) {
+  if($_SESSION["yetki"] == md5("uye")) {
   die("<center class='mt-5'>Daha fazla seçenek için üyeliğinizi yükseltin</center>");
   } else {
       
@@ -494,7 +493,7 @@ echo '</tr>
   $stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-  if($row["sahip"] == $_COOKIE["login"]) {
+  if($row["sahip"] == $_SESSION["login"]) {
 	  echo '<body>
   <form class="container" action="index.php?git=peditcfg" method="post">
   
@@ -565,7 +564,7 @@ echo '</tr>
   $stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-  if($row["sahip"] == $_COOKIE["login"]) {
+  if($row["sahip"] == $_SESSION["login"]) {
   } else {
   die("NO");
   }
@@ -602,7 +601,7 @@ echo '</tr>
   $stmt = $db->prepare('DELETE FROM private_iptv WHERE private_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   while($row2 = $stmt->fetch()) {
-      if(strip_tags($row2["private_sahip"]) == strip_tags($_COOKIE["login"])) {
+      if(strip_tags($row2["private_sahip"]) == strip_tags($_SESSION["login"])) {
           
       } else {
           die("<script LANGUAGE='JavaScript'>
@@ -627,14 +626,14 @@ echo '</tr>
 
   case 'startiptv':
   $getir->logincheck();
-    if($_COOKIE["yetki"] == md5("uye")) {
+    if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
   }
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-  if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
+  if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -660,14 +659,14 @@ echo '</tr>
   
    case 'startfacebook':
   $getir->logincheck();
-    if($_COOKIE["yetki"] == md5("uye")) {
+    if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
   }
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-  if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
+  if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -693,14 +692,14 @@ echo '</tr>
   
      case 'starttwitch':
   $getir->logincheck();
-    if($_COOKIE["yetki"] == md5("uye")) {
+    if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
   }
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-   if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
+   if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -726,14 +725,14 @@ echo '</tr>
   
        case 'startyt':
   $getir->logincheck();
-    if($_COOKIE["yetki"] == md5("uye")) {
+    if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
   }
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-   if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
+   if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -759,14 +758,14 @@ echo '</tr>
   
          case 'startig':
   $getir->logincheck();
-    if($_COOKIE["yetki"] == md5("uye")) {
+    if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
   }
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-   if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
+   if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -792,7 +791,7 @@ echo '</tr>
 
 case 'startcst1':
 $getir->logincheck();
-if($_COOKIE["yetki"] == md5("uye")) {
+if($_SESSION["yetki"] == md5("uye")) {
 die("<center>Daha fazla seçenek için üyeliğinizi yükseltin</center>");
 } else {
 }
@@ -817,14 +816,14 @@ break;
 
 case 'startcst':
   $getir->logincheck();
-    if($_COOKIE["yetki"] == md5("uye")) {
+    if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
   }
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_POST["id"])));
   if($row = $stmt->fetch()) {
-   if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
+   if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -850,14 +849,14 @@ case 'startcst':
   
   case 'startrecord':
   $getir->logincheck();
-  if($_COOKIE["yetki"] == md5("uye")) {
+  if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
   }
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-   if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
+   if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -883,14 +882,14 @@ case 'startcst':
   
     case 'startrtmp':
   $getir->logincheck();
-    if($_COOKIE["yetki"] == md5("uye")) {
+    if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
   }
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-   if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
+   if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -915,14 +914,14 @@ case 'startcst':
   break;
   case 'startrestream':
   $getir->logincheck();
-  if($_COOKIE["yetki"] == md5("uye")) {
+  if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
   }
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-   if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
+   if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -953,14 +952,14 @@ case 'startcst':
 	window.onload = timedRefresh(5000);
 </script>';
   $getir->logincheck();
-    if($_COOKIE["yetki"] == md5("uye")) {
+    if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
   }
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-   if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
+   if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br><br>';
@@ -980,14 +979,14 @@ case 'startcst':
   
   case 'stopiptv':
   $getir->logincheck();
-    if($_COOKIE["yetki"] == md5("uye")) {
+    if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
   }
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-  if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
+  if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
@@ -1021,7 +1020,7 @@ case 'startcst':
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
-  if(strip_tags($row["public_sahip"]) == strip_tags($_COOKIE["login"])) {
+  if(strip_tags($row["public_sahip"]) == strip_tags($_SESSION["login"])) {
   $new_url = get_tiny_url('http://'.$_SERVER["HTTP_HOST"].'/watch.php?pubid='.strip_tags($row["public_name"]).'&selcuk=1');
   $new_url2 = "Yakında";
   echo '<body>
@@ -1072,7 +1071,7 @@ die("NO");
   $update->bindValue(':iptvtype', strip_tags($_POST["iptvstrorvid"]));
   $update->bindValue(':iptvactive', strip_tags($_POST["iptvclsopn"]));
   $update->bindValue(':iptvlink', htmlentities($_POST["iptvlink"]));
-  $update->bindValue(':iptvsahip', strip_tags($_COOKIE["login"]));
+  $update->bindValue(':iptvsahip', strip_tags($_SESSION["login"]));
   $update->execute();
   if($row = $update->rowCount()) {
     echo "<script LANGUAGE='JavaScript'>
@@ -1119,7 +1118,7 @@ if (!unlink($dosyaadi)) {
   
   case 'dfile':
   $getir->logincheck();
-    if($_COOKIE["yetki"] == md5("uye")) {
+    if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
       }
@@ -1153,7 +1152,7 @@ if (!unlink($dosyaadi)) {
 
   case 'dlog':
   $getir->logincheck();
-    if($_COOKIE["yetki"] == md5("uye")) {
+    if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
       }
@@ -1201,7 +1200,7 @@ echo '<div class="container">';
   $stmt = $db->prepare('SELECT * FROM private_iptv WHERE private_id = :iddegeri');
   $stmt->execute(array(':iddegeri' => intval($_GET["id"])));
   while($row = $stmt->fetch()) {
-  if(strip_tags($row["private_sahip"]) == strip_tags($_COOKIE["login"])) {
+  if(strip_tags($row["private_sahip"]) == strip_tags($_SESSION["login"])) {
     if(strip_tags($row["private_active"]) == "0") {
       echo '<div class="alert alert-warning" role="alert">This channel suspended by admin!</div>';
     } else {
@@ -1291,7 +1290,7 @@ die("NO");
   case 'm3ugenerate':
   $getir->logincheck();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
-    if($_COOKIE["yetki"] == md5("uye")) {
+    if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
       }
@@ -1321,7 +1320,7 @@ die("NO");
 
   case 'pm3ugenerate':
   $getir->logincheck();
-    if($_COOKIE["yetki"] == md5("uye")) {
+    if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
       }
@@ -1354,7 +1353,7 @@ die("NO");
   case 'ipblock':
   $getir->logincheck();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
-    if($_COOKIE["yetki"] == md5("uye")) {
+    if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
       }
@@ -1418,7 +1417,7 @@ die("NO");
 
   case 'remipblok';
   $getir->logincheck();
-    if($_COOKIE["yetki"] == md5("uye")) {
+    if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
       }
@@ -1441,7 +1440,7 @@ die("NO");
 
   case 'banip';
   $getir->logincheck();
-    if($_COOKIE["yetki"] == md5("uye")) {
+    if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
       }
@@ -1465,7 +1464,7 @@ die("NO");
   case 'addban':
   $getir->logincheck();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
-    if($_COOKIE["yetki"] == md5("uye")) {
+    if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
       }
@@ -1538,7 +1537,7 @@ die("NO");
   case 'iplog':
   $getir->logincheck();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
-    if($_COOKIE["yetki"] == md5("uye")) {
+    if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
       }
@@ -1553,7 +1552,7 @@ die("NO");
   
   case 'user':
   $getir->logincheck();
-  if($_COOKIE["yetki"] == md5("uye")) {
+  if($_SESSION["yetki"] == md5("uye")) {
   die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
   } else {
   }
@@ -1587,7 +1586,7 @@ die("NO");
   
   case 'adduser':
   $getir->logincheck();
-  if($_COOKIE["yetki"] == md5("uye")) {
+  if($_SESSION["yetki"] == md5("uye")) {
   die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
   } else {
   }
@@ -1627,7 +1626,7 @@ die("NO");
   
   case 'paddusr':
   $getir->logincheck();
-  if($_COOKIE["yetki"] == md5("uye")) {
+  if($_SESSION["yetki"] == md5("uye")) {
   die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
   } else {
   }
@@ -1653,7 +1652,7 @@ die("NO");
   
   case 'edituser':
   $getir->logincheck();
-  if($_COOKIE["yetki"] == md5("uye")) {
+  if($_SESSION["yetki"] == md5("uye")) {
   die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
   } else {
   }
@@ -1699,7 +1698,7 @@ die("NO");
   
   case 'pupdusr':
   $getir->logincheck();
-  if($_COOKIE["yetki"] == md5("uye")) {
+  if($_SESSION["yetki"] == md5("uye")) {
   die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
   } else {
   }
@@ -1732,7 +1731,7 @@ die("NO");
   $update->bindValue(':streampics', strip_tags($_POST["privpics"]));
   $update->bindValue(':streamiptv', strip_tags($_POST["priviptv"]));
   $update->bindValue(':streamactive', "1");
-  $update->bindValue(':sahip', strip_tags($_COOKIE["login"]));
+  $update->bindValue(':sahip', strip_tags($_SESSION["login"]));
   $update->execute();
   if($row = $update->rowCount()) {
     echo "<script LANGUAGE='JavaScript'>
@@ -1756,7 +1755,7 @@ die("NO");
   $update->bindValue(':streamadress', strip_tags($_POST["streamlink"]));
   $update->bindValue(':streamactive', "1");
   $update->bindValue(':streamorvideo',  strip_tags($_POST["streamorvid"]));
-  $update->bindValue(':pubsahip',  strip_tags($_COOKIE["login"]));
+  $update->bindValue(':pubsahip',  strip_tags($_SESSION["login"]));
   $update->execute();
   if($row = $update->rowCount()) {
     echo "<script LANGUAGE='JavaScript'>
@@ -1773,7 +1772,7 @@ die("NO");
 
   case 'paddban':
   $getir->logincheck();
-  if($_COOKIE["yetki"] == md5("uye")) {
+  if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
       }
