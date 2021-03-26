@@ -823,6 +823,7 @@ public function StartOtherStreamLin($pubname, $tslinks, $url, $config, $port) {
   shell_exec($com);
   echo '<br>Command : <br>
   <pre>
+  '.$com1.'<br>
   '.$com.'
   </pre><br>
   <b>Server : '.$tslink.'</b><br>';
@@ -841,6 +842,7 @@ public function StartOtherStreamWin($pubname, $tslinks, $url, $config, $port) {
   shell_exec($com);
   echo '<br>Command : <br>
   <pre>
+  '.$com1.'<br>
   '.$com.'
   </pre><br>
   <b>Server : '.$tslink.'</b><br>';
