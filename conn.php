@@ -1174,12 +1174,6 @@ die('<center><b>ERROR : Cannot login<br>Session Status : WORKING</b></center>');
 die('<center><b>ERROR : Cannot login<br>Session Status : NOT WORKING</b></center>');
 }
 }
-
-if($_SESSION["yetki"] == md5("sus")) {
-die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
-} else {
-}
-
 }
 
 public function Style() {

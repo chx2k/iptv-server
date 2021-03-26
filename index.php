@@ -77,6 +77,7 @@ $_SESSION["yetki"] = md5("admin");
 echo('<script>location.replace("index.php?git=iptv")</script>');
 } elseif(strip_tags($row["admin_yetki"]) == "sus") {
 die("Hesabınız Bloklanmıştır");
+session_destroy();
 } elseif(strip_tags($row["admin_yetki"]) == "gold") { 
 $_SESSION["yetki"] = md5("gold");
 echo('<script>location.replace("index.php?git=iptv")</script>');
