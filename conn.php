@@ -791,7 +791,7 @@ public function StartRecordStreamLin($pubname, $tslinks, $url, $config) {
   set_time_limit(0);
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $recfile = ''.dirname(__FILE__).'/log/'.strip_tags($pubname).'.mp4';
+  $recfile = ''.dirname(__FILE__).'/m3u/'.strip_tags($pubname).'.mp4';
   $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' '.$recfile.' >"'.$logfile.'" 2>&1';
   shell_exec($com);
   echo '<br>Command : <br><pre>'.$com.'</pre><br>';
@@ -803,7 +803,7 @@ public function StartRecordStreamWin($pubname, $tslinks, $url, $config) {
   set_time_limit(0);
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $recfile = ''.dirname(__FILE__).'/log/'.strip_tags($pubname).'.mp4';
+  $recfile = ''.dirname(__FILE__).'/m3u/'.strip_tags($pubname).'.mp4';
   $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' '.$recfile.' >"'.$logfile.'" 2>&1';
   shell_exec($com);
   echo '<br>Command : <br><pre>'.$com.'</pre><br>';
