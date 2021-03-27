@@ -205,28 +205,11 @@ $user = "'.strip_tags($mysqlusr).'";  // host id
 $password = "'.strip_tags($mysqlpass).'";  // password local olduğu için varsayılan şifre
 $ad = "'.strip_tags($mysqldbname).'"; // db adı ';
 
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+
+
 $sql = mysqli_connect($mysqlserv, $mysqlusr, $mysqlpass, $mysqldbname);
 $sqlSource = file_get_contents(''.dirname(__FILE__).'/iptv.sql');
 mysqli_multi_query($sql,$sqlSource);
-echo '<body class="container">
-<br><br><br>
-<div class="mx-auto card">
-<div class="card-body">
-<b>MySQL Kurulumu</b>
-<hr></hr>
-<p>MySQL Kuruldu / MySQL Installed</p><br>
-<b>NOT : <i>conn.php DB Bağlantılarını</i> düzenlemeyi unutmayın</b><br><br>
-<pre>
-'.$txt2.'
-SQL Location : '.dirname(__FILE__).'/iptv.sql
-</pre>
-<div class="form-group">
-<br><br><a href="install.php?git=install2" " class="btn btn-dark">İleri / Next</button><br>
-</div></div></div></body>';
-} else {
-$sql = shell_exec('mysql -u '.$mysqlusr.' -p '.$mysqlpass.' --database '.$mysqldbname.' < '.dirname(__FILE__).'/iptv.sql');
-if(isset($sql)) {
 echo '<body class="container">
 <br><br><br>
 <div class="mx-auto card">
@@ -237,26 +220,10 @@ echo '<body class="container">
 <b>NOT : <i>conn.php DB Bağlantılarını</i> düzenlemeyi unutmayın</b><br><br>
 <pre>
 '.$txt2.'<br>
-'.$sql.'<br>
 </pre>
 <div class="form-group">
 <br><br><a href="install.php?git=install2" " class="btn btn-dark">İleri / Next</button><br>
 </div></div></div></body>';
-} else {
-die('<body class="container">
-<br><br><br>
-<div class="mx-auto card">
-<div class="card-body">
-<b>MySQL Kurulumu | HATA</b>
-<hr></hr>
-<code>
-'.$conn2->error.'<br>
-</code><br>
-<div class="form-group">
-<br><br><a href="install.php?git=sql_install" " class="btn btn-dark">Tekrar Dene</button><br>
-</div></div></div></body>');
-}
-}
 break;
 
 
