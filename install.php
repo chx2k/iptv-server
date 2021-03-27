@@ -163,9 +163,9 @@ die('<body class="container">
 <br><br><a href="install.php?git=sql_install" " class="btn btn-dark">Tekrar Dene</button><br>
 </div></div></div></body>');
 }
-$sql = "CREATE DATABASE ".$mysqldbname."";
 
-if ($conn->query($sql) === TRUE) {
+$sql2 = "CREATE DATABASE ".$mysqldbname."";
+if ($conn->query($sql2) === TRUE) {
 } else {
 die('<body class="container">
 <br><br><br>
@@ -181,13 +181,6 @@ die('<body class="container">
 </div></div></div></body>');
 }
 $conn->close();
-if(file_exists("libs/conn.php")) {
-unlink("libs/conn.php");
-touch("libs/conn.php");
-} else {
-touch("libs/conn.php");
-}
-
 
 $conn2 = new mysqli($mysqlserv, $mysqlusr, $mysqlpass, $mysqldbname);
 $conn2->query("SET CHARACTER SET utf8");
@@ -207,8 +200,48 @@ die('<body class="container">
 </div></div></div></body>');
 }
 
-$tab1 = "".file_get_contents("iptv.sql")."";
-if ($conn2->exec($tab1) === TRUE) {
+$txt2 = '$ip = "'.strip_tags($mysqlserv).'"; //host
+$user = "'.strip_tags($mysqlusr).'";  // host id
+$password = "'.strip_tags($mysqlpass).'";  // password local olduğu için varsayılan şifre
+$ad = "'.strip_tags($mysqldbname).'"; // db adı ';
+
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+$sql = mysqli_connect($mysqlserv, $mysqlusr, $mysqlpass, $mysqldbname);
+$sqlSource = file_get_contents(''.dirname(__FILE__).'/iptv.sql');
+mysqli_multi_query($sql,$sqlSource);
+echo '<body class="container">
+<br><br><br>
+<div class="mx-auto card">
+<div class="card-body">
+<b>MySQL Kurulumu</b>
+<hr></hr>
+<p>MySQL Kuruldu / MySQL Installed</p><br>
+<b>NOT : <i>conn.php DB Bağlantılarını</i> düzenlemeyi unutmayın</b><br><br>
+<pre>
+'.$txt2.'
+SQL Location : '.dirname(__FILE__).'/iptv.sql
+</pre>
+<div class="form-group">
+<br><br><a href="install.php?git=install2" " class="btn btn-dark">İleri / Next</button><br>
+</div></div></div></body>';
+} else {
+$sql = shell_exec('mysql -u '.$mysqlusr.' -p '.$mysqlpass.' --database '.$mysqldbname.' < '.dirname(__FILE__).'/iptv.sql');
+if(isset($sql)) {
+echo '<body class="container">
+<br><br><br>
+<div class="mx-auto card">
+<div class="card-body">
+<b>MySQL Kurulumu</b>
+<hr></hr>
+<p> MySQL Başarıyla Kuruldu </p><br>
+<b>NOT : <i>conn.php DB Bağlantılarını</i> düzenlemeyi unutmayın</b><br><br>
+<pre>
+'.$txt2.'<br>
+'.$sql.'<br>
+</pre>
+<div class="form-group">
+<br><br><a href="install.php?git=install2" " class="btn btn-dark">İleri / Next</button><br>
+</div></div></div></body>';
 } else {
 die('<body class="container">
 <br><br><br>
@@ -223,27 +256,7 @@ die('<body class="container">
 <br><br><a href="install.php?git=sql_install" " class="btn btn-dark">Tekrar Dene</button><br>
 </div></div></div></body>');
 }
-$conn2->close();
-
-$txt2 = '$ip = "'.strip_tags($mysqlserv).'"; //host
-$user = "'.strip_tags($mysqlusr).'";  // host id
-$password = "'.strip_tags($mysqlpass).'";  // password local olduğu için varsayılan şifre
-$ad = "'.strip_tags($mysqldbname).'"; // db adı ';
-
-echo '<body class="container">
-<br><br><br>
-<div class="mx-auto card">
-<div class="card-body">
-<b>MySQL Kurulumu</b>
-<hr></hr>
-<p> MySQL Başarıyla Kuruldu </p><br>
-<b>NOT : <i>conn.php DB Bağlantılarını</i> düzenlemeyi unutmayın</b><br><br>
-<pre>
-'.$txt2.'
-</pre>
-<div class="form-group">
-<br><br><a href="install.php?git=install2" " class="btn btn-dark">İleri / Next</button><br>
-</div></div></div></body>';
+}
 break;
 
 
@@ -273,7 +286,7 @@ echo '<body class="container">
 <p>Yükleme Tamamlandı. Artık Server hazır durumdadır.</p><br>
 <pre>
 Default Username : alicangonullu
-Default Password : 19742008
+Default Password : 19654
 </pre>
 <br>
 <a type="button" href="index.php" class="btn btn-dark">Devam Et</a>

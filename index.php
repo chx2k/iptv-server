@@ -599,14 +599,10 @@ echo '</tr>
   $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
   $stmt->execute();
   while($row2 = $stmt->fetch()) {
-      if(strip_tags($row2["private_sahip"]) == strip_tags($_SESSION["login"])) {
-          
-      } else {
           die("<script LANGUAGE='JavaScript'>
     window.alert('Not Updated');
     window.location.href='index.php?git=iptv';
     </script>");
-    }
   }
   if($row = $stmt->rowCount()) {
     echo "<script LANGUAGE='JavaScript'>
@@ -1335,7 +1331,7 @@ die("NO");
   <th>IP Adresi</th>
   <th></th>
   </tr></head><tbody>';
-  $stmt = $db->prepare('SELECT * FROM ip_block');
+  $stmt = $db->prepare('SELECT * FROM ip_block LIMIT 6');
   $stmt->execute();
   while($row = $stmt->fetch()) {
   $getirtr = file_get_contents("http://api.wipmania.com/".strip_tags($row["ip_adress"])."");
