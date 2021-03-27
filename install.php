@@ -207,7 +207,7 @@ die('<body class="container">
 </div></div></div></body>');
 }
 
-$tab1 = "".file_get_contents("iptv_data.sql")."";
+$tab1 = "".file_get_contents("iptv.sql")."";
 if ($conn2->exec($tab1) === TRUE) {
 } else {
 die('<body class="container">
