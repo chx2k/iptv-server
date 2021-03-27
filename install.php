@@ -240,8 +240,8 @@ $fp = fopen("yukle.lock","a");
 fwrite($fp,$txt);
 fclose($fp);
 }
-if(file_exists("iptv_data.sql")) {
-unlink("iptv_data.sql");
+if(file_exists("iptv.sql")) {
+unlink("iptv.sql");
 } else {
 }
 echo '<body class="container">
