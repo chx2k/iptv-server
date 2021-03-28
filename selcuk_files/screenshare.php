@@ -122,7 +122,7 @@ $(document).ready(function() {
 									if(event) {
 										if(event === "joined") {
 											myid = msg["id"];
-											$('#session').html(room);
+											$('#session').html("watch.php?pubid=<?php echo strip_tags($_GET["pub"]); ?>&screenid=" + room + "&watchplayer=1");
 											$('#title').html(msg["description"]);
 											Janus.log("Successfully joined room " + msg["room"] + " with ID " + myid);
 											if(role === "publisher") {

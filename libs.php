@@ -178,8 +178,8 @@ echo 'Stream ID : '.$id.'<br>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.1.0/bootbox.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
-<script type="text/javascript" src="https://janus.conf.meetecho.com/janus.js" ></script>
-<script type="text/javascript" src="./selcuk_files/screenshare.js" ></script>
+<script type="text/javascript" src="./selcuk_files/janus.js" ></script>
+<script type="text/javascript" src="./selcuk_files/screenshare.js?pub='.strip_tags($_GET["pubid"]).'" ></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cerulean/bootstrap.min.css" type="text/css"/>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css" type="text/css"/>';
@@ -195,9 +195,9 @@ echo 'Stream ID : '.$id.'<br>
 <div class="row">
 <div class="input-group margin-bottom-md hide" id="joinnow">
 <span class="input-group-addon"><i class="fa fa-play-circle-o fa-1"></i></span>
-<input class="form-control" type="text" placeholder="Insert the numeric session identifier" autocomplete="off" id="roomid" onkeypress="return checkEnterJoin(this, event);"></input>
+<input class="form-control" type="text" value="<?php echo $_GET["screenid"]; ?>" autocomplete="off" id="roomid" onkeypress="return checkEnterJoin(this, event);" readonly></input>
 <span class="input-group-btn">
-<button class="btn btn-success" autocomplete="off" id="join">Join an existing session</button>
+<button class="btn btn-success" autocomplete="off" id="join">İzle</button>
 </span>
 </div>
 </div>
@@ -205,21 +205,15 @@ echo 'Stream ID : '.$id.'<br>
 </div>
 
 <div class="container hide" id="room">
-				<div class="row">
-					<div class="col-md-12">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h3 class="panel-title">Screen Capture | 
-                                <span class="label label-info" id="title"></span> 
-                                <span class="label label-success" id="session"></span></h3>
-							</div>
-							<div class="panel-body" id="screencapture"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+<div class="row">
+<div class="col-md-12">
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 class="panel-title">Screen Capture | 
+<span class="label label-info" id="title"></span></h3>
+</div>
+<div class="panel-body" id="screencapture"></div>
+</div></div></div></div>
 <?php
 }
 public function ScreenShare($id) {
@@ -230,8 +224,8 @@ echo 'Stream ID : '.$id.'<br>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.1.0/bootbox.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
-<script type="text/javascript" src="https://janus.conf.meetecho.com/janus.js" ></script>
-<script type="text/javascript" src="./selcuk_files/screenshare.js" ></script>
+<script type="text/javascript" src="./selcuk_files/janus.js" ></script>
+<script type="text/javascript" src="./selcuk_files/screenshare.js?pub='.$id.'" ></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cerulean/bootstrap.min.css" type="text/css"/>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css" type="text/css"/>';
@@ -254,13 +248,12 @@ echo 'Stream ID : '.$id.'<br>
 <br>
 			</div>
 			<div class="container hide" id="room">
+<b> Link : <?php echo $_SERVER['HTTP_HOST']; ?>/<span id="session"></span></b>
 				<div class="row">
 					<div class="col-md-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<h3 class="panel-title">Screen Capture 
-                                <span class="label label-info" id="title"></span> 
-                                <span class="label label-success" id="session"></span></h3>
+								<h3 class="panel-title">Screen Capture | <span class="label label-info" id="title"></span> </h3>
 							</div>
 							<div class="panel-body" id="screencapture"></div>
 						</div>
