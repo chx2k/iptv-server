@@ -31,7 +31,9 @@ echo('<script>location.replace("m3u.php?git=select")</script>');
 }
 
 } else {
-echo('<script>location.replace("index.php")</script>');
+die('<center>
+<b>For login m3u.php?git=lgn&usr=user_name&pwd=password</b><br>
+</center>');
 }
 break;
 
@@ -42,7 +44,9 @@ echo '<center>
 <a href="m3u.php?git=m3upub">Public M3U</a>
 </center>';
 } else {
-die('<script>location.replace("index.php")</script>');
+die('<center>
+<b>For login m3u.php?git=lgn&usr=user_name&pwd=password</b><br>
+</center>');
 }
 break;
 
@@ -60,7 +64,9 @@ header ("Content-Disposition: attachment;filename=".strip_tags($row2["private_na
 }
 
 } else {
-die('<script>location.replace("index.php")</script>');
+die('<center>
+<b>For login m3u.php?git=lgn&usr=user_name&pwd=password</b><br>
+</center>');
 }
 echo '#EXTM3U';
 $stmt2 = $db->prepare('SELECT * FROM private_iptv WHERE private_sahip = :perm');
@@ -94,7 +100,9 @@ header ("Content-Disposition: attachment;filename=".strip_tags($row2["stream_oth
 header ("Pragma: no-cache");
 header ("Expires: 0");
 } else {
-die('<script>location.replace("index.php")</script>');
+die('<center>
+<b>For login m3u.php?git=lgn&usr=user_name&pwd=password</b><br>
+</center>');
 }
 echo '#EXTM3U';
 $stmt2 = $db->prepare('SELECT * FROM public_iptv WHERE public_sahip = :perm');
