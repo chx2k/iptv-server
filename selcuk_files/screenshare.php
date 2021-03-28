@@ -2,13 +2,12 @@
 header('Content-Type: application/javascript');
 ?>
 var server = null;
-if(window.location.protocol === 'http:')
+if(window.location.protocol === 'http:') {
 	server = "http://janus.conf.meetecho.com:8088/janus";
-else
+} else {
 	server = "https://janus.conf.meetecho.com:8089/janus";
-
+}
 var server = "wss://janus.conf.meetecho.com/ws";
-
 
 var janus = null;
 var screentest = null;

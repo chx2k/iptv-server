@@ -217,7 +217,7 @@ echo 'Stream ID : '.$id.'<br>
 <?php
 }
 public function ScreenShare($id) {
-echo 'Stream ID : '.$id.'<br>
+echo 'Stream ID : '.strip_tags($id).'<br>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js" ></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js" ></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js" ></script>
@@ -239,7 +239,7 @@ echo 'Stream ID : '.$id.'<br>
 				<div class="row">
 					<div class="input-group margin-bottom-md hide" id="createnow">
 						<span class="input-group-addon"><i class="fa fa-users fa-1"></i></span>
-						<input class="form-control" type="text" placeholder="Insert a title for the session" autocomplete="off" id="desc" onkeypress="return checkEnterShare(this, event);"></input>
+						<input class="form-control" type="text" value="<?php echo strip_tags($id); ?>" autocomplete="off" id="desc" onkeypress="return checkEnterShare(this, event);" readonly></input>
 						<span class="input-group-btn">
 							<button class="btn btn-success" autocomplete="off" id="create">Share your screen</button>
 						</span>
