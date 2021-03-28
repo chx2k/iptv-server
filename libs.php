@@ -195,7 +195,7 @@ echo 'Stream ID : '.$id.'<br>
 <div class="row">
 <div class="input-group margin-bottom-md hide" id="joinnow">
 <span class="input-group-addon"><i class="fa fa-play-circle-o fa-1"></i></span>
-<input class="form-control" type="text" value="<?php echo $_GET["screenid"]; ?>" autocomplete="off" id="roomid" onkeypress="return checkEnterJoin(this, event);" readonly></input>
+<input class="form-control" type="text" value="<?php echo $_GET["screenid"]; ?>" autocomplete="off" id="roomid" onkeypress="return checkEnterJoin(this, event);"></input>
 <span class="input-group-btn">
 <button class="btn btn-success" autocomplete="off" id="join">İzle</button>
 </span>
