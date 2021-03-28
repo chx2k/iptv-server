@@ -28,17 +28,7 @@ $stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :iddegeri');
 $stmt->execute(array(':iddegeri' => strip_tags("1")));
 if($stmt->rowCount()) {
 if($row = $stmt->fetch()) {
-$configm3u8 = $row["ffmpeg_m3u8cfg"];
-$configts = $row["ffmpeg_ts"];
-$configflv = $row["ffmpeg_flv"];
-$twittertk = $row["twitter_tkn"];
-$facebooktk = $row["facebook_tkn"];
-$twitchtk = $row["twitch_tkn"];
-$youtubetk = $row["youtube_tk"];
-$instagramtk = $row["instagram_tk"];
-$restreamtk = $row["restream_tkn"];
 $logo = $row["logo"];
-$rtmpport = $row["rtmp_port"];
 }
 } else {
 die("Config Not Found | Please reload database");
