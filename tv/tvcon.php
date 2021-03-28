@@ -1,12 +1,11 @@
 <?php
-if(file_exists("../yukle.lock")) {
+if(file_exists("yukle.lock")) {
 } else {
 die("<center><b>PHP IPTV Yüklenemedi / PHP IPTV was not Installed</b>
 <hr></hr>
 <p>yukle.lock dosyasını silip tekrar deneyin</b><br>
 <a href='install.php'>Yükle</a></center>");
 }
-
 try {
 $ip = "localhost"; //host
 $user = "root";  // host id
@@ -23,5 +22,23 @@ die('<table>
 <center>Sistem Yöneticinizle Irtibata Geçin</center>
 </table>');
 }
-include("libs.php");
+
+class IPTVClass {
+public function logincheck() {
+if(isset($_SESSION['login'])) {
+} else {
+if(session_status() == "2") {
+die('<center><b>ERROR : Cannot login<br>Session Status : WORKING</b></center>');
+} else {
+die('<center><b>ERROR : Cannot login<br>Session Status : NOT WORKING</b></center>');
+}
+}
+
+if($_SESSION["yetki"] == md5("sus")) {
+die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
+} else {
+}
+}
+
+}
 ?>

@@ -110,8 +110,6 @@ die("<center><b>Channel Deactivated</b></center>");
 }
 if($row["video_stream"] == 1) {
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
-<link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro.min.css">
 <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
 <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
@@ -137,16 +135,13 @@ echo '<body class="container">
 </div></center></body>';	  
 $getir->M3UVideo("m3u/".strip_tags($_GET["pubid"]).".ts");
 echo '<center>Yayını paylaşmak için http://'.$_SERVER['HTTP_HOST'].'/m3u/'.strip_tags($_GET["pubid"]).'.m3u8</center>';
-
-} else {
+} elseif($row["video_stream"] == 0) {
 //M3U8 Player Started
 if($row["public_active"] == 0) {
 die("<center><b>Channel Deactivated</b></center>");
 } else {
 }
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
-<link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro.min.css">
 <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
 <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
@@ -173,7 +168,11 @@ echo '<body class="container">
 $getir->M3UVideo("m3u/".strip_tags($_GET["pubid"]).".m3u8");
 echo '<center>Yayını paylaşmak için http://'.$_SERVER['HTTP_HOST'].'/m3u/'.strip_tags($_GET["pubid"]).'.m3u8</center>';
 
+} else {
+$getir->ScreenShow(strip_tags($_GET["pubid"]), strip_tags($row["public_name"]));
+//ScreenShare Soon...
 }
+
 } else {
 if($row["public_active"] == 0) {
 die("<center><b>Channel Deactivated</b></center>");
@@ -181,9 +180,12 @@ die("<center><b>Channel Deactivated</b></center>");
 }
 if($row["video_stream"] == 1) {
 $getir->TSStream(strip_tags($row["public_name"]));
-} else {
+} elseif($row["video_stream"] == 0) {
 $getir->M3U8Stream(strip_tags($row["public_name"]));
+} else {
+die("ScreenShare has not this choose");
 }
+
 }
 
 }

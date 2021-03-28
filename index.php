@@ -301,8 +301,8 @@ if($_SESSION["yetki"] == md5("uye")) {
 echo '
 <br><br>
 <div class="container h-50 p-4" style="width:90%;">
-<button onclick="javascript:location.reload();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Refresh</button>
-<br><br>
+<button onclick="javascript:location.reload();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Refresh</button>';
+echo '<br><br>
 <b>M3U8 File List</b>';
 $_DIR = opendir("m3u");
 $_DIR2 = opendir("log");
@@ -437,7 +437,11 @@ echo '</ul></div></td>
 if($_SESSION["yetki"] == md5("uye")) {
 echo '<li><a class="dropdown-item" target="_blank" href="index.php?git=startcst1&id='.intval($row2["public_id"]).'">Start Custom Stream</a></li>';
 } elseif($_SESSION["yetki"] == md5("gold")) {
+echo '<li><a class="dropdown-item" target="_blank" href="index.php?git=startcst1&id='.intval($row2["public_id"]).'">Start Custom Stream</a></li>';
 } else  {
+if($row2["video_stream"] == 2) {
+echo '<li><a class="dropdown-item" target="_blank" href="index.php?git=screenshare&id='.intval($row2["public_id"]).'">Start ScreenShare</a></li>';
+} else {
 echo '<li><a class="dropdown-item" target="_blank" href="index.php?git=getlog&id='.intval($row2["public_id"]).'">Logs</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=startrestream&id='.intval($row2["public_id"]).'">Start Restream.IO Stream</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=startfacebook&id='.intval($row2["public_id"]).'">Start Facebook Stream</a></li>
@@ -449,6 +453,8 @@ echo '<li><a class="dropdown-item" target="_blank" href="index.php?git=getlog&id
 <li><a class="dropdown-item" target="_blank" href="index.php?git=startiptv&id='.intval($row2["public_id"]).'">Start Stream</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=startrecord&id='.intval($row2["public_id"]).'">Start Stream Record</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=stopiptv&id='.intval($row2["public_id"]).'">Stop Stream</a></li>';
+}
+
 }
 echo '<li><a class="dropdown-item" target="_blank" href="index.php?git=editpubid&id='.strip_tags($row2["public_id"]).'">Edit Stream</a></li>
 <li><a class="dropdown-item" target="_blank" href="index.php?git=deletepubid&id='.strip_tags($row2["public_id"]).'">Delete Stream</a></li>
@@ -1017,6 +1023,7 @@ case 'startcst':
     <select class="form-control" name="iptvstrorvid" id="exampleFormControlSelect1">
       <option value="0">Stream</option>
       <option value="1">Video</option>
+      <option value="2">ScreenShare</option>
     </select>
   </div>
   
@@ -1165,6 +1172,22 @@ if (!unlink($dosyaadi)) {
   }
   break;
 
+  case 'screenshare':
+  $getir->logincheck();
+  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri AND public_sahip = :perm');
+  $stmt->bindValue(':iddegeri', intval($_GET["id"]));
+  $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
+  $stmt->execute();
+  while($row = $stmt->fetch()) {
+    if(strip_tags($row["public_active"]) == "0") {
+      echo '<div class="alert alert-warning" role="alert">This channel suspended by admin!</div>';
+    } else {
+       $getir->ScreenShare($row["public_name"]);
+    }
+  }
+  break;
+  
   case 'watch':
   $getir->logincheck();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
@@ -1183,7 +1206,6 @@ echo '<div class="container">';
   $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
   $stmt->execute();
   while($row = $stmt->fetch()) {
-  if(strip_tags($row["private_sahip"]) == strip_tags($_SESSION["login"])) {
     if(strip_tags($row["private_active"]) == "0") {
       echo '<div class="alert alert-warning" role="alert">This channel suspended by admin!</div>';
     } else {
@@ -1242,10 +1264,7 @@ URI : '.$data->uri.'<br><br><br>
 
 </div>';
 fclose($fp);
-} else {
-die("NO");
 }
-  }
   break;
 
   case 'm3ugenerate':
@@ -1558,19 +1577,21 @@ die("NO");
     </div>
     <div class="form-group">
       <label for="exampleFormControlInput1">Stream Link</label>
-      <input type="text" name="streamlink" class="form-control" placeholder="M3U8 Link">
+      <input type="text" name="streamlink" class="form-control" placeholder="M3U8 Link (or ScreenShare Code)">
     </div>
 	  <div class="form-group">
     <label for="exampleFormControlSelect1">Type</label>
     <select class="form-control" name="streamorvid" id="exampleFormControlSelect1">
       <option value="0">Stream</option>
       <option value="1">Video</option>
+      <option value="2">ScreenShare</option>
     </select>
   </div>
     <button type="submit" style="width: 100%;" class="btn btn-primary">Add</button>
   </form>
   </body>';
   break;
+  
   
   case 'addpriviptv':
   $getir->logincheck();

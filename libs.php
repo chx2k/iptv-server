@@ -116,7 +116,7 @@ echo '</script>
     <button type="button" class="media-control-button media-control-icon" data-fullscreen="" aria-label="fullscreen"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="#010101" d="M7.156 8L4 11.156V8.5H3V13h4.5v-1H4.844L8 8.844 7.156 8zM8.5 3v1h2.657L8 7.157 8.846 8 12 4.844V7.5h1V3H8.5z" style="fill: rgb(255, 255, 255);"></path></svg></button><div class="cc-controls" data-cc-controls=""><button type="button" class="cc-button media-control-button media-control-icon" data-cc-button="" aria-label="cc-button"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 49 41.8" style="enable-background:new 0 0 49 41.8;" xml:space="preserve"><path d="M47.1,0H3.2C1.6,0,0,1.2,0,2.8v31.5C0,35.9,1.6,37,3.2,37h11.9l3.2,1.9l4.7,2.7c0.9,0.5,2-0.1,2-1.1V37h22.1 c1.6,0,1.9-1.1,1.9-2.7V2.8C49,1.2,48.7,0,47.1,0z M7.2,18.6c0-4.8,3.5-9.3,9.9-9.3c4.8,0,7.1,2.7,7.1,2.7l-2.5,4 c0,0-1.7-1.7-4.2-1.7c-2.8,0-4.3,2.1-4.3,4.3c0,2.1,1.5,4.4,4.5,4.4c2.5,0,4.9-2.1,4.9-2.1l2.2,4.2c0,0-2.7,2.9-7.6,2.9 C10.8,27.9,7.2,23.5,7.2,18.6z M36.9,27.9c-6.4,0-9.9-4.4-9.9-9.3c0-4.8,3.5-9.3,9.9-9.3C41.7,9.3,44,12,44,12l-2.5,4 c0,0-1.7-1.7-4.2-1.7c-2.8,0-4.3,2.1-4.3,4.3c0,2.1,1.5,4.4,4.5,4.4c2.5,0,4.9-2.1,4.9-2.1l2.2,4.2C44.5,25,41.9,27.9,36.9,27.9z"></path></svg></button>
 <ul style="display: none;">
   
-  <li><a href="<?php echo strip_tags($url); ?>" data-cc-select="-1">Engelli</a></li>
+  <li><a href="'.strip_tags($url).'" data-cc-select="-1">Engelli</a></li>
   
 </ul>
 </div>
@@ -167,28 +167,109 @@ echo '</script>
 </div></body></html>';
 }
 public function M3UVideo($url) {
-echo "<script src='https://cdn.jsdelivr.net/npm/hls.js@latest'></script>
-<!-- Or if you want a more recent alpha version -->
-<!-- <script src='https://cdn.jsdelivr.net/npm/hls.js@alpha'></script> -->
-<script>
-  var video = document.getElementById('video');
-  var videoSrc = '".strip_tags($url)."';
-  if (Hls.isSupported()) {
-    var hls = new Hls();
-    hls.loadSource(videoSrc);
-    hls.attachMedia(video);
-    hls.on(Hls.Events.MANIFEST_PARSED, function() {
-      video.play();
-    });
-  }
+echo "<script src='./selcuk_files/jsmpeg.min.js'></script>
+<div class='jsmpeg' style='width:100%;height:100%;' data-url='".strip_tags($url)."'></div>";
+}
+public function ScreenShow($url, $id) {
+echo 'Stream ID : '.$id.'<br>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.1.0/bootbox.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
+<script type="text/javascript" src="https://janus.conf.meetecho.com/janus.js" ></script>
+<script type="text/javascript" src="./selcuk_files/screenshare.js" ></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cerulean/bootstrap.min.css" type="text/css"/>
 
-  else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-    video.src = videoSrc;
-    video.addEventListener('loadedmetadata', function() {
-      video.play();
-    });
-  }
-</script>";
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css" type="text/css"/>';
+?>
+<div class="page-header">
+<h1>Ekran Paylaşımı / Screen Sharing
+<button class="btn btn-default" autocomplete="off" id="start">Start</button>
+</h1></div>
+
+<div class="container hide" id="screenmenu">
+<br>
+
+<div class="row">
+<div class="input-group margin-bottom-md hide" id="joinnow">
+<span class="input-group-addon"><i class="fa fa-play-circle-o fa-1"></i></span>
+<input class="form-control" type="text" placeholder="Insert the numeric session identifier" autocomplete="off" id="roomid" onkeypress="return checkEnterJoin(this, event);"></input>
+<span class="input-group-btn">
+<button class="btn btn-success" autocomplete="off" id="join">Join an existing session</button>
+</span>
+</div>
+</div>
+
+</div>
+
+<div class="container hide" id="room">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Screen Capture | 
+                                <span class="label label-info" id="title"></span> 
+                                <span class="label label-success" id="session"></span></h3>
+							</div>
+							<div class="panel-body" id="screencapture"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<?php
+}
+public function ScreenShare($id) {
+echo 'Stream ID : '.$id.'<br>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.1.0/bootbox.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
+<script type="text/javascript" src="https://janus.conf.meetecho.com/janus.js" ></script>
+<script type="text/javascript" src="./selcuk_files/screenshare.js" ></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cerulean/bootstrap.min.css" type="text/css"/>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css" type="text/css"/>';
+?>
+<div class="page-header">
+<h1>Ekran Paylaşımı / Screen Sharing
+<button class="btn btn-default" autocomplete="off" id="start">Start</button>
+</h1></div>
+
+<div class="container hide" id="screenmenu">
+				<div class="row">
+					<div class="input-group margin-bottom-md hide" id="createnow">
+						<span class="input-group-addon"><i class="fa fa-users fa-1"></i></span>
+						<input class="form-control" type="text" placeholder="Insert a title for the session" autocomplete="off" id="desc" onkeypress="return checkEnterShare(this, event);"></input>
+						<span class="input-group-btn">
+							<button class="btn btn-success" autocomplete="off" id="create">Share your screen</button>
+						</span>
+					</div>
+				</div>
+<br>
+			</div>
+			<div class="container hide" id="room">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Screen Capture 
+                                <span class="label label-info" id="title"></span> 
+                                <span class="label label-success" id="session"></span></h3>
+							</div>
+							<div class="panel-body" id="screencapture"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<?php
 }
 
 public function M3U8DebugStream($pubname, $tslinks, $config) {
