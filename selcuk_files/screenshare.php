@@ -1,5 +1,4 @@
 <?php
-include("../conn.php");
 header('Content-Type: application/javascript');
 ?>
 var server = null;
