@@ -79,6 +79,17 @@ CREATE TABLE `public_iptv` (
 INSERT INTO `public_iptv` (`public_id`, `public_name`, `stream_othname`, `public_tslink`, `video_stream`, `public_active`, `public_sahip`) VALUES
 (1, 'a0046ad4c1bafc4ef04e41e755f28368', 'TRT1', 'https://tv-trt1.live.trt.com.tr/master_720.m3u8', '0', '0', 'alicangonullu');
 
+CREATE TABLE `ads_list` (
+  `ads_id` int(11) NOT NULL,
+  `ads_name` varchar(255) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `ads_url` varchar(255) COLLATE utf8mb4_turkish_ci NOT NULL,
+  `ads_video` varchar(255) COLLATE utf8mb4_turkish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
+
+INSERT INTO `ads_list` (`ads_id`, `ads_name`, `ads_url`, `ads_video`) VALUES
+(1, 'ADS1', 'https://google.com', 'https://video.twimg.com/ext_tw_video/1362496186482126852/pu/pl/640x360/wPAkn1M0uPz_Dt14.m3u8');
+
+
 ALTER TABLE `admin_list`
   ADD PRIMARY KEY (`admin_id`);
 
@@ -96,6 +107,9 @@ ALTER TABLE `private_iptv`
 
 ALTER TABLE `public_iptv`
   ADD PRIMARY KEY (`public_id`);
+  
+ALTER TABLE `ads_list`
+  ADD PRIMARY KEY (`ads_id`);
 
 ALTER TABLE `admin_list`
   MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
@@ -114,5 +128,8 @@ ALTER TABLE `private_iptv`
 
 ALTER TABLE `public_iptv`
   MODIFY `public_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  
+ALTER TABLE `ads_list`
+  MODIFY `ads_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 COMMIT;
 

@@ -1,4 +1,5 @@
 <?php
+
 class IPTVClass {
 
 public function extControl($name) {
@@ -69,18 +70,22 @@ document.body.innerHTML = '<center><h1>Internet Baglantı Problemi</h1><img src=
 }
 setInterval(function(){kontrol("<?php echo strip_tags($id); ?>");}, 3000);
 });
+<?php
+$getads = file_get_contents('http://'.$_SERVER['HTTP_HOST'].'/ads.php');
+$getadsjson = json_decode($getads, true);
+if($_COOKIE["reklam"] == md5("uye")) {
+echo 'window.adsConfig={enabled:!0,link:"'.strip_tags($getadsjson[0]["ads_url"]).'",parentId:"div#m",skipOffset:5,source:"'.strip_tags($getadsjson[0]["ads_video"]).'"}';
+} elseif($_COOKIE["reklam"] == md5("admin")) { 
+echo 'window.adsConfig = {enabled:0}';
+} else {
+echo 'window.adsConfig={enabled:!0,link:"'.strip_tags($getadsjson[0]["ads_url"]).'",parentId:"div#m",skipOffset:5,source:"'.strip_tags($getadsjson[0]["ads_video"]).'"}';
+}
+?>
 
 window.facePlay = 0;
 window.faceStreams = [""];
 window.mainSource = ["<?php echo htmlentities($url); ?>","<?php echo htmlentities($url); ?>"];
 <?php
-if($_SESSION["yetki"] == md5("uye")) {
-echo 'window.adsConfig={enabled:!0,link:"http://google.com",parentId:"div#m",skipOffset:5,source:"https://video.twimg.com/ext_tw_video/1362496186482126852/pu/pl/640x360/wPAkn1M0uPz_Dt14.m3u8"}';
-} elseif($_SESSION["yetki"] == md5("gold")) { 
-echo 'window.adsConfig = {enabled:0}';
-} else {
-echo 'window.adsConfig = {enabled:0}';
-}
 echo '</script>
 <title>SelcukWatch</title>
 <style class="clappr-style">@font-face{}</style></head>
@@ -581,6 +586,7 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="'.strip_tags($_S
         <li><a href="index.php?git=iplog"><span class="mif-list icon"></span>IP Log</a></li>
 		<li class="divider"></li>
         <li><a href="index.php?git=user"><span class="mif-add icon"></span>Users</a></li>
+        <li><a href="index.php?git=ads"><span class="mif-add icon"></span>Ads</a></li>
         <li><a href="tv/index.php"><span class="mif-tablet-landscape icon"></span>TV</a></li>
         <li class="divider"></li>
 		<li><a href="index.php?git=iptv&phpinfo=1"><span class="mif-info icon"></span>PHP Info</a></li>
@@ -627,7 +633,7 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="'.strip_tags($_S
 		<li class="divider"></li>
         <li><a href="index.php?git=startstream"><span class="mif-add icon"></span>Add IPTV</a></li>
 		<li><a href="index.php?git=addpriviptv"><span class="mif-add icon"></span>Add Private IPTV</a></li>
-                <li><a href="m3u.php?git=select"><span class="mif-add icon"></span>Get M3U8</a></li>
+        <li><a href="m3u.php?git=select"><span class="mif-add icon"></span>Get M3U8</a></li>
 		<li class="divider"></li>
         <li><a href="tv/index.php"><span class="mif-tablet-landscape icon"></span>TV</a></li>
         <li class="divider"></li>

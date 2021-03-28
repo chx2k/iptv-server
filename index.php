@@ -74,15 +74,18 @@ $stmt->execute(array(':iddegeri' => $_SESSION["login"]));
 while($row = $stmt->fetch()) {
 if(strip_tags($row["admin_yetki"]) == "admin") {
 $_SESSION["yetki"] = md5("admin");
+setcookie("reklam", md5("admin"), time()+3600);
 echo('<script>location.replace("index.php?git=iptv")</script>');
 } elseif(strip_tags($row["admin_yetki"]) == "sus") {
 die("Hesabınız Bloklanmıştır");
 session_destroy();
 } elseif(strip_tags($row["admin_yetki"]) == "gold") { 
 $_SESSION["yetki"] = md5("gold");
+setcookie("reklam", md5("gold"), time()+3600);
 echo('<script>location.replace("index.php?git=iptv")</script>');
 } else {
 $_SESSION["yetki"] = md5("uye");
+setcookie("reklam", md5("uye"), time()+3600);
 echo('<script>location.replace("index.php?git=iptv")</script>');
 }
 if(isset($_SESSION["yetki"])) {
@@ -1442,7 +1445,107 @@ die("NO");
   </form>
   </body>';
   break;
-
+  
+  case 'ads':
+  $getir->logincheck();
+  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  if($_SESSION["yetki"] == md5("uye")) {
+      die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
+      } else {
+      }
+  echo '<body class="mx-auto">
+  <table class="table container">
+  <thead>
+  <tr>
+  <th>ID</th>
+  <th>Ads Name</th>
+  <th></th>
+  </tr></head><tbody>';
+  $stmt = $db->prepare('SELECT * FROM ads_list ORDER BY ads_id LIMIT 6');
+  $stmt->execute();
+  while($row = $stmt->fetch()) {
+  echo '<tr>
+  <th scope="row">'.intval($row["ads_id"]).'</th>
+  <td>'.strip_tags($row["ads_name"]).'</td>
+  <td><a href="index.php?git=remads&id='.intval($row["ads_id"]).'">Sil</a></td>';
+  }
+  echo '</tbody></table><br>
+  <a class="btn btn-warning" style="right: 0px;width: 100%;padding: 10px;" href="index.php?git=addads">Add Ads</a></body>';
+  break;
+  
+    case 'addads':
+  $getir->logincheck();
+  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+    if($_SESSION["yetki"] == md5("uye")) {
+      die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
+      } else {
+      }
+  echo '<body class="mx-auto">
+  <center><b>Add Ads</b></center><br>
+  <form class="container" action="index.php?git=paddads" method="post">
+    <div class="form-group">
+      <label for="exampleFormControlInput1">Ads Name</label>
+      <input type="text" name="adsname" class="form-control" placeholder="Ads Name">
+    </div>
+    <div class="form-group">
+      <label for="exampleFormControlInput1">Ads URL</label>
+      <input type="text" name="adsurl" class="form-control" placeholder="Ads URL">
+    </div>
+        <div class="form-group">
+      <label for="exampleFormControlInput1">Ads Video (M3U8)</label>
+      <input type="text" name="adsvideo" class="form-control" placeholder="Ads Video (M3U8)">
+    </div>
+    <button type="submit" style="width: 100%;" class="btn btn-primary">Add</button>
+  </form>
+  </body>';
+  break;
+  
+    case 'remads';
+  $getir->logincheck();
+    if($_SESSION["yetki"] == md5("uye")) {
+      die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
+      } else {
+      }
+  $update = $db->prepare("DELETE FROM ads_list WHERE ads_id = :iptvid");
+  $update->bindValue(':iptvid', intval($_GET["id"]));
+  $update->execute();
+  if($row = $update->rowCount()) {
+    echo "<script LANGUAGE='JavaScript'>
+    window.alert('Succesfully Updated');
+    window.location.href='index.php?git=ads';
+    </script>";
+  } else {
+    echo "<script LANGUAGE='JavaScript'>
+    window.alert('Unsuccesfully Updated');
+    window.location.href='index.php?git=ads';
+    </script>";
+  }
+  break;
+  
+  case 'paddads':
+  $getir->logincheck();
+  if($_SESSION["yetki"] == md5("uye")) {
+      die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
+      } else {
+      }
+    $update = $db->prepare("INSERT INTO ads_list(ads_name, ads_url, ads_video) VALUES (:usrname, :usremail, :usrpass)");
+  $update->bindValue(':usrname', strip_tags($_POST["adsname"]));
+  $update->bindValue(':usremail', htmlentities($_POST["adsurl"]));
+  $update->bindValue(':usrpass', htmlentities($_POST["adsvideo"]));
+  $update->execute();
+  if($row = $update->rowCount()) {
+    echo "<script LANGUAGE='JavaScript'>
+    window.alert('Succesfully Added');
+    window.location.href='index.php?git=ads';
+    </script>";
+  } else {
+    echo "<script LANGUAGE='JavaScript'>
+    window.alert('Unsuccesfully Added');
+    window.location.href='index.php?git=ads';
+    </script>";
+  }
+  break;
+  
   case 'startstream':
   $getir->logincheck();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
