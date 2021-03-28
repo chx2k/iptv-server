@@ -1,5 +1,5 @@
 <?php
-if(file_exists("../yukle.lock")) {
+if(file_exists("yukle.lock")) {
 } else {
 die("<center><b>PHP IPTV Yüklenemedi / PHP IPTV was not Installed</b>
 <hr></hr>
