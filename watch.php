@@ -137,6 +137,7 @@ echo '<body class="container">
 </div></center></body>';	  
 $getir->M3UVideo("m3u/".strip_tags($_GET["pubid"]).".ts");
 echo '<center>Yayını paylaşmak için http://'.$_SERVER['HTTP_HOST'].'/m3u/'.strip_tags($_GET["pubid"]).'.m3u8</center>';
+
 } else {
 //M3U8 Player Started
 if($row["public_active"] == 0) {
@@ -171,14 +172,18 @@ echo '<body class="container">
 </div></center></body>';
 $getir->M3UVideo("m3u/".strip_tags($_GET["pubid"]).".m3u8");
 echo '<center>Yayını paylaşmak için http://'.$_SERVER['HTTP_HOST'].'/m3u/'.strip_tags($_GET["pubid"]).'.m3u8</center>';
+
 }
 } else {
 if($row["public_active"] == 0) {
 die("<center><b>Channel Deactivated</b></center>");
 } else {
 }
+if($row["video_stream"] == 1) {
+$getir->TSStream(strip_tags($row["public_name"]));
+} else {
 $getir->M3U8Stream(strip_tags($row["public_name"]));
-echo '<center>Yayını paylaşmak için http://'.$_SERVER['HTTP_HOST'].'/m3u/'.strip_tags($_GET["pubid"]).'.m3u8</center>';
+}
 }
 
 }
