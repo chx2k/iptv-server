@@ -181,9 +181,14 @@ echo 'Stream ID : '.$id.'<br>
 <script type="text/javascript" src="./selcuk_files/janus.js" ></script>
 <script type="text/javascript" src="./selcuk_files/screenshare.js?pub='.strip_tags($_GET["pubid"]).'" ></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cerulean/bootstrap.min.css" type="text/css"/>
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css" type="text/css"/>';
 ?>
+<style>
+.panel-body {
+width:100%;
+height:100%;
+}
+</style>
 <div class="page-header">
 <h1>Ekran Paylaşımı / Screen Sharing
 <button class="btn btn-default" autocomplete="off" id="start">Start</button>
@@ -205,15 +210,11 @@ echo 'Stream ID : '.$id.'<br>
 </div>
 
 <div class="container hide" id="room">
-<div class="row">
-<div class="col-md-12">
-<div class="panel panel-default">
 <div class="panel-heading">
-<h3 class="panel-title">Screen Capture | 
-<span class="label label-info" id="title"></span></h3>
+<h3 class="panel-title">Screen Capture | <span class="label label-info" id="title"></span></h3>
 </div>
 <div class="panel-body" id="screencapture"></div>
-</div></div></div></div>
+</div>
 <?php
 }
 public function ScreenShare($id) {
