@@ -171,7 +171,7 @@ echo "<script src='./selcuk_files/jsmpeg.min.js'></script>
 <div class='jsmpeg' style='width:100%;height:100%;' data-url='".strip_tags($url)."'></div>";
 }
 public function ScreenShow($url, $id) {
-echo 'Stream ID : '.$id.'<br>
+echo '
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js" ></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js" ></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js" ></script>
@@ -211,6 +211,7 @@ height:100%;
 </div>
 
 <div class="container hide" id="room">
+<b><span id="session"></span></b>
 <div class="panel-heading">
 <h3 class="panel-title">Screen Capture | <span class="label label-info" id="title"></span></h3>
 </div>
@@ -219,7 +220,7 @@ height:100%;
 <?php
 }
 public function ScreenShare($id) {
-echo 'Stream ID : '.strip_tags($id).'<br>
+echo '
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js" ></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js" ></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js" ></script>
@@ -251,7 +252,7 @@ echo 'Stream ID : '.strip_tags($id).'<br>
 <br>
 			</div>
 			<div class="container hide" id="room">
-<b> Link : <?php echo $_SERVER['HTTP_HOST']; ?>/<span id="session"></span></b>
+<b><span id="session"></span></b>
 				<div class="row">
 					<div class="col-md-12">
 						<div class="panel panel-default">
