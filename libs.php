@@ -192,7 +192,7 @@ height:100%;
 <div class="container">
 <div class="page-header">
 <h1>Ekran Paylaşımı / Screen Sharing
-<button class="btn btn-default" autocomplete="off" id="start">Start</button>
+<button class="btn btn-default" autocomplete="off" id="start">Watch / İzle</button>
 </h1></div>
 
 <div class="container hide" id="screenmenu">
@@ -203,7 +203,7 @@ height:100%;
 <span class="input-group-addon"><i class="fa fa-play-circle-o fa-1"></i></span>
 <input class="form-control" type="text" value="<?php echo $_GET["screenid"]; ?>" autocomplete="off" id="roomid" onkeypress="return checkEnterJoin(this, event);" readonly></input>
 <span class="input-group-btn">
-<button class="btn btn-success" autocomplete="off" id="join">İzle</button>
+<button class="btn btn-success" autocomplete="off" id="join">Watch / İzle</button>
 </span>
 </div>
 </div>
