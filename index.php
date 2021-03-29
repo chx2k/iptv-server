@@ -422,8 +422,13 @@ echo '<td><div class="btn-group">
   <ul class="dropdown-menu" role="menu">';
 if($_SESSION["yetki"] == md5("uye")) {
 } else {
+
+if($row2["video_stream"] == 2) {
+} else {
 echo '<li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_name"]).'">M3U8 Link</a></li>
 <li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_name"]).'&debug">Debug</a></li>';
+}
+
 }
 if($row2["video_stream"] == 2) {
 echo '<li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_name"]).'&screenid='.strip_tags($row2["public_tslink"]).'&watchplayer=1">Watch</a></li>';

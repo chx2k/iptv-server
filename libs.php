@@ -189,6 +189,7 @@ width:100%;
 height:100%;
 }
 </style>
+<div class="container">
 <div class="page-header">
 <h1>Ekran Paylaşımı / Screen Sharing
 <button class="btn btn-default" autocomplete="off" id="start">Start</button>
@@ -200,7 +201,7 @@ height:100%;
 <div class="row">
 <div class="input-group margin-bottom-md hide" id="joinnow">
 <span class="input-group-addon"><i class="fa fa-play-circle-o fa-1"></i></span>
-<input class="form-control" type="text" value="<?php echo $_GET["screenid"]; ?>" autocomplete="off" id="roomid" onkeypress="return checkEnterJoin(this, event);"></input>
+<input class="form-control" type="text" value="<?php echo $_GET["screenid"]; ?>" autocomplete="off" id="roomid" onkeypress="return checkEnterJoin(this, event);" readonly></input>
 <span class="input-group-btn">
 <button class="btn btn-success" autocomplete="off" id="join">İzle</button>
 </span>
@@ -214,7 +215,7 @@ height:100%;
 <h3 class="panel-title">Screen Capture | <span class="label label-info" id="title"></span></h3>
 </div>
 <div class="panel-body" id="screencapture"></div>
-</div>
+</div></div>
 <?php
 }
 public function ScreenShare($id) {
@@ -231,6 +232,7 @@ echo 'Stream ID : '.strip_tags($id).'<br>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css" type="text/css"/>';
 ?>
+<div class="container">
 <div class="page-header">
 <h1>Ekran Paylaşımı / Screen Sharing
 <button class="btn btn-default" autocomplete="off" id="start">Start</button>
@@ -262,7 +264,6 @@ echo 'Stream ID : '.strip_tags($id).'<br>
 				</div>
 			</div>
 		</div>
-	</div>
 <?php
 }
 
