@@ -25,7 +25,7 @@ die('<table>
 
 class IPTVClass {
 public function logincheck() {
-if(isset($_COOKIE['login'])) {
+if(isset($_COOKIE['logintv'])) {
 } else {
 if(session_status() == "2") {
 die('<center><b>ERROR : Cannot login<br>Session Status : WORKING</b></center>');
