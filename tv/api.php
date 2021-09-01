@@ -2,6 +2,7 @@
 include("tvcon.php");
 $getir = new IPTVClass();
 $getir->logincheck();
+
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 header('Content-type: application/json');
@@ -42,7 +43,7 @@ $json = json_encode($results);
 echo $json;
 } else {
 $stmt2 = $db->prepare('SELECT * FROM public_iptv WHERE public_sahip = :pubid');
-$stmt2->execute(array(':pubid' => $_COOKIE['user_id']));
+$stmt2->execute(array(':pubid' => $_COOKIE['login']));
 $results = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 $json = json_encode($results);
 echo $json;

@@ -48,7 +48,7 @@ Respect !
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta content="unsafe-url" name="referrer">
 <meta content="initial-scale=1,width=device-width" name="viewport">
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="./theme/js/jquery-1.12.4.min.js"></script>
 <script charset="UTF-8" src="./selcuk_files/clappr.min.js"></script>
 <script charset="UTF-8" src="./selcuk_files/level-selector.min.js"></script>
 <script charset="UTF-8" src="./selcuk_files/dashshakaplayback.js"></script>
@@ -84,7 +84,7 @@ echo 'window.adsConfig={enabled:!0,link:"'.strip_tags($getadsjson[0]["ads_url"])
 
 window.facePlay = 0;
 window.faceStreams = [""];
-window.mainSource = ["<?php echo htmlentities($url); ?>","<?php echo htmlentities($url); ?>"];
+window.mainSource = ["<?php echo strip_tags($url); ?>","<?php echo strip_tags($url); ?>"];
 <?php
 echo '</script>
 <title>SelcukWatch</title>
@@ -275,10 +275,10 @@ public function M3U8DebugStream($pubname, $tslinks, $config) {
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
   $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
   echo '<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro.min.css">
-	<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
-	<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
-	<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
+	<link rel="stylesheet" href="./theme/css/metro.min.css">
+	<link rel="stylesheet" href="./theme/css/metro-colors.min.css">
+	<link rel="stylesheet" href="./theme/css/metro-rtl.min.css">
+	<link rel="stylesheet" href="./theme/css/metro-icons.min.css">
 	<br><textarea class="container" data-role="textarea" style="width:100%;height:50%;">'.$com.'</textarea><br><br>';
   if(!$fp = @fopen(strip_tags($tslink), "r")) {
     echo '<br><b>Stream : (Can Stream) Online</b>';
@@ -295,10 +295,10 @@ public function M3U8DebugStreamWin($pubname, $tslinks, $config) {
   $logfile = ''.dirname(__FILE__).'\log/'.$logfilename.'';
   $com = ''.dirname(__FILE__).'\ffmpeg\ffmpeg -y -i "'.$tslinks.'" '.$config.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
   echo '<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro.min.css">
-	<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
-	<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
-	<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
+	<link rel="stylesheet" href="./theme/css/metro.min.css">
+	<link rel="stylesheet" href="./theme/css/metro-colors.min.css">
+	<link rel="stylesheet" href="./theme/css/metro-rtl.min.css">
+	<link rel="stylesheet" href="./theme/css/metro-icons.min.css">
 	<br><textarea class="container" data-role="textarea" style="width:100%;height:50%;">'.$com.'</textarea><br><br>';
   if(!$fp = @fopen(strip_tags($tslink), "r")) {
     echo '<br><b>Stream : (Can Stream) Online</b>';
@@ -729,16 +729,16 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="'.strip_tags($_S
 
 public function Head($baslik) {
 echo '<head>
-<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro.min.css">
-<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
-<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
-<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+<link rel="stylesheet" href="./theme/css/metro.min.css">
+<link rel="stylesheet" href="./theme/css/metro-colors.min.css">
+<link rel="stylesheet" href="./theme/css/metro-rtl.min.css">
+<link rel="stylesheet" href="./theme/css/metro-icons.min.css">
+<link rel="stylesheet" href="./theme/css/bootstrap.min.css">
 
-<script src="https://unpkg.com/popper.js@1.11.1"></script>
-<script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+<script src="./theme/js/popper.js"></script>
+<script src="./theme/js/metro.min.js"></script>
+<script src="./theme/js/jquery-3.2.0.min.js"></script>
+<script src="./theme/js/bootstrap.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>'.strip_tags($baslik).'</title>
 </head>';
@@ -793,5 +793,6 @@ height: 50%;
     <hr></hr>
     <p>'.strip_tags($errorname).'</p></td>');
   }
+  
 }
 ?>

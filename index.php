@@ -55,6 +55,7 @@ $query  = $db->query("SELECT * FROM admin_list WHERE admin_usrname =" . $db->quo
 if ( $say = $query -> rowCount() ){
 if( $say > 0 ){
 $_SESSION["login"] = $name;
+setcookie("login", $name, time()+3600);
 echo('<script>location.replace("index.php?git=control2")</script>');
 }
 
@@ -77,6 +78,7 @@ $_SESSION["yetki"] = md5("admin");
 setcookie("reklam", md5("admin"), time()+3600);
 echo('<script>location.replace("index.php?git=iptv")</script>');
 } elseif(strip_tags($row["admin_yetki"]) == "sus") {
+setcookie("reklam", md5("sus"), time()+3600);
 die("Hesabınız Bloklanmıştır");
 session_destroy();
 } elseif(strip_tags($row["admin_yetki"]) == "gold") { 
@@ -301,48 +303,8 @@ if($_SESSION["yetki"] == md5("uye")) {
 echo '
 <br><br>
 <div class="container h-50 p-4" style="width:90%;">
-<button onclick="javascript:location.reload();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Refresh</button>';
-echo '<br><br>
-<b>M3U8 File List</b>';
-$_DIR = opendir("m3u");
-$_DIR2 = opendir("log");
-echo '
-<table class="table">
-<thead>
-<tr>
-<th>Filename</th>
-<th></th>
-</tr></thead><tbody>
-';
-while (($_DIRFILE = readdir($_DIR)) !== false){
-if(!is_dir($_DIRFILE)){
-echo '<tr><td><div class="kisalt"><span class="mif-file-empty"></span> '.strip_tags($_DIRFILE).'</td>';
-echo '<td><a class="btn btn-danger" href="index.php?git=dfile&name='.strip_tags($_DIRFILE).'">Delete</a></td></tr>';
-}
-}
-closedir($_DIR);
-
-echo '</tbody></table>';
-}
-
-if($_SESSION["yetki"] == md5("uye")) {
-} else {
-echo '<table class="table container">
-<thead>
-<tr>
-<th>Log Filename</th>
-<th></th>
-</tr></thead><tbody>
-';
-while (($_DIRFILE2 = readdir($_DIR2)) !== false){
-if(!is_dir($_DIRFILE2)){
-echo '<tr><td><div class="kisalt"><span class="mif-file-empty"></span> '.strip_tags($_DIRFILE2).'</td>';
-echo '<td><a class="btn btn-danger"  href="index.php?git=dlog&name='.strip_tags($_DIRFILE2).'">Delete</a></td></tr>';
-}
-}
-closedir($_DIR2);
-
-echo '</tbody></table>';
+<button onclick="javascript:location.reload();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Refresh</button>
+<br><br>';
 }
 
 echo '<div class="mt-5 container">
@@ -492,7 +454,7 @@ echo '<td><div class="kisalt">'.strip_tags($row2["ffmpeg_ts"]).'</div></td>';
 echo '<td><a class="btn btn-danger" target="_blank" href="index.php?git=editcfg&id='.intval($row2["config_id"]).'">Edit</a></td>';
 }
 echo '</tr>
-</tbody></table></div></div></div></body>';
+</tbody></table><br><br></div></div></div></body>';
   break;
   
 
@@ -1889,7 +1851,18 @@ fclose($fp);
   case 'cikis':
   $getir->logincheck();
   session_destroy();
-  die('<script>location.replace("index.php")</script>');
+  die('<script>function deleteAllCookies() {
+    var cookies = document.cookie.split(";");
+
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+}
+deleteAllCookies();
+location.replace("index.php")</script>');
   break;
 }
 ?>

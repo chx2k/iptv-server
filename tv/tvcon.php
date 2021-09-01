@@ -25,7 +25,7 @@ die('<table>
 
 class IPTVClass {
 public function logincheck() {
-if(isset($_SESSION['login'])) {
+if(isset($_COOKIE['login'])) {
 } else {
 if(session_status() == "2") {
 die('<center><b>ERROR : Cannot login<br>Session Status : WORKING</b></center>');
@@ -34,7 +34,7 @@ die('<center><b>ERROR : Cannot login<br>Session Status : NOT WORKING</b></center
 }
 }
 
-if($_SESSION["yetki"] == md5("sus")) {
+if($_COOKIE["reklam"] == md5("sus")) {
 die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
 } else {
 }

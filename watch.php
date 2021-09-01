@@ -6,12 +6,13 @@ $getir->funcControl('shell_exec');
 $getir->funcControl('exec');
 $getir->funcControl('system');
 
+
 $update = $db->prepare("INSERT INTO ip_logger(ip, browserinf, date) VALUES (:ipz, :browserz, :datez)");
 $update->bindValue(':ipz', strip_tags($_SERVER['REMOTE_ADDR']));
 $update->bindValue(':browserz', json_encode(getallheaders()));
 $update->bindValue(':datez', date("Y-m-d H:i:s"));
 $update->execute();
-while($row = $update->fetch()) {
+if($row = $update->fetch()) {
 echo "<script LANGUAGE='JavaScript'>console.log('OK');</script>";
 }
 
@@ -36,9 +37,10 @@ die("Config Not Found | Please reload database");
 
 $streamlink = strip_tags($_GET["pubid"]);
 if(isset($streamlink)) {
+
 $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_name = :iddegeri');
 $stmt->execute(array(':iddegeri' => $streamlink));
-while($row = $stmt->fetch()) {
+if($row = $stmt->fetch()) {
 //Control Permission
 if($row["public_active"] == 0) {
 die("<center><b>Channel Deactivated</b></center>");
@@ -61,7 +63,7 @@ $getir->TSDebugStreamWin(strip_tags($row["public_name"]), strip_tags($row["publi
 } else {
 $stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :getir');
 $stmt->execute(array(':getir' => strip_tags("1")));
-while($row2 = $stmt->fetch()) {
+if($row2 = $stmt->fetch()) {
 $getir->TSDebugStream(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row2["ffmpeg_ts"]));
 }
 }
@@ -72,7 +74,7 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 //Windows M3U8 Debug
 $stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :getir');
 $stmt->execute(array(':getir' => strip_tags("1")));
-while($row2 = $stmt->fetch()) {
+if($row2 = $stmt->fetch()) {
 $getir->M3U8DebugStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row2["ffmpeg_m3u8cfg"]));
 }
 //Windows M3U8 Debug End
@@ -80,7 +82,7 @@ $getir->M3U8DebugStreamWin(strip_tags($row["public_name"]), strip_tags($row["pub
 //Linux M3U8 Debug
 $stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :getir');
 $stmt->execute(array(':getir' => strip_tags("1")));
-while($row2 = $stmt->fetch()) {
+if($row2 = $stmt->fetch()) {
 $getir->M3U8DebugStream(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row2["ffmpeg_m3u8cfg"]));
 }
 //Linux M3U8 Debug End
@@ -103,81 +105,93 @@ die();
 }
 
 if(isset($_GET["watchplayer"])) {
+if(isset($_COOKIE['login'])) {
+} else {
+if(session_status() == "2") {
+die('<center><b>ERROR : Cannot login<br>Session Status : WORKING</b></center>');
+} else {
+die('<center><b>ERROR : Cannot login<br>Session Status : NOT WORKING</b></center>');
+}
+}
+echo '<meta name="viewport" content="width=device-width, initial-scale=1">
+<script charset="UTF-8" src="./selcuk_files/jquery.min.js"></script>
+<link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
+<script src="https://unpkg.com/video.js/dist/video.js"></script>
+<script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
+<script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>';
+
+echo '<br>'.strlen(decbin(~0)).'<br><br>';
 //WatchPlayer Started
 if($row["public_active"] == 0) {
 die("<center><b>Channel Deactivated</b></center>");
 } else {
 }
-if($row["video_stream"] == 1) {
-echo '<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro.min.css">
-<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
-<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
-<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
-<script charset="UTF-8" src="./selcuk_files/jquery.min.js"></script>
-<script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>';
-echo '<script charset="UTF-8">
-jQuery(document).ready(function($){
-function kontrol(data){
-$.post( "denetle.php", {cont: data}, function(result) {
-var obj = JSON.parse(JSON.stringify(result));
-if(obj.status == true) {
-} else {
-document.body.innerHTML = "<center><h1>Lütfen 2-3 Saniye Bekleyin Sayfayı Yenileyin</h1><img src=selcuk_files/necef.jpg width=100% height=90%></center>";
-}
-});
-}
-setInterval(function(){kontrol("'.strip_tags($_GET["pubid"]).'");}, 3000);
-});
-</script>';
-echo '<body class="container">
-<center><video style="width:100%;height:100%;" id="video" class="video-js vjs-default-skin" data-logo="'.$logo.'" data-aspect-ratio="hd" controls autoplay></video>
-</div></center></body>';	  
-$getir->M3UVideo("m3u/".strip_tags($_GET["pubid"]).".ts");
-echo '<center>Yayını paylaşmak için http://'.$_SERVER['HTTP_HOST'].'/m3u/'.strip_tags($_GET["pubid"]).'.m3u8</center>';
-} elseif($row["video_stream"] == 0) {
-//M3U8 Player Started
-if($row["public_active"] == 0) {
-die("<center><b>Channel Deactivated</b></center>");
-} else {
-}
-echo '<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro.min.css">
-<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-colors.min.css">
-<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-rtl.min.css">
-<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-icons.min.css">
-<script charset="UTF-8" src="./selcuk_files/jquery.min.js"></script>
-<script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>';
-echo '<script charset="UTF-8">
-jQuery(document).ready(function($){
-function kontrol(data){
-$.post( "denetle.php", {cont: data}, function(result) {
-var obj = JSON.parse(JSON.stringify(result));
-if(obj.status == true) {
-} else {
-document.body.innerHTML = "<center><h1>Lütfen 2-3 Saniye Bekleyin Sayfayı Yenileyin</h1><img src=selcuk_files/necef.jpg width=100% height=90%></center>";
-}
-});
-}
-setInterval(function(){kontrol("'.strip_tags($_GET["pubid"]).'");}, 3000);
-});
-</script>';
-echo '<body class="container">
-<center><video style="width:100%;height:100%;" id="video" data-role="video-player" data-logo="'.$logo.'"  data-aspect-ratio="hd" controls autoplay></video>
-</div></center></body>';
-$getir->M3UVideo("m3u/".strip_tags($_GET["pubid"]).".m3u8");
-echo '<center>Yayını paylaşmak için http://'.$_SERVER['HTTP_HOST'].'/m3u/'.strip_tags($_GET["pubid"]).'.m3u8</center>';
 
+if($row["video_stream"] == 1) {
+
+echo '<title>'.strip_tags($row["video_stream"]).'</title>
+<script charset="UTF-8">
+var player = videojs("example-video");
+player.play();
+jQuery(document).ready(function($){
+function kontrol(data){
+$.post( "denetle.php", {cont: data}, function(result) {
+var obj = JSON.parse(JSON.stringify(result));
+if(obj.status == true) {
+} else {
+document.body.innerHTML = "<center><h1>Lütfen 2-3 Saniye Bekleyin Sayfayı Yenileyin</h1><img src=selcuk_files/necef.jpg width=100% height=90%></center>";
+}
+});
+}
+setInterval(function(){kontrol("'.strip_tags($_GET["pubid"]).'");}, 3000);
+});
+</script>
+<body class="container">
+<br><br>
+<center>
+<video id="example-video" width="%100" height="800" class="video-js vjs-default-skin" controls>
+<source src="./m3u/'.strip_tags($_GET["pubid"]).'.m3u8" type="application/x-mpegURL">
+</video>
+</div></center></body>';	
+  
+} elseif($row["video_stream"] == 0) {
+
+echo '<script charset="UTF-8">
+var player = videojs("example-video");
+player.play();
+
+jQuery(document).ready(function($){
+function kontrol(data){
+$.post( "denetle.php", {cont: data}, function(result) {
+var obj = JSON.parse(JSON.stringify(result));
+if(obj.status == true) {
+} else {
+document.body.innerHTML = "<center><h1>Lütfen 2-3 Saniye Bekleyin Sayfayı Yenileyin</h1><img src=selcuk_files/necef.jpg width=100% height=90%></center>";
+}
+});
+}
+setInterval(function(){kontrol("'.strip_tags($_GET["pubid"]).'");}, 3000);
+});
+</script>
+<body class="container">
+<br><br>
+<center>
+<video id="example-video" width="%100" height="800" class="video-js vjs-default-skin" controls>
+<source src="./m3u/'.strip_tags($_GET["pubid"]).'.m3u8" type="application/x-mpegURL">
+</video>
+</div></center></body>';
 } else {
 $getir->ScreenShow(strip_tags($_GET["pubid"]), strip_tags($row["public_name"]));
 //ScreenShare Soon...
 }
 
 } else {
+
 if($row["public_active"] == 0) {
 die("<center><b>Channel Deactivated</b></center>");
 } else {
 }
+
 if($row["video_stream"] == 1) {
 $getir->TSStream(strip_tags($row["public_name"]));
 } elseif($row["video_stream"] == 0) {
@@ -187,6 +201,7 @@ die("ScreenShare has not this choose");
 }
 
 }
+
 
 }
 } else {

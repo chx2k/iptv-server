@@ -58,8 +58,8 @@ while($row = $stmt->fetch()) {
 <iframe id="iptv"></iframe>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js" ></script>
+<script src="theme/js/jquery.min.js"></script>
+<script src="theme/js/jquery-3.5.1.min.js" ></script>
 <script>
 
 function gizleGoster(ID) {
