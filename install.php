@@ -63,14 +63,18 @@ echo '<body class="container">
 break;
 
 case 'first_install':
+$cd = "
+chown -R apache:apache ".dirname(__FILE__)."
+chmod 777 -R ".dirname(__FILE__)."
+setenforce 0 && sed -i 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/sysconfig/selinux";
 echo '<body class="container">
 <br><br><br>
 <div class="mx-auto card">
 <div class="card-body">
 <b>Kuruluma Başlıyoruz</b>
 <hr></hr>
-<p>PHP IPTV Yönetim Paneli kurulumu öncesi birkaç kontrol yapmalıyız.</p>
-
+<p>PHP IPTV Yönetim Paneli kurulumu öncesi birkaç kontrol yapmalıyız. Siz de root olarak su komutları girin</p>
+<pre>'.$cd.'</pre>
 <table class="table">
 <thead>
 <tr>
