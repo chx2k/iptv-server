@@ -273,7 +273,7 @@ public function M3U8DebugStream($pubname, $tslinks, $config) {
   $tslink = ''.dirname(__FILE__).'/m3u/'.$filename.'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
+  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
   echo '<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="./theme/css/metro.min.css">
 	<link rel="stylesheet" href="./theme/css/metro-colors.min.css">
@@ -335,7 +335,7 @@ public function TSDebugStream($pubname, $tslinks, $configts) {
   $tslink = ''.dirname(__FILE__).'/m3u/'.$filename.'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$configts.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
+  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$configts.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
   echo '<b>'.$com.'</b><br>';
   if(!$fp = @fopen(strip_tags($tslink), "r")) {
     echo '<b>Online</b>';
@@ -365,7 +365,7 @@ public function StartRecordStreamLin($pubname, $tslinks, $url, $config) {
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
   $recfile = ''.dirname(__FILE__).'/m3u/'.strip_tags($pubname).'.mp4';
-  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' '.$recfile.' >"'.$logfile.'" 2>&1';
+  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' '.$recfile.' >"'.$logfile.'" 2>&1';
   shell_exec($com);
   echo '<br>Command : <br><pre>'.$com.'</pre><br>';
   echo '<br><b>URL : '.$url.'</b><br>';
@@ -391,7 +391,7 @@ public function StartOtherStreamLin($pubname, $tslinks, $url, $config, $port) {
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
   $com1 = 'screen -mdS '.$pubname.'-rtmp '.dirname(__FILE__).'/rtsp/rtsp-simple-server';
-  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv '.$tslink.' >"'.$logfile.'" 2>&1';
+  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv '.$tslink.' >"'.$logfile.'" 2>&1';
   shell_exec($com1);
   shell_exec($com);
   echo '<br>Command : <br>
@@ -427,7 +427,7 @@ public function StartYouTubeTSStreamLinux($pubname, $tslinks, $url, $config, $to
   set_time_limit(0);
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://a.rtmp.youtube.com/live2/'.$token.'" >"'.$logfile.'" 2>&1';
+  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://a.rtmp.youtube.com/live2/'.$token.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
   echo '<br>Command : <br><pre>'.$com.'</pre><br>';
   echo '<br><b>URL : '.$url.'</b><br>';
@@ -460,7 +460,7 @@ public function StartIGTSStreamLinux($pubname, $tslinks, $url, $config, $token) 
   set_time_limit(0);
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmps://live-upload.instagram.com:443/rtmp/'.$token.'" >"'.$logfile.'" 2>&1';
+  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmps://live-upload.instagram.com:443/rtmp/'.$token.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
   echo '<br>Command : <br><pre>'.$com.'</pre><br>';
   echo '<br><b>URL : '.$url.'</b><br>';
@@ -482,7 +482,7 @@ public function StartCstTSStreamLinux($pubname, $tslinks, $url, $config, $url2, 
   set_time_limit(0);
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "'.$url2.'/'.$token.'" >"'.$logfile.'" 2>&1';
+  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "'.$url2.'/'.$token.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
   echo '<br>Command : <br><pre>'.$com.'</pre><br>';
   echo '<br><b>URL : '.$url.'</b><br>';
@@ -505,9 +505,9 @@ public function StartRestreamTSStreamLinux($pubname, $tslinks, $url, $config, $t
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
   if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2) == "tr") {
-  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://istanbul.restream.io/live/'.$token.'" >"'.$logfile.'" 2>&1';
+  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://istanbul.restream.io/live/'.$token.'" >"'.$logfile.'" 2>&1';
   } else {
-  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://live.restream.io/live/'.$token.'" >"'.$logfile.'" 2>&1';
+  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmp://live.restream.io/live/'.$token.'" >"'.$logfile.'" 2>&1';
   }
   shell_exec($com);
   echo '<br>Command : <br><pre>'.$com.'</pre><br>';
@@ -534,7 +534,7 @@ public function StartFacebookTSStreamLinux($pubname, $tslinks, $url, $config, $t
   set_time_limit(0);
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmps://live-api-s.facebook.com:443/rtmp/'.$token.'" >"'.$logfile.'" 2>&1';
+  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' -f flv "rtmps://live-api-s.facebook.com:443/rtmp/'.$token.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
   echo '<br>Command : <br><pre>'.$com.'</pre><br>';
   echo '<br><b>URL : '.$url.'</b><br>';
@@ -558,7 +558,7 @@ public function StartM3U8Stream($pubname, $tslinks, $url, $config) {
   $tslink = ''.dirname(__FILE__).'/m3u/'.$filename.'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$config.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
+  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$config.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
   echo '<br>Command : <br><pre>'.$com.'</pre><br>';
   echo '<br><b>URL : '.$url.'</b><br>';
@@ -584,7 +584,7 @@ public function StartTSStream($pubname, $tslinks, $url, $configts) {
   $tslink = ''.dirname(__FILE__).'/m3u/'.$filename.'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  $com = 'screen -mdS '.$pubname.' ffmpeg -y -i "'.$tslinks.'" '.$configts.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
+  $com = 'ffmpeg -y -i "'.$tslinks.'" '.$configts.' "'.$tslink.'" >"'.$logfile.'" 2>&1';
   shell_exec($com);
   echo '<br>Command : <br><pre>'.$com.'</pre><br>';
   echo '<br><b>URL : '.$url.'</b><br>';
