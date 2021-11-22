@@ -8,7 +8,7 @@ CREATE TABLE `admin_list` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 INSERT INTO `admin_list` (`admin_id`, `admin_email`, `admin_usrname`, `admin_passwd`, `admin_token`, `admin_yetki`) VALUES
-(1, 'alicangonullu@yahoo.com', 'alicangonullu', '7bbd4529ac608511bd21e85530061ee0', '7bbd4529ac608511bd21e85530061ee0', 'admin');
+(1, 'alicangonullu@yahoo.com', 'alicangonullu', '5a6a73a13efd448510b6c4c41acda5ef890c3b7a', '5a6a73a13efd448510b6c4c41acda5ef890c3b7a', 'admin');
 
 CREATE TABLE `iptv_config` (
   `config_id` int(11) NOT NULL,
