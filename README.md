@@ -12,6 +12,7 @@ For Linux : You have to enter the code as root after every reboot or shutdown
 setenforce 0 && sed -i 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/sysconfig/selinux
 <br>
 For Windows  : You have to copy ffmpeg from 32/64 bit directory to ffmpeg directory
+<br>
 Default Username : alicangonullu
 Default Password : 19654
 Default Token : 19654
