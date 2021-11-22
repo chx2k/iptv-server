@@ -4,6 +4,7 @@ sudo rpm -ivh https://download1.rpmfusion.org/nonfree/el/rpmfusion-nonfree-relea
 sudo yum -y install nginx epel-release screen php-fpm php-common php-cli mariadb mariadb-server 
 sudo dnf config-manager --enable powertools
 sudo yum -y install ffmpeg ffmpeg-devel
+setenforce 0 && sed -i 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/sysconfig/selinux
 
 sudo systemctl enable php-fpm.service
 sudo systemctl start php-fpm.service
