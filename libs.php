@@ -78,7 +78,11 @@ echo 'window.adsConfig={enabled:!0,link:"'.strip_tags($getadsjson[0]["ads_url"])
 } elseif($_COOKIE["reklam"] == md5("admin")) { 
 echo 'window.adsConfig = {enabled:0}';
 } else {
+if(empty(strip_tags($getadsjson[0]["ads_url"]))) {
+echo 'window.adsConfig={enabled:!0,link:"xxx.com",parentId:"div#m",skipOffset:5,source:"https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8"}';
+} else {
 echo 'window.adsConfig={enabled:!0,link:"'.strip_tags($getadsjson[0]["ads_url"]).'",parentId:"div#m",skipOffset:5,source:"'.strip_tags($getadsjson[0]["ads_video"]).'"}';
+}
 }
 ?>
 
