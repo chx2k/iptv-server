@@ -308,6 +308,40 @@ echo '
 <br><br>';
 }
 echo '<div class="mt-5 container">
+<b>Private IPTV List</b>
+<table class="table">
+<thead>
+<tr>
+<th>ID</th>
+<th>Type</th>
+<th>Status</th>
+<th></th>
+<th></th>
+</tr></thead><tbody>';
+$stmt2 = $db->prepare('SELECT * FROM private_iptv WHERE private_sahip = :perm');
+$stmt2->bindValue(':perm', strip_tags($_SESSION["login"]));
+$stmt2->execute();
+while($row2 = $stmt2->fetch()) {
+echo '<tr><td><div class=kisalt">'.strip_tags($row2["private_id"]).'</div></td>';
+echo '<td><div class="kisalt">'.strip_tags($row2["private_name"]).'</div></td>';
+
+if(strip_tags($row2["private_active"]) == "0") {
+  echo '<td><div class="progress kisalt">
+  <a data-text="Panelden Kapalı" class="progress-bar bg-warning" role="progressbar" data-text="Online" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></a>
+</div></td>';
+} else {
+  echo '<td>
+  <div class="progress">
+  <a data-text="Açık" class="progress-bar bg-success" role="progressbar" data-text="Offline" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></a>
+</div></td>';
+}
+  echo '
+  <td><a class="btn btn-danger" href="index.php?git=watch&id='.strip_tags($row2["private_id"]).'" target="_blank">Watch</a></td>
+  <td><a class="btn btn-danger" href="index.php?git=deleteprivip&id='.strip_tags($row2["private_id"]).'" target="_blank">Delete</a></td>';
+}
+
+echo '</tbody></table></div>
+<div class="mt-5 container">
 <b>IPTV List</b>
 
 <table class="table table-responsive">
