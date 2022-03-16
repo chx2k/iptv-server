@@ -265,13 +265,12 @@ for($p=1; $p<=$total_pages; $p++){
 <script src="theme/js/jquery.min.js"></script>
 <script src="theme/js/jquery-3.5.1.min.js" ></script>
 <script>
-
 function gizleGoster(ID) {
-  var secilenID = document.getElementById(ID);
-  if (secilenID.style.display == "none") {
-  } else {
-    secilenID.style.display = "";
-  }
+  var secilenID = document.getElementById(ID);
+  if (secilenID.style.display == "none") {
+  } else {
+    secilenID.style.display = "";
+  }
 }
 
 function getiriptv(sayd) {
@@ -279,8 +278,8 @@ $.post("api.php", {get: sayd}, function(result) {
 var stringified = JSON.stringify(result);
 var obj = JSON.parse(stringified);
 if(obj[0].public_active == "1") {
-document.getElementById('iptv').src = "../watch.php?pubid=" + obj[0].public_name + "&live=0&selcuk=1";
-document.title = "Yayın / " + obj[0].public_name;
+document.getElementById('iptv').src = "../watch.php?pubid=" + obj[0].public_id + "&live=0&selcuk=1";
+document.title = "" + obj[0].public_name;
 } else {
 document.getElementById('iptv').src = "../404.php";
 document.title = "Not Found / " + obj[0].public_name;
