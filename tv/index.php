@@ -175,6 +175,8 @@ $getir->logincheck();
 .left {
 width: 30%;
 float: left;
+background-color: #717171;
+color: white;
 }
 .list-group-item {
 font-size: 25px;
@@ -190,6 +192,21 @@ background-image: url("broke.gif");
 background-repeat: no-repeat;
 background-size: 100% 100%;
 color:white;
+}
+.list-group-item {
+  background-color: #717171;
+}
+body {
+  background-color: #717171;
+}
+.page-link {
+  background-color: #717171;
+  overflow: auto;
+  color: white;
+  border: 0;
+}
+.pagination {
+  padding-top: 10px;
 }
 </style>
 
@@ -207,7 +224,20 @@ color:white;
 <nav class="dropdown">
 <ul class="list-group list-group-flush display-3">
 <?php
-$stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_sahip = :pubid');
+$limit = 13;
+$s = $db->prepare("SELECT * FROM public_iptv WHERE public_sahip = :perm ORDER BY public_id");
+$s->bindValue(':perm', strip_tags($_COOKIE["login"]));
+$s->execute();
+$allResp = $s->fetchAll(PDO::FETCH_ASSOC);
+$total_results = $s->rowCount();
+$total_pages = ceil($total_results/$limit);
+if (!isset($_GET['page'])) {
+  $page = 1;
+} else{
+  $page = $_GET['page'];
+}
+$start = ($page-1)*$limit;
+$stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_sahip = :pubid ORDER BY public_id LIMIT '.$start.', '.$limit.'');
 $stmt->execute(array(':pubid' => $_COOKIE['login']));
 while($row = $stmt->fetch()) {
 ?>
@@ -217,11 +247,19 @@ while($row = $stmt->fetch()) {
 <?php
 }
 ?>
-</ul></nav></div>
+</ul>
+</nav></div>
 </div></div></div></div>
 
 <div class="col-12 right">
 <iframe id="iptv"></iframe>
+<br><ul class="pagination row">
+<?php 
+for($p=1; $p<=$total_pages; $p++){
+    echo '<li class="page-item"><a class="page-link" href="index.php?git=tv&page='.$p.'">'.$p.'</a></li>';
+}
+?>
+</ul>
 </div>
 
 <script src="theme/js/jquery.min.js"></script>
@@ -241,10 +279,10 @@ $.post("api.php", {get: sayd}, function(result) {
 var stringified = JSON.stringify(result);
 var obj = JSON.parse(stringified);
 if(obj[0].public_active == "1") {
-document.getElementById('iptv').src = "http://<?php echo $_SERVER['HTTP_HOST']; ?>/watch.php?pubid=" + obj[0].public_name + "&live=0&selcuk=1";
+document.getElementById('iptv').src = "../watch.php?pubid=" + obj[0].public_name + "&live=0&selcuk=1";
 document.title = "Yayın / " + obj[0].public_name;
 } else {
-document.getElementById('iptv').src = "http://<?php echo $_SERVER['HTTP_HOST']; ?>/404.php";
+document.getElementById('iptv').src = "../404.php";
 document.title = "Not Found / " + obj[0].public_name;
 }
 

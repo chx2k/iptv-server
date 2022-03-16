@@ -7,9 +7,6 @@ $getir->funcControl('shell_exec');
 $getir->funcControl('exec');
 $getir->funcControl('system');
 
-
-$getir->Head("IPTV Player");
-$getir->Style();
 $stmt = $db->prepare('SELECT * FROM iptv_config');
 $stmt->execute();
 if($row = $stmt->fetch()) {
@@ -99,6 +96,8 @@ echo '<script>location.reload();</script>';
 break;
 
 case 'index':
+$getir->Head("IPTV Player");
+$getir->Style();
 echo '<style>
 @media (max-width:800px) {
 body {
@@ -230,6 +229,8 @@ break;
 
 case 'iptv':
 $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
 ?>
 <script language="JavaScript" type="text/javascript">
 function delpost(id)
@@ -306,43 +307,7 @@ echo '
 <button onclick="javascript:location.reload();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Refresh</button>
 <br><br>';
 }
-
 echo '<div class="mt-5 container">
-<b>Private IPTV List</b>
-<table class="table">
-<thead>
-<tr>
-<th>ID</th>
-<th>Type</th>
-<th>Status</th>
-<th></th>
-<th></th>
-</tr></thead><tbody>';
-$stmt2 = $db->prepare('SELECT * FROM private_iptv WHERE private_sahip = :perm');
-$stmt2->bindValue(':perm', strip_tags($_SESSION["login"]));
-$stmt2->execute();
-while($row2 = $stmt2->fetch()) {
-echo '<tr><td><div class=kisalt">'.strip_tags($row2["private_id"]).'</div></td>';
-echo '<td><div class="kisalt">'.strip_tags($row2["private_name"]).'</div></td>';
-
-if(strip_tags($row2["private_active"]) == "0") {
-  echo '<td><div class="progress kisalt">
-  <a data-text="Panelden Kapalı" class="progress-bar bg-warning" role="progressbar" data-text="Online" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></a>
-</div></td>';
-} else {
-  echo '<td>
-  <div class="progress">
-  <a data-text="Açık" class="progress-bar bg-success" role="progressbar" data-text="Offline" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></a>
-</div></td>';
-}
-  echo '
-  <td><a class="btn btn-danger" href="index.php?git=watch&id='.strip_tags($row2["private_id"]).'" target="_blank">Watch</a></td>
-  <td><a class="btn btn-danger" href="index.php?git=deleteprivip&id='.strip_tags($row2["private_id"]).'" target="_blank">Delete</a></td>';
-}
-
-echo '</tbody></table></div>
-
-<div class="mt-5 container">
 <b>IPTV List</b>
 
 <table class="table table-responsive">
@@ -356,8 +321,20 @@ echo '</tbody></table></div>
 <th></th>
 <th></th>
 </tr></thead><tbody>';
-
-$stmt2 = $db->prepare('SELECT * FROM public_iptv WHERE public_sahip = :perm');
+$limit = 100;
+$s = $db->prepare("SELECT * FROM public_iptv WHERE public_sahip = :perm ORDER BY public_id");
+$s->bindValue(':perm', strip_tags($_SESSION["login"]));
+$s->execute();
+$allResp = $s->fetchAll(PDO::FETCH_ASSOC);
+$total_results = $s->rowCount();
+$total_pages = ceil($total_results/$limit);
+if (!isset($_GET['page'])) {
+  $page = 1;
+} else{
+  $page = $_GET['page'];
+}
+$start = ($page-1)*$limit;
+$stmt2 = $db->prepare('SELECT * FROM public_iptv WHERE public_sahip = :perm ORDER BY public_id LIMIT '.$start.', '.$limit.'');
 $stmt2->bindValue(':perm', strip_tags($_SESSION["login"]));
 $stmt2->execute();
 while($row2 = $stmt2->fetch()) {
@@ -393,10 +370,10 @@ echo '<li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip
 
 }
 if($row2["video_stream"] == 2) {
-echo '<li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_name"]).'&screenid='.strip_tags($row2["public_tslink"]).'&watchplayer=1">Watch</a></li>';
+echo '<li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_id"]).'&screenid='.strip_tags($row2["public_tslink"]).'&watchplayer=1">Watch</a></li>';
 } else {
-echo '<li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_name"]).'&watchplayer=1">Watch</a></li>
-    <li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_name"]).'&selcuk=1">SelcukWatch</a></li>';
+echo '<li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_id"]).'&watchplayer=1">Watch</a></li>
+    <li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_id"]).'&selcuk=1">SelcukWatch</a></li>';
 }
 echo '</ul></div></td>
 
@@ -432,7 +409,12 @@ echo '<li><a class="dropdown-item" target="_blank" href="index.php?git=editpubid
 </ul>
 </div></td>';
 }
-echo '</tr></tbody></table></div>
+echo '</tr></tbody></table>
+<br><ul class="pagination">';
+for($p=1; $p<=$total_pages; $p++){
+  echo '<li class="page-item"><a class="page-link" href="index.php?git=iptv&page='.$p.'">'.$p.'</a></li>';
+}
+echo '</ul></div>
 
 <div class="mt-5 container">
 <b>IPTV Config</b>
@@ -460,6 +442,8 @@ echo '</tr>
 
   case 'editcfg':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   if($_SESSION["yetki"] == md5("uye")) {
   die("<center class='mt-5'>Daha fazla seçenek için üyeliğinizi yükseltin</center>");
   } else {
@@ -534,6 +518,8 @@ echo '</tr>
   
   case 'peditcfg':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
   $stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :iddegeri AND sahip = :perm');
   $stmt->bindValue(':iddegeri', intval($_POST["ffmpegid"]));
@@ -574,6 +560,8 @@ echo '</tr>
   
   case 'deleteprivip':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   $stmt = $db->prepare('DELETE FROM private_iptv WHERE private_id = :iddegeri AND private_sahip = :perm');
   $stmt->bindValue(':iddegeri', intval($_GET["id"]));
   $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
@@ -600,6 +588,8 @@ echo '</tr>
 
   case 'startiptv':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
     if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
@@ -631,6 +621,8 @@ echo '</tr>
   
    case 'startfacebook':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
     if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
@@ -662,6 +654,8 @@ echo '</tr>
   
   case 'starttwitch':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
     if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
@@ -693,6 +687,8 @@ echo '</tr>
   
   case 'startyt':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
     if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
@@ -724,6 +720,8 @@ echo '</tr>
   
          case 'startig':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
     if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
@@ -755,6 +753,8 @@ echo '</tr>
 
 case 'startcst1':
 $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
 if($_SESSION["yetki"] == md5("uye")) {
 die("<center>Daha fazla seçenek için üyeliğinizi yükseltin</center>");
 } else {
@@ -780,6 +780,8 @@ break;
 
 case 'startcst':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
     if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
@@ -811,6 +813,8 @@ case 'startcst':
   
   case 'startrecord':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
@@ -842,6 +846,8 @@ case 'startcst':
   
     case 'startrtmp':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
     if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
@@ -872,6 +878,8 @@ case 'startcst':
   break;
   case 'startrestream':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
@@ -908,6 +916,8 @@ case 'startcst':
 	window.onload = timedRefresh(5000);
 </script>';
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
     if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
@@ -933,6 +943,8 @@ case 'startcst':
   
   case 'stopiptv':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
     if($_SESSION["yetki"] == md5("uye")) {
   die("NO");
   } else {
@@ -958,6 +970,8 @@ case 'startcst':
 
   case 'editpubid':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
   function get_tiny_url($url)  {  
 	$ch = curl_init();  
@@ -1021,6 +1035,8 @@ case 'startcst':
 
   case 'peditpubid':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   $update = $db->prepare("UPDATE public_iptv SET stream_othname = :pubothname, public_name = :iptvadi, video_stream = :iptvtype, public_active = :iptvactive, public_tslink = :iptvlink WHERE public_id = :iptvid AND public_sahip = :iptvsahip");
   $update->bindValue(':iptvid',  intval($_POST["iptvid"]));
   $update->bindValue(':iptvadi', strip_tags($_POST["iptvname"]));
@@ -1045,6 +1061,8 @@ case 'startcst':
 
   case 'deletepubid':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   $stmt = $db->prepare('DELETE FROM public_iptv WHERE public_id = :iddegeri AND public_sahip = :perm');
   $stmt->bindValue(':iddegeri', intval($_GET["id"]));
   $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
@@ -1077,6 +1095,8 @@ if (!unlink($dosyaadi)) {
   
   case 'dfile':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
     if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
@@ -1111,6 +1131,8 @@ if (!unlink($dosyaadi)) {
 
   case 'dlog':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
     if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
@@ -1145,6 +1167,8 @@ if (!unlink($dosyaadi)) {
 
   case 'screenshare':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri AND public_sahip = :perm');
   $stmt->bindValue(':iddegeri', intval($_GET["id"]));
@@ -1161,6 +1185,8 @@ if (!unlink($dosyaadi)) {
   
   case 'watch':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
   echo '
     			  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
@@ -1240,6 +1266,8 @@ fclose($fp);
 
   case 'm3ugenerate':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
     if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
@@ -1271,6 +1299,8 @@ fclose($fp);
 
   case 'pm3ugenerate':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
     if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
@@ -1304,6 +1334,8 @@ fclose($fp);
 
   case 'ipblock':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
     if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
@@ -1327,7 +1359,13 @@ fclose($fp);
   $stmt = $db->prepare('SELECT * FROM ip_block LIMIT 6');
   $stmt->execute();
   while($row = $stmt->fetch()) {
-  $getirtr = file_get_contents("http://api.wipmania.com/".strip_tags($row["ip_adress"])."");
+  $getirtr = json_decode(file_get_contents("https://ipwhois.app/json/".strip_tags($row["ip_adress"])), true);
+  if(strip_tags($row["ip_adress"]) == "::1" || strip_tags($row["ip_adress"]) == "127.0.0.1") {
+    $loc = "xx";
+  } else {
+    $loc = $getirtr["country_code"];
+  }
+  $location = "img/loc/".strip_tags(strtolower($loc)).".png";
   echo '<tr>
   <th scope="row">'.intval($row["ip_id"]).'</th>';
   if(strip_tags($row["ip_block_active"]) == "0") {
@@ -1335,7 +1373,6 @@ fclose($fp);
     {
       echo '<td><img src="img/loc/xx.png" width="24" height="24"></td>';
     } else {
-      $location = "img/loc/".strip_tags(mb_strtolower($getirtr)).".png";
       echo '<td><img src="'.strip_tags($location).'" width="25" height="15"></td>';
     }
     echo '<td><div class="progress kisalt">
@@ -1350,7 +1387,6 @@ fclose($fp);
     {
       echo '<td><img src="img/loc/xx.png" width="24" height="24"></td>';
     } else {
-      $location = "img/loc/".strip_tags(mb_strtolower($getirtr)).".png";
       echo '<td><img src="'.strip_tags($location).'" width="25" height="15"></td>';
     }
     echo '<td>
@@ -1369,6 +1405,8 @@ fclose($fp);
 
   case 'remipblok';
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
     if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
@@ -1392,6 +1430,8 @@ fclose($fp);
 
   case 'banip';
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
     if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
@@ -1415,6 +1455,8 @@ fclose($fp);
 
   case 'addban':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
     if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
@@ -1438,6 +1480,8 @@ fclose($fp);
   
   case 'ads':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
   if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
@@ -1465,6 +1509,8 @@ fclose($fp);
   
     case 'addads':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
     if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
@@ -1492,6 +1538,8 @@ fclose($fp);
   
     case 'remads';
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
     if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
@@ -1514,6 +1562,8 @@ fclose($fp);
   
   case 'paddads':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
@@ -1538,6 +1588,8 @@ fclose($fp);
   
   case 'startstream':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
   echo '<body class="mx-auto">
   <center><b>Your IP : '.strip_tags($getir->getIPAddress()).'</b></center><br>
@@ -1563,9 +1615,59 @@ fclose($fp);
   </body>';
   break;
   
+  case 'addlistiptv':
+    $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
+    $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+    echo '<body class="mx-auto">
+    <center><b>Private Stream IPTV</b>
+    <hr></hr></center>
+    <form class="container" action="index.php?git=paddlistiptv" method="post">
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Name</label>
+        <input type="text" name="privname" class="form-control" placeholder="Private Name">
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">List IPTV</label>
+        <input type="text" name="priviptv" class="form-control" placeholder="List IPTV">
+      </div>
+      <button type="submit" style="width: 100%;" class="btn btn-primary">Add</button>
+    </form>
+    </body>';
+    break;
+
+  case 'paddlistiptv':
+    $getir->logincheck();
+    $purl = $_POST["priviptv"];
+    $data = json_decode($getir->M3U_Parser($purl), true);
+    foreach($data["list"]["item"] as $list) {
+      $update = $db->prepare("INSERT INTO public_iptv(public_name, public_tslink, public_active, video_stream, public_sahip, stream_othname) VALUES (:streamname, :streamadress, :streamactive, :streamorvideo, :pubsahip, :streamothname)");
+      $update->bindValue(':streamname', $list["title"]);
+      $update->bindValue(':streamothname', strip_tags($list["title"]));
+      $update->bindValue(':streamadress', strip_tags($list["media_url"]));
+      $update->bindValue(':streamactive', "1");
+      $update->bindValue(':streamorvideo', "0");
+      $update->bindValue(':pubsahip',  strip_tags($_SESSION["login"]));
+      $update->execute();
+      if($row = $update->rowCount()) {
+        echo "<script LANGUAGE='JavaScript'>
+        window.alert('Succesfully Added');
+        window.location.href='index.php?git=iptv';
+        </script>";
+      } else {
+        echo "<script LANGUAGE='JavaScript'>
+        window.alert('Unsuccesfully Added');
+        window.location.href='index.php?git=iptv';
+        </script>";
+      }
+    }
+    break;
   
   case 'addpriviptv':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
   echo '<body class="mx-auto">
   <center><b>Private Stream IPTV</b>
@@ -1590,6 +1692,8 @@ fclose($fp);
   
   case 'iplog':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
     if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
@@ -1606,6 +1710,8 @@ fclose($fp);
   
   case 'user':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   if($_SESSION["yetki"] == md5("uye")) {
   die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
   } else {
@@ -1640,6 +1746,8 @@ fclose($fp);
   
   case 'adduser':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   if($_SESSION["yetki"] == md5("uye")) {
   die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
   } else {
@@ -1680,6 +1788,8 @@ fclose($fp);
   
   case 'paddusr':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   if($_SESSION["yetki"] == md5("uye")) {
   die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
   } else {
@@ -1706,6 +1816,8 @@ fclose($fp);
   
   case 'edituser':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   if($_SESSION["yetki"] == md5("uye")) {
   die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
   } else {
@@ -1752,6 +1864,8 @@ fclose($fp);
   
   case 'pupdusr':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   if($_SESSION["yetki"] == md5("uye")) {
   die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
   } else {
@@ -1780,6 +1894,8 @@ fclose($fp);
   
   case 'paddpriviptv':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   $update = $db->prepare("INSERT INTO private_iptv(private_name, private_resim, private_iptv, private_active, private_sahip) VALUES (:streamname, :streampics, :streamiptv, :streamactive, :sahip)");
   $update->bindValue(':streamname', strip_tags($_POST["privname"]));
   $update->bindValue(':streampics', strip_tags($_POST["privpics"]));
@@ -1802,6 +1918,8 @@ fclose($fp);
   
   case 'pstartstream':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   $getdata = strip_tags(md5(rand(1000,9999)));
   $update = $db->prepare("INSERT INTO public_iptv(public_name, public_tslink, public_active, video_stream, public_sahip, stream_othname) VALUES (:streamname, :streamadress, :streamactive, :streamorvideo, :pubsahip, :streamothname)");
   $update->bindValue(':streamname', $getdata);
@@ -1826,6 +1944,8 @@ fclose($fp);
 
   case 'paddban':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
@@ -1850,6 +1970,8 @@ fclose($fp);
 
   case 'cikis':
   $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
   session_destroy();
   die('<script>function deleteAllCookies() {
     var cookies = document.cookie.split(";");

@@ -16,8 +16,15 @@ if($row = $update->fetch()) {
 echo "<script LANGUAGE='JavaScript'>console.log('OK');</script>";
 }
 
+if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+    $ip = $_SERVER['HTTP_CLIENT_IP'];
+} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+} else {
+    $ip = $_SERVER['REMOTE_ADDR'];
+}
 $stmt = $db->prepare('SELECT * FROM ip_block WHERE ip_adress = :iddegeri');
-$stmt->execute(array(':iddegeri' => $_SERVER['REMOTE_ADDR']));
+$stmt->execute(array(':iddegeri' => $ip));
 while($row = $stmt->fetch()) {
 if($row["ip_block_active"] == "1") {
 die("Banned Your IP Adress (Reason : ".strip_tags($row["ban_reason"]).")");
@@ -38,7 +45,7 @@ die("Config Not Found | Please reload database");
 $streamlink = strip_tags($_GET["pubid"]);
 if(isset($streamlink)) {
 
-$stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_name = :iddegeri');
+$stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
 $stmt->execute(array(':iddegeri' => $streamlink));
 if($row = $stmt->fetch()) {
 //Control Permission

@@ -12,7 +12,7 @@ $getir = new IPTVClass();
 $streamlink = strip_tags($_POST["cont"]);
 header("Content-type: application/json; charset=utf-8");
 
-$stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_name = :iddegeri');
+$stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri');
 $stmt->execute(array(':iddegeri' => $streamlink));
 if($row = $stmt->fetch()) {
   
