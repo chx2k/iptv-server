@@ -41,7 +41,8 @@ case 'select':
 if(isset($_SESSION["login"])) {
 echo '<center>
 <a href="m3u.php?git=m3u">Private M3U</a><br>
-<a href="m3u.php?git=m3upub">Public M3U</a>
+<a href="m3u.php?git=m3upub">Public M3U</a><br>
+<a href="m3u.php?git=m3ustream">M3U Streams</a>
 </center>';
 } else {
 die('<center>
@@ -114,6 +115,36 @@ echo '
 '.strip_tags($row2["public_tslink"]).'';
 }
 break;
+
+
+case 'm3ustream':
+    if(isset($_SESSION["login"])) {
+    header ("Content-Type: video/vnd.mpegurl");
+    
+    $stmt2 = $db->prepare('SELECT stream_othname FROM public_iptv WHERE public_sahip = :perm');
+    $stmt2->bindValue(':perm', strip_tags($_SESSION["login"]));
+    $stmt2->execute();
+    if($row2 = $stmt2->fetch()) {
+    header ("Content-Disposition: attachment;filename=".strip_tags($row2["stream_othname"]).".m3u");
+    }
+    
+    header ("Pragma: no-cache");
+    header ("Expires: 0");
+    } else {
+    die('<center>
+    <b>For login m3u.php?git=lgn&usr=user_name&pwd=password</b><br>
+    </center>');
+    }
+    echo '#EXTM3U';
+    $stmt2 = $db->prepare('SELECT * FROM public_iptv WHERE public_sahip = :perm');
+    $stmt2->bindValue(':perm', strip_tags($_SESSION["login"]));
+    $stmt2->execute();
+    while($row2 = $stmt2->fetch()) {
+    echo '
+    #EXTINF:'.intval($row2["public_id"]).', '.strip_tags($row2["stream_othname"]).'
+    http://'.$_SERVER["HTTP_HOST"].'/m3u/'.strip_tags($row2["public_name"]).'';
+    }
+    break;
 
 }
 ?>
