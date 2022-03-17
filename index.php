@@ -1648,6 +1648,61 @@ $getir->Style();
   </form>
   </body>';
   break;
+
+  case 'youtubem3u8':
+      $getir->logincheck();
+$getir->Head("IPTV Player");
+$getir->Style();
+  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  echo '<body class="mx-auto">
+  <center><b>Your IP : '.strip_tags($getir->getIPAddress()).'</b></center><br>
+  <form class="container" action="index.php?git=pyoutubem3u8" method="post">
+      <div class="form-group">
+      <label for="exampleFormControlInput1">Stream Name</label>
+      <input type="text" name="streamname" class="form-control" placeholder="Stream Name">
+    </div>
+    <div class="form-group">
+      <label for="exampleFormControlInput1">YouTube Video ID</label>
+      <input type="text" name="streamlink" class="form-control" placeholder="Youtube Video ID">
+    </div>
+	  <div class="form-group">
+    <label for="exampleFormControlSelect1">Type</label>
+    <select class="form-control" name="streamorvid" id="exampleFormControlSelect1">
+      <option value="0">Stream</option>
+    </select>
+  </div>
+    <button type="submit" style="width: 100%;" class="btn btn-primary">Add</button>
+  </form>
+  </body>';
+    break;
+
+    case 'pyoutubem3u8':
+      $getir->logincheck();
+      $getir->Head("IPTV Player");
+      $getir->Style();
+      $data = $getir->YouTubeM3U8Gen(strip_tags($_POST["streamlink"]));
+      die($data);
+      $getdata = strip_tags(md5(rand(1000,9999)));
+      $update = $db->prepare("INSERT INTO public_iptv(public_name, public_tslink, public_active, video_stream, public_sahip, stream_othname) VALUES (:streamname, :streamadress, :streamactive, :streamorvideo, :pubsahip, :streamothname)");
+      $update->bindValue(':streamname', $getdata);
+      $update->bindValue(':streamothname', strip_tags($_POST["streamname"]));
+      $update->bindValue(':streamadress', strip_tags($data));
+      $update->bindValue(':streamactive', "1");
+      $update->bindValue(':streamorvideo',  strip_tags($_POST["streamorvid"]));
+      $update->bindValue(':pubsahip',  strip_tags($_SESSION["login"]));
+      $update->execute();
+      if($row = $update->rowCount()) {
+        echo "<script LANGUAGE='JavaScript'>
+        window.alert('Succesfully Added');
+        window.location.href='index.php?git=startstream';
+        </script>";
+      } else {
+        echo "<script LANGUAGE='JavaScript'>
+        window.alert('Unsuccesfully Added');
+        window.location.href='index.php?git=startstream';
+        </script>";
+      }
+      break;
   
   case 'addlistiptv':
     $getir->logincheck();

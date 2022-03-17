@@ -661,6 +661,7 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="'.strip_tags($_S
         <li><a href="index.php?git=startstream"><span class="mif-add icon"></span>Add IPTV</a></li>
         <li><a href="index.php?git=addpriviptv"><span class="mif-add icon"></span>Add Private IPTV</a></li>
         <li><a href="index.php?git=addlistiptv"><span class="mif-add icon"></span>Add List IPTV</a></li>
+        <li><a href="index.php?git=youtubem3u8"><span class="mif-add icon"></span>Add YouTube M3U8</a></li>
         <li><a href="index.php?git=addban"><span class="mif-add icon"></span>Add Ban IP</a></li>
 		<li class="divider"></li>
         <li><a href="index.php?git=ipblock"><span class="mif-list icon"></span>IP Block</a></li>
@@ -713,8 +714,7 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="'.strip_tags($_S
         <li><a href="index.php?git=iptv"><span class="mif-home icon"></span>Home</a></li>
 		<li class="divider"></li>
         <li><a href="index.php?git=startstream"><span class="mif-add icon"></span>Add IPTV</a></li>
-	<li><a href="index.php?git=addpriviptv"><span class="mif-add icon"></span>Add Private IPTV</a></li>
-        <li><a href="index.php?git=addlistiptv"><span class="mif-add icon"></span>Add List IPTV</a></li>
+		<li><a href="index.php?git=addpriviptv"><span class="mif-add icon"></span>Add Private IPTV</a></li>
         <li><a href="m3u.php?git=select"><span class="mif-add icon"></span>Get M3U8</a></li>
 		<li class="divider"></li>
         <li><a href="tv/index.php"><span class="mif-tablet-landscape icon"></span>TV</a></li>
@@ -821,6 +821,57 @@ $items = array();
     return json_encode($globalist);
 }
 
+private function get_data($url) {
+  $ch = curl_init();
+
+  curl_setopt($ch, CURLOPT_URL, $url);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+  
+  curl_setopt($ch, CURLOPT_ENCODING, 'gzip, deflate');
+  
+  $headers = array();
+  $headers[] = 'Authority: www.youtube.com';
+  $headers[] = 'Sec-Ch-Ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"';
+  $headers[] = 'Sec-Ch-Ua-Mobile: ?0';
+  $headers[] = 'Sec-Ch-Ua-Full-Version: \"99.0.4844.51\"';
+  $headers[] = 'Sec-Ch-Ua-Arch: \"x86\"';
+  $headers[] = 'Sec-Ch-Ua-Platform: \"Windows\"';
+  $headers[] = 'Sec-Ch-Ua-Platform-Version: \"10.0.0\"';
+  $headers[] = 'Sec-Ch-Ua-Model: \"\"';
+  $headers[] = 'Sec-Ch-Ua-Bitness: \"64\"';
+  $headers[] = 'Sec-Ch-Ua-Full-Version-List: \" Not A;Brand\";v=\"99.0.0.0\", \"Chromium\";v=\"99.0.4844.51\", \"Google Chrome\";v=\"99.0.4844.51\"';
+  $headers[] = 'Upgrade-Insecure-Requests: 1';
+  $headers[] = 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36';
+  $headers[] = 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9';
+  $headers[] = 'Service-Worker-Navigation-Preload: true';
+  $headers[] = 'X-Client-Data: CJO2yQEIo7bJAQjEtskBCKmdygEIpJTLAQjq8ssBCJ75ywEI54TMAQjxmswBCM6bzAEIz6LMAQ==';
+  $headers[] = 'Sec-Fetch-Site: none';
+  $headers[] = 'Sec-Fetch-Mode: navigate';
+  $headers[] = 'Sec-Fetch-User: ?1';
+  $headers[] = 'Sec-Fetch-Dest: document';
+  $headers[] = 'Accept-Language: tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7';
+  $headers[] = 'Cookie: VISITOR_INFO1_LIVE=Fu7_-N1DGyE; HSID=AIIb8ccwbkiyEgC7B; SSID=ARSeyhBSaJERR-hXm; APISID=A7HUHJKk0TkoyR3C/AKpa9EhDOfPqp-O-8; SAPISID=FRq4nhUYhkyi4Ibp/AzWNPf1M7vVo713bg; __Secure-1PAPISID=FRq4nhUYhkyi4Ibp/AzWNPf1M7vVo713bg; __Secure-3PAPISID=FRq4nhUYhkyi4Ibp/AzWNPf1M7vVo713bg; SID=IAj1Vw3GmWYCTQxc3--wVetHI1qodtg5HYOzlWi8RzBvD7d3BWe1MJ5j8VeXYV48N-QCKQ.; __Secure-1PSID=IAj1Vw3GmWYCTQxc3--wVetHI1qodtg5HYOzlWi8RzBvD7d3IcEJJp-TAGpUy7qrLt0C2Q.; PREF=tz=Europe.Istanbul&f6=400; YSC=4jJpR4fKGlE; LOGIN_INFO=AFmmF2swRAIgAKOz8V0RECSsAEZOXaxN5BWQWHq7UL_ns0ZBSltl98oCIHRxQIsJGhMuhFBW4a4ZaENKa6WJeK__FZoG7ceE7BWy:QUQ3MjNmd1NGSnNXdFJjcHdZUkZRazZYYjJOUmFuY2J5a1ZwQmd3TWg4TXVSRkJjNDV2bllGcDk0S3hiYldLbi1HaTJQLXBmT3JHNEFxdnFwY19MMnl4S0dpRHh0dXpXUWt2czNyX2ZUcEhDZ2xFTDRSX01SOERqWVlyRl9PTGNGaWVNTjlGNEFDM1dNYW10TDdkT0NrX2ZheEY2RTZOazln; __Secure-3PSID=IAj1Vw3GmWYCTQxc3--wVetHI1qodtg5HYOzlWi8RzBvD7d3SiImqMTw1sjoR1s9JK_9zQ.; SIDCC=AJi4QfH1_BRugw3QGadDbN6MRYz9M8tjUgEd1J0RwtWaYZlxhw93RnJ8_gWT_1ib0-jhnq1cMZY; __Secure-3PSIDCC=AJi4QfEk02NIPF02xDe_6iaP3w1G66L2jMXBsfuzX2HmcqK4oT10YknorZnBNUSK4tfUlMDX-t8';
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  
+  $result = curl_exec($ch);
+  if (curl_errno($ch)) {
+      echo 'Error:' . curl_error($ch);
+  }
+  curl_close($ch);
+  return $result;
+}
+
+public function YouTubeM3U8Gen($channelid) {
+ini_set("user_agent","facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)");
+/* gets the data from a URL */
+$urlVideoDetails = "https://www.youtube.com/watch?v=".$channelid."";
+// $string = get_data($urlVideoDetails);
+$returnedData = $this->get_data($urlVideoDetails);
+$data = preg_split('/."hlsManifestUrl":"/', strip_tags($returnedData), -1);
+$js = strstr($data[1], '"}', true);
+return strip_tags(trim($js));
+}
 public function Head($baslik) {
 echo '<head>
 <link rel="stylesheet" href="./theme/css/metro.min.css">
