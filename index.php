@@ -351,7 +351,7 @@ echo '</tbody></table></div>
 <th>Type</th>
 <th>Name</th>
 <th>Status</th>
-<th>RTSP</th>
+<th>M3U8</th>
 <th></th>
 <th></th>
 </tr></thead><tbody>';
@@ -385,7 +385,7 @@ echo '<td><b>Off</b></td>';
 } else {
 echo '<td><b>On</b></td>';
 }
-echo '<td>rtmp://localhost:'.$rtmpport.'/'.strip_tags($row2["public_name"]).'</td>';
+echo '<td>../m3u/'.strip_tags($row2["public_name"]).'.m3u8/'.strip_tags($row2["public_name"]).'</td>';
 echo '<td><div class="btn-group">
   <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
     <span class="caret"></span>
@@ -398,8 +398,8 @@ if($_SESSION["yetki"] == md5("uye")) {
 
 if($row2["video_stream"] == 2) {
 } else {
-echo '<li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_name"]).'">M3U8 Link</a></li>
-<li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_name"]).'&debug">Debug</a></li>';
+echo '<li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_id"]).'">M3U8 Link</a></li>
+<li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_id"]).'&debug">Debug</a></li>';
 }
 
 }
