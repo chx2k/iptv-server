@@ -870,7 +870,11 @@ $urlVideoDetails = "https://www.youtube.com/watch?v=".$channelid."";
 $returnedData = $this->get_data($urlVideoDetails);
 $data = preg_split('/."hlsManifestUrl":"/', strip_tags($returnedData), -1);
 $js = strstr($data[1], '"}', true);
-return strip_tags(trim($js));
+if($js == 1) {
+  return false;
+} else {
+  return strip_tags(trim($js));
+}
 }
 public function Head($baslik) {
 echo '<head>

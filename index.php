@@ -1681,6 +1681,14 @@ $getir->Style();
       $getir->Head("IPTV Player");
       $getir->Style();
       $data = $getir->YouTubeM3U8Gen(strip_tags($_POST["streamlink"]));
+      if($data == false) {
+        die("<script LANGUAGE='JavaScript'>
+        window.alert('This is not a stream');
+        window.location.href='index.php?git=startstream';
+        </script>");
+      } else {
+        die($data);
+      }
       $getdata = strip_tags(md5(rand(1000,9999)));
       $update = $db->prepare("INSERT INTO public_iptv(public_name, public_tslink, public_active, video_stream, public_sahip, stream_othname) VALUES (:streamname, :streamadress, :streamactive, :streamorvideo, :pubsahip, :streamothname)");
       $update->bindValue(':streamname', $getdata);
