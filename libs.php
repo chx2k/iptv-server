@@ -851,7 +851,6 @@ private function get_data($url) {
   $headers[] = 'Sec-Fetch-User: ?1';
   $headers[] = 'Sec-Fetch-Dest: document';
   $headers[] = 'Accept-Language: tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7';
-  $headers[] = 'Cookie: VISITOR_INFO1_LIVE=Fu7_-N1DGyE; HSID=AIIb8ccwbkiyEgC7B; SSID=ARSeyhBSaJERR-hXm; APISID=A7HUHJKk0TkoyR3C/AKpa9EhDOfPqp-O-8; SAPISID=FRq4nhUYhkyi4Ibp/AzWNPf1M7vVo713bg; __Secure-1PAPISID=FRq4nhUYhkyi4Ibp/AzWNPf1M7vVo713bg; __Secure-3PAPISID=FRq4nhUYhkyi4Ibp/AzWNPf1M7vVo713bg; SID=IAj1Vw3GmWYCTQxc3--wVetHI1qodtg5HYOzlWi8RzBvD7d3BWe1MJ5j8VeXYV48N-QCKQ.; __Secure-1PSID=IAj1Vw3GmWYCTQxc3--wVetHI1qodtg5HYOzlWi8RzBvD7d3IcEJJp-TAGpUy7qrLt0C2Q.; PREF=tz=Europe.Istanbul&f6=400; YSC=4jJpR4fKGlE; LOGIN_INFO=AFmmF2swRAIgAKOz8V0RECSsAEZOXaxN5BWQWHq7UL_ns0ZBSltl98oCIHRxQIsJGhMuhFBW4a4ZaENKa6WJeK__FZoG7ceE7BWy:QUQ3MjNmd1NGSnNXdFJjcHdZUkZRazZYYjJOUmFuY2J5a1ZwQmd3TWg4TXVSRkJjNDV2bllGcDk0S3hiYldLbi1HaTJQLXBmT3JHNEFxdnFwY19MMnl4S0dpRHh0dXpXUWt2czNyX2ZUcEhDZ2xFTDRSX01SOERqWVlyRl9PTGNGaWVNTjlGNEFDM1dNYW10TDdkT0NrX2ZheEY2RTZOazln; __Secure-3PSID=IAj1Vw3GmWYCTQxc3--wVetHI1qodtg5HYOzlWi8RzBvD7d3SiImqMTw1sjoR1s9JK_9zQ.; SIDCC=AJi4QfH1_BRugw3QGadDbN6MRYz9M8tjUgEd1J0RwtWaYZlxhw93RnJ8_gWT_1ib0-jhnq1cMZY; __Secure-3PSIDCC=AJi4QfEk02NIPF02xDe_6iaP3w1G66L2jMXBsfuzX2HmcqK4oT10YknorZnBNUSK4tfUlMDX-t8';
   curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
   
   $result = curl_exec($ch);
