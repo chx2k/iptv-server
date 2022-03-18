@@ -199,7 +199,7 @@ die("<center><b>Channel Deactivated</b></center>");
 }
 
 $stmt = $db->prepare('SELECT * FROM admin_list WHERE admin_usrname = :iddegeri');
-$stmt->execute(array(':iddegeri' => strip_tags(base64_decode($_GET["usr"]))));
+$stmt->execute(array(':iddegeri' => strip_tags($_SESSION["login"])));
 if($stmt->rowCount()) {
 if($rowg = $stmt->fetch()) {
 if($rowg["admin_yetki"] == "admin") {
