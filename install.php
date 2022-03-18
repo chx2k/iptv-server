@@ -57,12 +57,35 @@ echo '<body class="container">
 <b>Merhabalar</b>
 <hr></hr>
 <p>PHP IPTV Yönetim Paneli kurulumuna hoşgeldiniz. Devam etmek için lütfen devam tuşuna tıklayın.</p><br>
-<a type="button" href="install.php?git=first_install" class="btn btn-dark">Devam Et</a>
+<a type="button" href="install.php?git=hukuki" class="btn btn-dark">Devam Et</a>
 </div>
 </div></body>';
 break;
 
+case 'hukuki':
+echo '<body class="container">
+<br><br><br>
+<div class="mx-auto card">
+<div class="card-body">
+<b>Anlaşmalar</b>
+<hr></hr>
+<b>Bu programda kullanacağım tüm yasa dışı aktiviteler sadece benim sorumluluğumdadır. <br>Programı yazan kişi ile herhangi ilişkisinin olmadığını beyan ederim.</b>
+<br><br>
+<form action="install.php?git=first_install" method="post">
+<input type="checkbox" id="onay" name="onay" checked>
+<label for="onay">Okudum ve onaylıyorum</label>
+<br>
+<button type="submit" class="btn btn-dark">Devam Et</button>
+</form>
+</div></div>';
+break;
+
 case 'first_install':
+  if(isset($_POST["onay"])) {
+
+  } else {
+    die("You must accept terms!");
+  }
 $cd = "
 sudo yum -y install --nogpgcheck https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 sudo yum -y install --nogpgcheck https://download1.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm 

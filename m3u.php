@@ -27,7 +27,7 @@ $query  = $db->query("SELECT * FROM admin_list WHERE admin_usrname =" . $db->quo
 if ( $say = $query -> rowCount() ){
 if( $say > 0 ){
 $_SESSION["login"] = $name;
-echo('<script>location.replace("m3u.php?git=select")</script>');
+echo('<script>location.replace("m3u.php?git=m3upub")</script>');
 }
 
 } else {
