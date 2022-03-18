@@ -688,6 +688,10 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="'.strip_tags($_S
     <ul class="sidebar-menu">
         <li><a href="index.php?git=iptv"><span class="mif-home icon"></span>Home</a></li>
 		<li class="divider"></li>
+        <li><a href="index.php?git=startstream"><span class="mif-add icon"></span>Add IPTV</a></li>
+		<li><a href="index.php?git=addpriviptv"><span class="mif-add icon"></span>Add Private IPTV</a></li>
+    <li><a href="index.php?git=addlistiptv"><span class="mif-add icon"></span>Add List IPTV</a></li>
+    <li><a href="index.php?git=youtubem3u8"><span class="mif-add icon"></span>Add YouTube/Twitch M3U8</a></li>
         <li><a href="m3u.php?git=select"><span class="mif-add icon"></span>Get M3U8</a></li>
 		<li class="divider"></li>
         <li><a href="tv/index.php"><span class="mif-tablet-landscape icon"></span>TV</a></li>
@@ -862,7 +866,7 @@ private function Curl_Twitch($url, $header)
 	return $response;
 }
 public function TwitchM3U8($channelid) {
-  $clientId = md5(rand(100000, 999999));
+  $clientId = "jzkbprff40iqj646a697cyrvl0zt2m6";
   $response = $this->Curl_Twitch("https://api.twitch.tv/api/channels/".$channelid."/access_token/",
   [
     "Client-ID: $clientId",

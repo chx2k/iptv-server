@@ -1623,10 +1623,6 @@ $getir->Style();
 $getir->Head("IPTV Player");
 $getir->Style();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
-  if($_SESSION["yetki"] == md5("uye")) {
-    die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
-    } else {
-    }
   echo '<body class="mx-auto">
   <center><b>Your IP : '.strip_tags($getir->getIPAddress()).'</b></center><br>
   <form class="container" action="index.php?git=pstartstream" method="post">
@@ -1656,10 +1652,6 @@ $getir->Style();
 $getir->Head("IPTV Player");
 $getir->Style();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
-  if($_SESSION["yetki"] == md5("uye")) {
-    die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
-    } else {
-    }
   echo '<body class="mx-auto">
   <center><b>Your IP : '.strip_tags($getir->getIPAddress()).'</b></center><br>
   <form class="container" action="index.php?git=pyoutubem3u8" method="post">
@@ -1694,10 +1686,6 @@ $getir->Style();
       $getir->logincheck();
       $getir->Head("IPTV Player");
       $getir->Style();
-      if($_SESSION["yetki"] == md5("uye")) {
-        die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
-        } else {
-        }
       if($_POST["platformid"] == "1") {
         $data = $getir->YouTubeM3U8Gen(strip_tags($_POST["streamlink"]));
       } elseif($_POST["platformid"] == "0") {
@@ -1741,10 +1729,6 @@ $getir->Style();
     $getir->logincheck();
 $getir->Head("IPTV Player");
 $getir->Style();
-if($_SESSION["yetki"] == md5("uye")) {
-  die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
-  } else {
-  }
     $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
     echo '<body class="mx-auto">
     <center><b>Private Stream IPTV</b>
@@ -1795,10 +1779,6 @@ if($_SESSION["yetki"] == md5("uye")) {
 $getir->Head("IPTV Player");
 $getir->Style();
   $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
-  if($_SESSION["yetki"] == md5("uye")) {
-    die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
-    } else {
-    }
   echo '<body class="mx-auto">
   <center><b>Private Stream IPTV</b>
   <hr></hr></center>
@@ -2024,10 +2004,6 @@ $getir->Style();
   $getir->logincheck();
 $getir->Head("IPTV Player");
 $getir->Style();
-if($_SESSION["yetki"] == md5("uye")) {
-  die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
-  } else {
-  }
   $update = $db->prepare("INSERT INTO private_iptv(private_name, private_resim, private_iptv, private_active, private_sahip) VALUES (:streamname, :streampics, :streamiptv, :streamactive, :sahip)");
   $update->bindValue(':streamname', strip_tags($_POST["privname"]));
   $update->bindValue(':streampics', strip_tags($_POST["privpics"]));
@@ -2050,12 +2026,8 @@ if($_SESSION["yetki"] == md5("uye")) {
   
   case 'pstartstream':
   $getir->logincheck();
-$getir->Head("IPTV Player");
-$getir->Style();
-if($_SESSION["yetki"] == md5("uye")) {
-  die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
-  } else {
-  }
+  $getir->Head("IPTV Player");
+  $getir->Style();
   $getdata = strip_tags(md5(rand(1000,9999)));
   $update = $db->prepare("INSERT INTO public_iptv(public_name, public_tslink, public_active, video_stream, public_sahip, stream_othname) VALUES (:streamname, :streamadress, :streamactive, :streamorvideo, :pubsahip, :streamothname)");
   $update->bindValue(':streamname', $getdata);
