@@ -1,4 +1,3 @@
-# iptv-server
 <center><b>IPTV PHP Panel</b></center><br>
 <br>
 <center><img src="tanitim/algo.png"></center><br>
@@ -10,6 +9,8 @@ Required : PHP 7.2, FFMpeg and Windows (if you use Windows, you cannot setup ffm
 For Linux : You have to enter the code as root after every reboot or shutdown
 <br>
 setenforce 0 && sed -i 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/sysconfig/selinux
+<br>
+Installation for Windows : move 64 or 32 (in ffmpeg) to ffmpeg folder and start installation
 <br>
 For Windows  : You have to copy ffmpeg from 32/64 bit directory to ffmpeg directory
 <br>
