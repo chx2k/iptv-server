@@ -1657,6 +1657,14 @@ $getir->Style();
   echo '<body class="mx-auto">
   <center><b>Your IP : '.strip_tags($getir->getIPAddress()).'</b></center><br>
   <form class="container" action="index.php?git=pyoutubem3u8" method="post">
+
+  <div class="form-group">
+  <label for="exampleFormControlSelect1">Platform</label>
+  <select class="form-control" name="platformid" id="exampleFormControlSelect1">
+    <option value="0">Twitch</option>
+    <option value="1">YouTube</option>
+  </select>
+</div>
       <div class="form-group">
       <label for="exampleFormControlInput1">Stream Name</label>
       <input type="text" name="streamname" class="form-control" placeholder="Stream Name">
@@ -1680,7 +1688,16 @@ $getir->Style();
       $getir->logincheck();
       $getir->Head("IPTV Player");
       $getir->Style();
-      $data = $getir->YouTubeM3U8Gen(strip_tags($_POST["streamlink"]));
+      if($_POST["platformid"] == "1") {
+        $data = $getir->YouTubeM3U8Gen(strip_tags($_POST["streamlink"]));
+      } elseif($_POST["platformid"] == "0") {
+        $data = $getir->TwitchM3U8(strip_tags($_POST["streamlink"]));
+      } else {
+        die("<script LANGUAGE='JavaScript'>
+        window.alert('This is not a stream');
+        window.location.href='index.php?git=startstream';
+        </script>");
+      }
       if($data == false) {
         die("<script LANGUAGE='JavaScript'>
         window.alert('This is not a stream');

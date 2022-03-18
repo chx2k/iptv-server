@@ -614,18 +614,16 @@ public function M3U8Stream($pubname) {
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
   header('Content-type: application/x-mpegURL');
   header('Content-Disposition: attachment; filename="'.strip_tags($filename).'.m3u8"');
-  echo '#EXTM3U
-  #EXTINF:-1,### '.$pubname.' ###
-  m3u/'.$pubname.'.m3u8';
+  $data = file_get_contents('m3u/'.strip_tags($pubname).'.m3u8');
+  echo str_replace(strip_tags($pubname), 'm3u/'.strip_tags($pubname).'', $data);
 }
 public function TSStream($pubname) {
   $filename = ''.strip_tags($pubname).'.ts';
   $tslink = ''.dirname(__FILE__).''.$filename.'';
   $logfilename = ''.strip_tags($pubname).'-mylog.log';
   $logfile = ''.dirname(__FILE__).'/log/'.$logfilename.'';
-  header('Content-type: video/MP2T');
-  header('Content-Disposition: attachment; filename="'.strip_tags($filename).'.ts"');
-  echo '<code>'.file_get_contents('m3u/'.strip_tags($pubname).'.ts').'</code><br>';
+  $data = file_get_contents('m3u/'.strip_tags($pubname).'.ts');
+  echo str_replace(strip_tags($pubname), 'm3u/'.strip_tags($pubname).'', $data);
 }
 
 public function NavBar($logo) {
@@ -661,7 +659,7 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="'.strip_tags($_S
         <li><a href="index.php?git=startstream"><span class="mif-add icon"></span>Add IPTV</a></li>
         <li><a href="index.php?git=addpriviptv"><span class="mif-add icon"></span>Add Private IPTV</a></li>
         <li><a href="index.php?git=addlistiptv"><span class="mif-add icon"></span>Add List IPTV</a></li>
-        <li><a href="index.php?git=youtubem3u8"><span class="mif-add icon"></span>Add YouTube M3U8</a></li>
+        <li><a href="index.php?git=youtubem3u8"><span class="mif-add icon"></span>Add YouTube/Twitch M3U8</a></li>
         <li><a href="index.php?git=addban"><span class="mif-add icon"></span>Add Ban IP</a></li>
 		<li class="divider"></li>
         <li><a href="index.php?git=ipblock"><span class="mif-list icon"></span>IP Block</a></li>
@@ -874,6 +872,37 @@ if($js == 1) {
 } else {
   return strip_tags(trim($js));
 }
+}
+
+private function Curl_Twitch($url, $header)
+{
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+	$response = curl_exec($ch);
+	curl_close ($ch);
+	return $response;
+}
+public function TwitchM3U8($channelid) {
+  $clientId = "jzkbprff40iqj646a697cyrvl0zt2m6";
+  $response = $this->Curl_Twitch("https://api.twitch.tv/api/channels/".$channelid."/access_token/",
+  [
+    "Client-ID: $clientId",
+    "Host: api.twitch.tv",
+    "User-Agent: Mozilla/5.0 (Windows NT 6.3; rv:43.0) Gecko/20100101 Firefox/43.0 Seamonkey/2.40",
+    "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+  ]
+);
+if(strstr($response, "token")) {
+		$json = json_decode($response, true); // Decode the JSON array
+    $url = 'http://usher.twitch.tv/api/channel/hls/'.$channelid.'.m3u8?player=twitchweb&token='.rawurlencode($json['token']).'&sig=' . $json['sig'].'';
+		return trim($url);
+	} else {
+    return false;
+  }
 }
 public function Head($baslik) {
 echo '<head>
