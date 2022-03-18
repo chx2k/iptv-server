@@ -41,9 +41,11 @@ case 'select':
 if(isset($_SESSION["login"])) {
 echo '<center>
 <a href="m3u.php?git=m3u">Private M3U</a><br>
-<a href="m3u.php?git=m3upub">Public M3U</a><br>
-<a href="m3u.php?git=m3ustream">M3U Streams</a>
-</center>';
+<a href="m3u.php?git=m3upub">Public M3U</a><br>';
+if($_SESSION["yetki"] == md5("admin")) {
+echo '<a href="m3u.php?git=m3ustream">M3U Streams</a>';
+}
+echo '</center>';
 } else {
 die('<center>
 <b>For login m3u.php?git=lgn&usr=user_name&pwd=password</b><br>
@@ -118,6 +120,10 @@ break;
 
 
 case 'm3ustream':
+    if($_SESSION["yetki"] == md5("admin")) {
+    } else {
+        die("<center>You dont have a permission!</center>");
+    }
     if(isset($_SESSION["login"])) {
     header ("Content-Type: video/vnd.mpegurl");
     
@@ -142,7 +148,7 @@ case 'm3ustream':
     while($row2 = $stmt2->fetch()) {
     echo '
     #EXTINF:'.intval($row2["public_id"]).', '.strip_tags($row2["stream_othname"]).'
-    http://'.$_SERVER["HTTP_HOST"].'/watch.php?pubid='.intval($row2["public_id"]).'';
+    http://'.$_SERVER["HTTP_HOST"].'/iptv/watch.php?pubid='.intval($row2["public_id"]).'&usr='.base64_encode($_SESSION["login"]).'';
     }
     break;
 

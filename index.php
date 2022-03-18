@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 include("conn.php");
 session_start();
 
@@ -7,8 +8,10 @@ $getir->funcControl('shell_exec');
 $getir->funcControl('exec');
 $getir->funcControl('system');
 
-$stmt = $db->prepare('SELECT * FROM iptv_config');
+$stmt = $db->prepare('SELECT * FROM iptv_config WHERE sahip = :shb');
+$stmt->bindValue(':shb', strip_tags("admin"));
 $stmt->execute();
+if($row = $stmt->rowCount()) {
 if($row = $stmt->fetch()) {
 $configm3u8 = $row["ffmpeg_m3u8cfg"];
 $configts = $row["ffmpeg_ts"];
@@ -22,6 +25,9 @@ $restreamtk = $row["restream_tkn"];
 $rtmpport = $row["rtmp_port"];
 $instatk = $row["youtube_tk"]; 
 $configrec = "-c copy -flags +global_header -f segment -segment_time 60 -segment_format_options movflags=+faststart -reset_timestamps 1";
+}
+} else {
+
 }
 
 if(!isset($_GET['git'])) {
@@ -78,10 +84,6 @@ echo('<script>location.replace("index.php?git=iptv")</script>');
 setcookie("reklam", md5("sus"), time()+3600);
 die("Hesabınız Bloklanmıştır");
 session_destroy();
-} elseif(strip_tags($row["admin_yetki"]) == "gold") { 
-$_SESSION["yetki"] = md5("gold");
-setcookie("reklam", md5("gold"), time()+3600);
-echo('<script>location.replace("index.php?git=iptv")</script>');
 } else {
 $_SESSION["yetki"] = md5("uye");
 setcookie("reklam", md5("uye"), time()+3600);
@@ -398,8 +400,8 @@ if($_SESSION["yetki"] == md5("uye")) {
 
 if($row2["video_stream"] == 2) {
 } else {
-echo '<li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_id"]).'">M3U8 Link</a></li>
-<li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_id"]).'&debug">Debug</a></li>';
+echo '<li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_id"]).'&usr='.base64_encode($_SESSION["login"]).'">M3U8 Link</a></li>
+<li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_id"]).'&debug=1&usr='.base64_encode($_SESSION["login"]).'">Debug</a></li>';
 }
 
 }
@@ -418,9 +420,7 @@ echo '</ul></div></td>
 <ul class="dropdown-menu" role="menu">';
 if($_SESSION["yetki"] == md5("uye")) {
 echo '<li><a class="dropdown-item" target="_blank" href="index.php?git=startcst1&id='.intval($row2["public_id"]).'">Start Custom Stream</a></li>';
-} elseif($_SESSION["yetki"] == md5("gold")) {
-echo '<li><a class="dropdown-item" target="_blank" href="index.php?git=startcst1&id='.intval($row2["public_id"]).'">Start Custom Stream</a></li>';
-} else  {
+} else {
 if($row2["video_stream"] == 2) {
 echo '<li><a class="dropdown-item" target="_blank" href="index.php?git=screenshare&id='.intval($row2["public_id"]).'">Start ScreenShare</a></li>';
 } else {
@@ -448,9 +448,9 @@ echo '</tr></tbody></table>
 for($p=1; $p<=$total_pages; $p++){
   echo '<li class="page-item"><a class="page-link" href="index.php?git=iptv&page='.$p.'">'.$p.'</a></li>';
 }
-echo '</ul></div>
-
-<div class="mt-5 container">
+echo '</ul></div>';
+if($_SESSION["yetki"] == md5("admin")) {
+echo '<div class="mt-5 container">
 <b>IPTV Config</b>
 <table class="table">
 <thead>
@@ -461,7 +461,7 @@ echo '</ul></div>
 <th></th>
 </tr></thead><tbody>';
 $stmt3 = $db->prepare('SELECT * FROM iptv_config WHERE sahip = :perm');
-$stmt3->bindValue(':perm', strip_tags($_SESSION["login"]));
+$stmt3->bindValue(':perm', strip_tags("admin"));
 $stmt3->execute();
 if($row2 = $stmt3->fetch()) {
 echo '<tr><td><div class=kisalt">'.intval($row2["config_id"]).'</div></td>';
@@ -469,8 +469,10 @@ echo '<td><div class="kisalt">'.strip_tags($row2["ffmpeg_m3u8cfg"]).'</div></td>
 echo '<td><div class="kisalt">'.strip_tags($row2["ffmpeg_ts"]).'</div></td>';
 echo '<td><a class="btn btn-danger" target="_blank" href="index.php?git=editcfg&id='.intval($row2["config_id"]).'">Edit</a></td>';
 }
-echo '</tr>
-</tbody></table><br><br></div></div></div></body>';
+echo '</tr></tbody></table>';
+} else {
+}
+echo '<br><br></div></div></div></body>';
   break;
   
 
@@ -479,7 +481,7 @@ echo '</tr>
 $getir->Head("IPTV Player");
 $getir->Style();
   if($_SESSION["yetki"] == md5("uye")) {
-  die("<center class='mt-5'>Daha fazla seçenek için üyeliğinizi yükseltin</center>");
+  die("<center class='mt-5'>You have not a permission</center>");
   } else {
       
   }
@@ -950,12 +952,8 @@ $getir->Style();
 	window.onload = timedRefresh(5000);
 </script>';
   $getir->logincheck();
-$getir->Head("IPTV Player");
-$getir->Style();
-    if($_SESSION["yetki"] == md5("uye")) {
-  die("NO");
-  } else {
-  }
+  $getir->Head("IPTV Player");
+  $getir->Style();
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri AND public_sahip = :perm');
   $stmt->bindValue(':iddegeri', intval($_GET["id"]));
   $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
@@ -1888,7 +1886,6 @@ $getir->Style();
     <select class="form-control" name="usrtype" id="usrtype">
     <option value="uye">User</option>
     <option value="admin">Admin</option>
-    <option value="gold">Gold</option>
     </select>
     </div>
   
@@ -1963,7 +1960,6 @@ $getir->Style();
     <select class="form-control" name="usrtype" id="exampleFormControlSelect1">
     <option value="uye">User</option>
     <option value="admin">Admin</option>
-    <option value="gold">Gold</option>
     </select>
     </div>
   
@@ -1994,12 +1990,12 @@ $getir->Style();
   if($row = $update->rowCount()) {
     echo "<script LANGUAGE='JavaScript'>
     window.alert('Succesfully Added');
-    window.location.href='index.php?git=startstream';
+    window.location.href='index.php?git=user';
     </script>";
   } else {
     echo "<script LANGUAGE='JavaScript'>
     window.alert('Unsuccesfully Added');
-    window.location.href='index.php?git=startstream';
+    window.location.href='index.php?git=user';
     </script>";
   }
   break;

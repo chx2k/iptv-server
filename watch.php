@@ -6,7 +6,6 @@ $getir->funcControl('shell_exec');
 $getir->funcControl('exec');
 $getir->funcControl('system');
 
-
 $update = $db->prepare("INSERT INTO ip_logger(ip, browserinf, date) VALUES (:ipz, :browserz, :datez)");
 $update->bindValue(':ipz', strip_tags($_SERVER['REMOTE_ADDR']));
 $update->bindValue(':browserz', json_encode(getallheaders()));
@@ -197,6 +196,22 @@ $getir->ScreenShow(strip_tags($_GET["pubid"]), strip_tags($row["public_name"]));
 if($row["public_active"] == 0) {
 die("<center><b>Channel Deactivated</b></center>");
 } else {
+}
+
+$stmt = $db->prepare('SELECT * FROM admin_list WHERE admin_usrname = :iddegeri');
+$stmt->execute(array(':iddegeri' => strip_tags(base64_decode($_GET["usr"]))));
+if($stmt->rowCount()) {
+if($rowg = $stmt->fetch()) {
+if($rowg["admin_yetki"] == "admin") {
+
+} elseif($rowg["admin_yetki"] == "uye") {
+
+} else {
+    die("You have been banned or not login");
+}
+}
+} else {
+    die("You have been banned or not login");
 }
 
 if($row["video_stream"] == 1) {
