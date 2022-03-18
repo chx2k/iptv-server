@@ -394,14 +394,14 @@ echo '<td><div class="btn-group">
     <span class="sr-only">Toggle Dropdown</span>
 	IPTV
   </button>
-  <ul class="dropdown-menu" role="menu">';
+  <ul class="dropdown-menu" role="menu">
+  <li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_id"]).'&usr='.base64_encode($_SESSION["login"]).'">M3U8 Link</a></li>';
 if($_SESSION["yetki"] == md5("uye")) {
 } else {
 
 if($row2["video_stream"] == 2) {
 } else {
-echo '<li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_id"]).'&usr='.base64_encode($_SESSION["login"]).'">M3U8 Link</a></li>
-<li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_id"]).'&debug=1&usr='.base64_encode($_SESSION["login"]).'">Debug</a></li>';
+echo '<li><a class="dropdown-item" target="_blank" href="watch.php?pubid='.strip_tags($row2["public_id"]).'&debug=1&usr='.base64_encode($_SESSION["login"]).'">Debug</a></li>';
 }
 
 }

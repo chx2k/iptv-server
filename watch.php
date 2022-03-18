@@ -202,11 +202,7 @@ $stmt = $db->prepare('SELECT * FROM admin_list WHERE admin_usrname = :iddegeri')
 $stmt->execute(array(':iddegeri' => strip_tags(base64_decode($_GET["usr"]))));
 if($stmt->rowCount()) {
 if($rowg = $stmt->fetch()) {
-if($rowg["admin_yetki"] == "admin") {
-
-} elseif($rowg["admin_yetki"] == "uye") {
-
-} else {
+if($rowg["admin_yetki"] == "sus") {
     die("You have been banned or not login");
 }
 }
