@@ -142,7 +142,7 @@ case 'm3ustream':
     while($row2 = $stmt2->fetch()) {
     echo '
     #EXTINF:'.intval($row2["public_id"]).', '.strip_tags($row2["stream_othname"]).'
-    http://'.$_SERVER["HTTP_HOST"].'/m3u/'.strip_tags($row2["public_name"]).'';
+    http://'.$_SERVER["HTTP_HOST"].'/watch.php?pubid='.intval($row2["public_id"]).'';
     }
     break;
 
