@@ -901,6 +901,11 @@ echo '<head>
 }
 
 public function logincheck() {
+error_reporting(0);
+if($_SESSION["yetki"] == md5("sus")) {
+  die("You account has been suspended");
+} else {
+}
 if(isset($_SESSION['login'])) {
 } else {
 if(session_status() == "2") {

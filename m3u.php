@@ -63,7 +63,11 @@ $stmt2 = $db->prepare('SELECT private_name FROM private_iptv WHERE private_sahip
 $stmt2->bindValue(':perm', strip_tags($_SESSION["login"]));
 $stmt2->execute();
 if($row2 = $stmt2->fetch()) {
-header ("Content-Disposition: attachment;filename=".strip_tags($row2["private_name"]).".m3u");
+    if(empty($row2["stream_othname"])) {
+        header ("Content-Disposition: attachment;filename=".strip_tags($row2["stream_othname"]).".m3u");
+            } else {
+                header ("Content-Disposition: attachment;filename=empty.m3u");
+            }
 }
 
 } else {
@@ -96,9 +100,12 @@ $stmt2 = $db->prepare('SELECT stream_othname FROM public_iptv WHERE public_sahip
 $stmt2->bindValue(':perm', strip_tags($_SESSION["login"]));
 $stmt2->execute();
 if($row2 = $stmt2->fetch()) {
+    if(empty($row2["stream_othname"])) {
 header ("Content-Disposition: attachment;filename=".strip_tags($row2["stream_othname"]).".m3u");
+    } else {
+        header ("Content-Disposition: attachment;filename=empty.m3u");
+    }
 }
-
 header ("Pragma: no-cache");
 header ("Expires: 0");
 } else {
@@ -131,7 +138,11 @@ case 'm3ustream':
     $stmt2->bindValue(':perm', strip_tags($_GET["login"]));
     $stmt2->execute();
     if($row2 = $stmt2->fetch()) {
-    header ("Content-Disposition: attachment;filename=".strip_tags($row2["stream_othname"]).".m3u");
+        if(empty($row2["stream_othname"])) {
+            header ("Content-Disposition: attachment;filename=".strip_tags($row2["stream_othname"]).".m3u");
+                } else {
+                    header ("Content-Disposition: attachment;filename=empty.m3u");
+                }
     }
     
     header ("Pragma: no-cache");

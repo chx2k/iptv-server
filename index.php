@@ -81,6 +81,7 @@ setcookie("reklam", md5("admin"), time()+3600);
 echo('<script>location.replace("index.php?git=iptv")</script>');
 } elseif(strip_tags($row["admin_yetki"]) == "sus") {
 setcookie("reklam", md5("sus"), time()+3600);
+$_SESSION["yetki"] = md5("sus");
 die("Hesabınız Bloklanmıştır");
 session_destroy();
 } else {
