@@ -1,5 +1,4 @@
 <?php
-error_reporting(0);
 include("conn.php");
 session_start();
 
@@ -1836,6 +1835,7 @@ $getir->Style();
   <th>Username</th>
   <th>Type</th>
   <th></th>
+  <th></th>
   </tr></head><tbody>';
   $stmt = $db->prepare('SELECT * FROM admin_list');
   $stmt->execute();
@@ -1846,6 +1846,7 @@ $getir->Style();
   <th>'.strip_tags($row["admin_usrname"]).'</th>
   <th>'.strip_tags($row["admin_yetki"]).'</th>
   <th><a href="index.php?git=edituser&id='.intval($row["admin_id"]).'">Edit User</a></th>
+  <th><a href="index.php?git=importm3u&id='.intval($row["admin_id"]).'">Import M3U8 Link</a></th>
   </tr>';
   }
   echo '</table>
@@ -1853,6 +1854,73 @@ $getir->Style();
   <a href="index.php?git=adduser" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Add User</a>
   </div>';
   break;
+
+  case 'importm3u':
+    $getir->logincheck();
+    $getir->Head("IPTV Player");
+    $getir->Style();
+      if($_SESSION["yetki"] == md5("uye")) {
+      die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
+      } else {
+        $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+      }
+      $stmt = $db->prepare('SELECT * FROM admin_list WHERE admin_id = :id');
+      $stmt->bindValue(':id', strip_tags($_GET["id"]));
+      $stmt->execute();
+      if($row = $stmt->fetch()) {
+        $usrname = $row["admin_usrname"];
+      echo '<body class="mx-auto">
+      <center><b>Private Stream IPTV</b>
+      <hr></hr></center>
+      <form class="container" action="index.php?git=pimportm3u" method="post">
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Name</label>
+          <input type="text" name="privname" class="form-control" placeholder="Private Name">
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">List IPTV</label>
+          <input type="text" name="priviptv" class="form-control" placeholder="List IPTV">
+        </div>
+        <input type="hidden" name="iptvusr" class="form-control" value="'.strip_tags($usrname).'">
+        <button type="submit" style="width: 100%;" class="btn btn-primary">Add</button>
+      </form>
+      </body>';
+    }
+    break;
+
+    case 'pimportm3u':
+      $getir->logincheck();
+      if($_SESSION["yetki"] == md5("uye")) {
+        die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
+        } else {
+          $purl = $_POST["priviptv"];
+          $name = $_POST["iptvusr"];
+        }
+      $data = json_decode(trim($getir->M3U_Parser($purl)), true);
+      var_dump($data);
+      die();
+      foreach($data["list"]["item"] as $list) {
+        $update = $db->prepare("INSERT INTO public_iptv(public_name, public_tslink, public_active, video_stream, public_sahip, stream_othname) VALUES (:streamname, :streamadress, :streamactive, :streamorvideo, :pubsahip, :streamothname)");
+        $update->bindValue(':streamname', $list["title"]);
+        $update->bindValue(':streamothname', strip_tags($list["title"]));
+        $update->bindValue(':streamadress', strip_tags($list["media_url"]));
+        $update->bindValue(':streamactive', "1");
+        $update->bindValue(':streamorvideo', "0");
+        $update->bindValue(':pubsahip',  strip_tags($name));
+        $update->execute();
+        if($row = $update->rowCount()) {
+          echo "<script LANGUAGE='JavaScript'>
+          window.alert('Succesfully Added');
+          window.location.href='index.php?git=iptv';
+          </script>";
+        } else {
+          echo "<script LANGUAGE='JavaScript'>
+          window.alert('Unsuccesfully Added');
+          window.location.href='index.php?git=iptv';
+          </script>";
+        }
+      }
+      break;
   
   case 'adduser':
   $getir->logincheck();
@@ -2002,8 +2070,8 @@ $getir->Style();
   
   case 'paddpriviptv':
   $getir->logincheck();
-$getir->Head("IPTV Player");
-$getir->Style();
+  $getir->Head("IPTV Player");
+  $getir->Style();
   $update = $db->prepare("INSERT INTO private_iptv(private_name, private_resim, private_iptv, private_active, private_sahip) VALUES (:streamname, :streampics, :streamiptv, :streamactive, :sahip)");
   $update->bindValue(':streamname', strip_tags($_POST["privname"]));
   $update->bindValue(':streampics', strip_tags($_POST["privpics"]));
@@ -2052,8 +2120,8 @@ $getir->Style();
 
   case 'paddban':
   $getir->logincheck();
-$getir->Head("IPTV Player");
-$getir->Style();
+  $getir->Head("IPTV Player");
+  $getir->Style();
   if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
@@ -2078,8 +2146,8 @@ $getir->Style();
 
   case 'cikis':
   $getir->logincheck();
-$getir->Head("IPTV Player");
-$getir->Style();
+  $getir->Head("IPTV Player");
+  $getir->Style();
   session_destroy();
   die('<script>function deleteAllCookies() {
     var cookies = document.cookie.split(";");

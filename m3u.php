@@ -77,14 +77,13 @@ $stmt2->bindValue(':perm', strip_tags($_SESSION["login"]));
 $stmt2->execute();
 while($row2 = $stmt2->fetch()) {
 if(empty($row2["private_resim"])) {
-echo '
-#EXTINF:'.intval($row2["private_id"]).' tvg-logo="'.strip_tags($row2["private_resim"]).'", '.strip_tags($row2["private_name"]).'
-'.strip_tags($row2["private_iptv"]).'';
+echo trim('#EXTINF:-1, tvg-logo="'.strip_tags($row2["private_resim"]).'", '.strip_tags($row2["private_name"]).'
+'.strip_tags($row2["private_iptv"]).'');
 
 } else {
-echo '
-#EXTINF:'.intval($row2["private_id"]).' tvg-logo="https://i.upimg.com/BJfzNUht7"  group-title="'.strip_tags($row2["private_name"]).'"
-'.strip_tags($row2["private_iptv"]).'';
+echo str_replace('    ', '', '
+#EXTINF:-1,'.strip_tags($row2["stream_othname"]).'
+'.strip_tags($row2["public_tslink"]).'');
 }
 }
 break;
@@ -112,9 +111,10 @@ $stmt2 = $db->prepare('SELECT * FROM public_iptv WHERE public_sahip = :perm');
 $stmt2->bindValue(':perm', strip_tags($_SESSION["login"]));
 $stmt2->execute();
 while($row2 = $stmt2->fetch()) {
-echo '
-#EXTINF:'.intval($row2["public_id"]).', '.strip_tags($row2["stream_othname"]).'
-'.strip_tags($row2["public_tslink"]).'';
+echo str_replace('    ', '', '
+#EXTINF:-1,'.trim(strip_tags($row2["stream_othname"])).'
+'.strip_tags($row2["public_tslink"]).'
+');
 }
 break;
 
@@ -146,9 +146,9 @@ case 'm3ustream':
     $stmt2->bindValue(':perm', strip_tags($_SESSION["login"]));
     $stmt2->execute();
     while($row2 = $stmt2->fetch()) {
-    echo '
-    #EXTINF:'.intval($row2["public_id"]).', '.strip_tags($row2["stream_othname"]).'
-    http://'.$_SERVER["HTTP_HOST"].'/iptv/watch.php?pubid='.intval($row2["public_id"]).'&usr='.base64_encode($_SESSION["login"]).'';
+    echo str_replace('    ', '', '
+    #EXTINF:-1,'.strip_tags($row2["stream_othname"]).'
+    http://'.$_SERVER["HTTP_HOST"].'/iptv/watch.php?pubid='.intval($row2["public_id"]).'&usr='.base64_encode($_SESSION["login"]).'');
     }
     break;
 
