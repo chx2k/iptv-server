@@ -1,7 +1,7 @@
-<pre>
+<p>
 Bu program bir restream programıdır. Örneğin bilgisayarınızdan veya farklı bir kaynaktan yapılan yayını daha müsait bir sunucu üzerinden restream eden bir programdır.
 Bu programla Twitch, Youtube ve benzeri yayınlar dahil her yayını restream edebilirsiniz. Ayrıca dediğim gibi kendiniz de RTMP server üzerinden yaptığınız yayınları restream edebilirsiniz.
-</pre><br>
+</p><br>
 
 <b>Özellikleri</b>
 <pre>
