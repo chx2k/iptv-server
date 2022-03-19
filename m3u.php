@@ -43,7 +43,7 @@ echo '<center>
 <a href="m3u.php?git=m3u">Private M3U</a><br>
 <a href="m3u.php?git=m3upub">Public M3U</a><br>';
 if($_SESSION["yetki"] == md5("admin")) {
-echo '<a href="m3u.php?git=m3ustream">M3U Streams</a>';
+echo '<a href="m3u.php?git=m3ustream&yetki='.$_SESSION["yetki"].'&login='.$_SESSION["login"].'">M3U Streams</a>';
 }
 echo '</center>';
 } else {
@@ -120,15 +120,15 @@ break;
 
 
 case 'm3ustream':
-    if($_SESSION["yetki"] == md5("admin")) {
+    if($_GET["yetki"] == md5("admin")) {
     } else {
         die("<center>You dont have a permission!</center>");
     }
-    if(isset($_SESSION["login"])) {
+    if(isset($_GET["login"])) {
     header ("Content-Type: video/vnd.mpegurl");
     
     $stmt2 = $db->prepare('SELECT stream_othname FROM public_iptv WHERE public_sahip = :perm');
-    $stmt2->bindValue(':perm', strip_tags($_SESSION["login"]));
+    $stmt2->bindValue(':perm', strip_tags($_GET["login"]));
     $stmt2->execute();
     if($row2 = $stmt2->fetch()) {
     header ("Content-Disposition: attachment;filename=".strip_tags($row2["stream_othname"]).".m3u");
@@ -143,12 +143,12 @@ case 'm3ustream':
     }
     echo '#EXTM3U';
     $stmt2 = $db->prepare('SELECT * FROM public_iptv WHERE public_sahip = :perm');
-    $stmt2->bindValue(':perm', strip_tags($_SESSION["login"]));
+    $stmt2->bindValue(':perm', strip_tags($_GET["login"]));
     $stmt2->execute();
     while($row2 = $stmt2->fetch()) {
     echo str_replace('    ', '', '
     #EXTINF:-1,'.strip_tags($row2["stream_othname"]).'
-    http://'.$_SERVER["HTTP_HOST"].'/iptv/watch.php?pubid='.intval($row2["public_id"]).'&usr='.base64_encode($_SESSION["login"]).'');
+    http://'.$_SERVER["HTTP_HOST"].'/iptv/watch.php?pubid='.intval($row2["public_id"]).'&usr='.base64_encode($_GET["login"]).'');
     }
     break;
 

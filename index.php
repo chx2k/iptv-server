@@ -1869,6 +1869,7 @@ $getir->Style();
       $stmt->execute();
       if($row = $stmt->fetch()) {
         $usrname = $row["admin_usrname"];
+        $perm = $row["admin_yetki"];
       echo '<body class="mx-auto">
       <center><b>Private Stream IPTV</b>
       <hr></hr></center>
@@ -1882,6 +1883,7 @@ $getir->Style();
           <input type="text" name="priviptv" class="form-control" placeholder="List IPTV">
         </div>
         <input type="hidden" name="iptvusr" class="form-control" value="'.strip_tags($usrname).'">
+        <input type="hidden" name="yetki" class="form-control" value="'.md5($perm).'">
         <button type="submit" style="width: 100%;" class="btn btn-primary">Add</button>
       </form>
       </body>';
@@ -1890,7 +1892,7 @@ $getir->Style();
 
     case 'pimportm3u':
       $getir->logincheck();
-      if($_SESSION["yetki"] == md5("uye")) {
+      if($_POST["yetki"] !== md5("uye")) {
         die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
         } else {
           $purl = $_POST["priviptv"];
