@@ -2028,6 +2028,7 @@ $getir->Style();
     <select class="form-control" name="usrtype" id="exampleFormControlSelect1">
     <option value="uye">User</option>
     <option value="admin">Admin</option>
+    <option value="sus">Suspend</option>
     </select>
     </div>
   
