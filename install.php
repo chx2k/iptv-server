@@ -285,7 +285,7 @@ echo '<body class="container">
 <hr></hr>
 <p>Yükleme Tamamlandı. Artık Server hazır durumdadır.</p><br>
 <pre>
-Default Username : alicangonullu
+Default Username : admin
 Default Password : 19654
 </pre>
 <br>
