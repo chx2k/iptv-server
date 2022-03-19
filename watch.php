@@ -213,7 +213,10 @@ if(isset($_GET["outuser"])) {
     if($stmt->rowCount()) {
     if($rowg = $stmt->fetch()) {
     if($rowg["admin_yetki"] == "sus") {
-        die("You have been banned or not login");
+        header ("Content-Disposition: attachment;filename=empty.m3u");
+        die('#EXTM3U
+        #EXTINF:-1, Error
+        http://'.$_SERVER["HTTP_HOST"].'/error/error.ts');
     }
     }
     } else {
@@ -225,7 +228,10 @@ if(isset($_GET["outuser"])) {
     if($stmt->rowCount()) {
     if($rowg = $stmt->fetch()) {
     if($rowg["admin_yetki"] == "sus") {
-        die("You have been banned or not login");
+        header ("Content-Disposition: attachment;filename=empty.m3u");
+        die('#EXTM3U
+        #EXTINF:-1, Error
+        http://'.$_SERVER["HTTP_HOST"].'/error/error.ts');
     }
     }
     } else {
