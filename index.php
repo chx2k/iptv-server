@@ -1900,11 +1900,15 @@ $getir->Style();
           $name = $_POST["iptvusr"];
         }
       $data = json_decode(trim($getir->M3U_Parser($purl)), true);
+      $userbase = base64_encode($name);
       foreach($data["list"]["item"] as $list) {
+        $degis1 = str_replace("usr", "outuser", strip_tags($list["media_url"]));
+        $degis2 = str_replace(base64_encode($_SESSION["login"]), $userbase, $degis1);
+        
         $update = $db->prepare("INSERT INTO public_iptv(public_name, public_tslink, public_active, video_stream, public_sahip, stream_othname) VALUES (:streamname, :streamadress, :streamactive, :streamorvideo, :pubsahip, :streamothname)");
         $update->bindValue(':streamname', $list["title"]);
         $update->bindValue(':streamothname', strip_tags($list["title"]));
-        $update->bindValue(':streamadress', strip_tags($list["media_url"]));
+        $update->bindValue(':streamadress', $degis2);
         $update->bindValue(':streamactive', "1");
         $update->bindValue(':streamorvideo', "0");
         $update->bindValue(':pubsahip',  strip_tags($name));
