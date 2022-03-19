@@ -6,6 +6,15 @@ $getir->funcControl('shell_exec');
 $getir->funcControl('exec');
 $getir->funcControl('system');
 
+$stmt = $db->prepare('SELECT * FROM admin_list WHERE admin_usrname = :iddegeri');
+$stmt->execute(array(':iddegeri' => base64_decode($_GET["usr"])));
+while($row = $stmt->fetch()) {
+if($row["admin_yetki"] == "sus") {
+die("Suspended");
+} else {
+}
+}
+
 $update = $db->prepare("INSERT INTO ip_logger(ip, browserinf, date) VALUES (:ipz, :browserz, :datez)");
 $update->bindValue(':ipz', strip_tags($_SERVER['REMOTE_ADDR']));
 $update->bindValue(':browserz', json_encode(getallheaders()));
