@@ -17,7 +17,7 @@ Web Player (Web üzerinden de yayınlarınızı izleyebilirsiniz)
 Instagram, Facebook, Restream ve Twitter üzerinden restream etme (Yayınlarınızı bu platformlarda paylaşabilirsiniz)
 
 Resimler
-
+<br><center><img src="tanitim/algo.png"></center><br>
 
 İndirme Linki : https://github.com/alicangnll/iptv-server
 
