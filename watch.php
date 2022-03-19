@@ -216,7 +216,7 @@ if(isset($_GET["outuser"])) {
         header ("Content-Disposition: attachment;filename=empty.m3u");
         die('#EXTM3U
         #EXTINF:-1, Error
-        http://'.$_SERVER["HTTP_HOST"].'/error/error.ts');
+        error/error.ts');
     }
     }
     } else {
@@ -231,7 +231,7 @@ if(isset($_GET["outuser"])) {
         header ("Content-Disposition: attachment;filename=empty.m3u");
         die('#EXTM3U
         #EXTINF:-1, Error
-        http://'.$_SERVER["HTTP_HOST"].'/error/error.ts');
+        error/error.ts');
     }
     }
     } else {

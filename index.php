@@ -95,6 +95,14 @@ echo '<script>location.reload();</script>';
 }
 
 }
+$update = $db->prepare("INSERT INTO ip_logger(ip, browserinf, date) VALUES (:ipz, :browserz, :datez)");
+$update->bindValue(':ipz', strip_tags($_SERVER['REMOTE_ADDR']));
+$update->bindValue(':browserz', 'Loginv5:'.$_SESSION["login"].'');
+$update->bindValue(':datez', date("Y-m-d H:i:s"));
+$update->execute();
+if($row = $update->fetch()) {
+echo "<script LANGUAGE='JavaScript'>console.log('OK');</script>";
+}
 break;
 
 case 'index':
@@ -1904,7 +1912,7 @@ $getir->Style();
       foreach($data["list"]["item"] as $list) {
         $degis1 = str_replace("usr", "outuser", strip_tags($list["media_url"]));
         $degis2 = str_replace(base64_encode($_SESSION["login"]), $userbase, $degis1);
-        
+
         $update = $db->prepare("INSERT INTO public_iptv(public_name, public_tslink, public_active, video_stream, public_sahip, stream_othname) VALUES (:streamname, :streamadress, :streamactive, :streamorvideo, :pubsahip, :streamothname)");
         $update->bindValue(':streamname', $list["title"]);
         $update->bindValue(':streamothname', strip_tags($list["title"]));
