@@ -1897,8 +1897,6 @@ $getir->Style();
           $name = $_POST["iptvusr"];
         }
       $data = json_decode(trim($getir->M3U_Parser($purl)), true);
-      var_dump($data);
-      die();
       foreach($data["list"]["item"] as $list) {
         $update = $db->prepare("INSERT INTO public_iptv(public_name, public_tslink, public_active, video_stream, public_sahip, stream_othname) VALUES (:streamname, :streamadress, :streamactive, :streamorvideo, :pubsahip, :streamothname)");
         $update->bindValue(':streamname', $list["title"]);
