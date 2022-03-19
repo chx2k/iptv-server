@@ -1,23 +1,38 @@
-<center><b>IPTV PHP Panel</b></center><br>
-<br>
-<center><img src="tanitim/algo.png"></center><br>
-<pre>
-NOTE : This program has been written for legal purposes. 
-The author of this program is not responsible for illegal uses.
-Required : PHP 7.2, FFMpeg and Windows (if you use Windows, you cannot setup ffmpeg) / Linux
-<br>
-For Linux : You have to enter the code as root after every reboot or shutdown
-<br>
-setenforce 0 && sed -i 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/sysconfig/selinux
-<br>
-Installation for Windows : move 64 or 32 (in ffmpeg) to ffmpeg folder and start installation
-<br>
-For Windows  : You have to copy ffmpeg from 32/64 bit directory to ffmpeg directory
-<br>
-Default Username : alicangonullu
-Default Password : 19654
-Default Token : 19654
-</pre>
-<br>
-<b>NOTE : If you want ads or not, please edit libs.php -> $getads (write ur url)</b>
+Merhabalar,
+
+Bu program bir restream programıdır. Örneğin bilgisayarınızdan veya farklı bir kaynaktan yapılan yayını daha müsait bir sunucu üzerinden restream eden bir programdır.
+Bu programla Twitch, Youtube ve benzeri yayınlar dahil her yayını restream edebilirsiniz. Ayrıca dediğim gibi kendiniz de RTMP server üzerinden yaptığınız yayınları restream edebilirsiniz.
+
+Özellikleri
+IP Ban (İstemediğiniz IP adreslerini banlayabilirsiniz)
+IP Loglama (Yayınlarınıza kim hangi IP üzerinden bağlanmış görebilirsiniz)
+Kullanıcı ekleme ve banlama (Server üzerinde kullanıcı oluşturabilir, onlara özel playlistler girebilir ve onları yasaklayabilirsiniz)
+Yayın yapma (Panel üzerinden istediğiniz yayının adresine tıklayarak restream edebilirsiniz. Yayınlar M3U8 ve TS formatlarında yapılmaktadır)
+Hazır bir M3U listesini yükleme (Hazır bir listeyi yükleyebilirsiniz)
+Twitch ve YouTube yayınları stream etme (Sevdiğiniz Twitch yayıncılarını ve YouTube canlı yayınlarını stream edebilirsiniz)
+Private IPTV özelliği (Bu özellikle yayınlarınızı sadece kendinize özel olarak panel üzerinden izleyebilirsiniz)
+TV Özelliği (Yakında stabilize edilecek ve açıklamama gerek yok sanırım )
+Reklam ekleme (Web üzerinden izlenen yayınlarınıza reklam ekleyebilirsiniz)
+Web Player (Web üzerinden de yayınlarınızı izleyebilirsiniz)
+Instagram, Facebook, Restream ve Twitter üzerinden restream etme (Yayınlarınızı bu platformlarda paylaşabilirsiniz)
+
+Resimler
+
+
+İndirme Linki : https://github.com/alicangnll/iptv-server
+
+Kurulum (Windows için):
+XAMPP PHP 7.4 için olan sürümünü indirin ve kurun
+Ardından C:\xampp\htdocs üzerine bu linkten indirdiğiniz scripti kopyalayın
+C:\xampp\htdocs\ffmpeg içerisindeki exe dosyalarını sisteminiz 64 bitse 64, 32 bitse 32 yazanı ffmpeg içerisine taşıyın
+Browser üzerinden http://localhost/install.php ile kurun (default SQL user/pass : root/(boş))
+Ardından panele default user pass (admin/19654) ile girebilirsiniz
+
+Kurulum (Linux için)
+CentOS son sürümü indirin ve mysql, php, php-pdo, httpd, epel-release, ffmpeg kurun
+Ardından dosyaları /var/www/html içerisine yükleyin
+
+Kullandığınız için teşekkür ederim. Ayrıca geri bildirimlerinizi mutlaka yazın. Onlara göre güncelleme çıkacağız.
+
+NOT : İllegal yayınlar için sorumluluk kabul etmiyorum zira bu legal yayınlar için yapılmıştır. Teşekkürler.
 <center><img src="tanitim/scr.png"></center><br>
