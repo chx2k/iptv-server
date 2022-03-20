@@ -365,7 +365,7 @@ echo '</tbody></table></div>
 <th></th>
 <th></th>
 </tr></thead><tbody>';
-$limit = 100;
+$limit = 8;
 $s = $db->prepare("SELECT * FROM public_iptv WHERE public_sahip = :perm ORDER BY public_id");
 $s->bindValue(':perm', strip_tags($_SESSION["login"]));
 $s->execute();
