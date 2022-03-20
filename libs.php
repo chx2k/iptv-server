@@ -52,9 +52,18 @@ Respect !
 <script charset="UTF-8" src="./selcuk_files/clappr.min.js"></script>
 <script charset="UTF-8" src="./selcuk_files/level-selector.min.js"></script>
 <script charset="UTF-8" src="./selcuk_files/dashshakaplayback.js"></script>
-<link rel="stylesheet" href="./selcuk_files/selcuk.css">
-<script charset="UTF-8">';
+<link rel="stylesheet" href="./selcuk_files/selcuk.css">';
 ?>
+<script type="text/javascript" > $(function () { $(this).bind("contextmenu", function (e) { e.preventDefault(); }); }); </script>
+<script>
+	document.onkeydown = function(e) {
+	if (e.ctrlKey &&
+		(e.keyCode === 85 )) {
+		return false;
+	}
+};
+</script>
+<script charset="UTF-8">
 jQuery(document).ready(function($){
 
 function kontrol(data){
