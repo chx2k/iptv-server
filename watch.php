@@ -240,9 +240,9 @@ if(isset($_GET["outuser"])) {
 }
 
 if($row["video_stream"] == 1) {
-$getir->TSStream(strip_tags($row["public_name"]));
+$getir->TSStream(md5($row["public_name"]));
 } elseif($row["video_stream"] == 0) {
-$getir->M3U8Stream(strip_tags($row["public_name"]));
+$getir->M3U8Stream(md5($row["public_name"]));
 } else {
 die("ScreenShare has not this choose");
 }
