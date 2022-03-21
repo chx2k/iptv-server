@@ -482,6 +482,42 @@ echo '</tr></tbody></table>';
 }
 echo '<br><br></div></div></div></body>';
   break;
+
+  case 'addngrok':
+    $getir->logincheck();
+    $getir->Head("IPTV Player");
+    $getir->Style();
+      if($_SESSION["yetki"] == md5("uye")) {
+      die("<center class='mt-5'>You have not a permission</center>");
+      } else {
+          
+      }
+      $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+    echo '<body>
+  <form class="container" action="index.php?git=pngrok" method="post">
+  
+  <div class="form-group">
+  <label for="ngroktoken">NGROK Token</label>
+  <input type="text" name="ngroktoken" class="form-control">
+  </div>
+  <button type="submit" style="width: 100%;" class="btn btn-primary">Gönder</button><br>
+  </form></body>';
+    break;
+
+    case 'pngrok':
+      $getir->logincheck();
+      $getir->Head("IPTV Player");
+      $getir->Style();
+        if($_SESSION["yetki"] == md5("uye")) {
+        die("<center class='mt-5'>You have not a permission</center>");
+        } else {
+            
+        }
+        $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+        echo '<div class="card mt-4">
+        <pre>'.$getir->ngRok($_POST["ngroktoken"]).'</pre><br>
+        </div>';
+      break;
   
 
   case 'editcfg':
@@ -559,6 +595,7 @@ $getir->Style();
   </body>';
   }
   break;
+  
   
   case 'peditcfg':
   $getir->logincheck();
@@ -655,9 +692,9 @@ $getir->Style();
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartM3U8StreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configm3u8);
+	$getir->StartM3U8StreamWin(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configm3u8);
 	} else {
-    $getir->StartM3U8Stream(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configm3u8);
+    $getir->StartM3U8Stream(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configm3u8);
 	}
   }
 }

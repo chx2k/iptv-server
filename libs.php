@@ -671,6 +671,8 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="'.strip_tags($_S
         <li><a href="index.php?git=youtubem3u8"><span class="mif-add icon"></span>Add YouTube/Twitch M3U8</a></li>
         <li><a href="index.php?git=addban"><span class="mif-add icon"></span>Add Ban IP</a></li>
 		<li class="divider"></li>
+    <li><a href="index.php?git=addngrok"><span class="mif-add icon"></span>Add NGROK</a></li>
+    <li class="divider"></li>
         <li><a href="index.php?git=ipblock"><span class="mif-list icon"></span>IP Block</a></li>
         <li><a href="index.php?git=iplog"><span class="mif-list icon"></span>IP Log</a></li>
 		<li class="divider"></li>
@@ -718,6 +720,10 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="'.strip_tags($_S
 }
 }
 
+public function ngRok($token) {
+shell_exec('ngrok authtoken '.strip_tags($token).'');
+return ''.dirname(__FILE__).'\ngrok http 80 komutuyla başlatın!';
+}
 public function M3U_Parser($url) {
 $m3ufile = file_get_contents($url);
 //$re = '/#(EXTINF|EXTM3U):(.+?)[,]\s?(.+?)[\r\n]+?((?:https?|rtmp):\/\/(?:\S*?\.\S*?)(?:[\s)\[\]{};"\'<]|\.\s|$))/';

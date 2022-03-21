@@ -165,7 +165,7 @@ setInterval(function(){kontrol("'.strip_tags($_GET["pubid"]).'");}, 3000);
 <br><br>
 <center>
 <video id="example-video" width="%100" height="800" class="video-js vjs-default-skin" controls>
-<source src="./m3u/'.strip_tags($_GET["pubid"]).'.m3u8" type="application/x-mpegURL">
+<source src="./m3u/'.md5($_GET["public_name"]).'.m3u8" type="application/x-mpegURL">
 </video>
 </div></center></body>';	
   
@@ -192,7 +192,7 @@ setInterval(function(){kontrol("'.strip_tags($_GET["pubid"]).'");}, 3000);
 <br><br>
 <center>
 <video id="example-video" width="%100" height="800" class="video-js vjs-default-skin" controls>
-<source src="./m3u/'.strip_tags($_GET["pubid"]).'.m3u8" type="application/x-mpegURL">
+<source src="./m3u/'.md5($_GET["public_name"]).'.m3u8" type="application/x-mpegURL">
 </video>
 </div></center></body>';
 } else {
