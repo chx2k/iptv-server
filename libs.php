@@ -672,6 +672,7 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="'.strip_tags($_S
         <li><a href="index.php?git=addban"><span class="mif-add icon"></span>Add Ban IP</a></li>
 		<li class="divider"></li>
     <li><a href="index.php?git=addngrok"><span class="mif-add icon"></span>Add NGROK</a></li>
+    <li><a href="index.php?git=addlcltnl"><span class="mif-add icon"></span>Add LocalTunnel</a></li>
     <li class="divider"></li>
         <li><a href="index.php?git=ipblock"><span class="mif-list icon"></span>IP Block</a></li>
         <li><a href="index.php?git=iplog"><span class="mif-list icon"></span>IP Log</a></li>
@@ -722,8 +723,14 @@ echo '<div class="avatar"><img data-role="gravatar" data-email="'.strip_tags($_S
 
 public function ngRok($token) {
 shell_exec('ngrok authtoken '.strip_tags($token).'');
-return ''.dirname(__FILE__).'\ngrok http 80 komutuyla başlatın!';
+return 'Please start with '.dirname(__FILE__).'\ngrok http 80 command on cmd.exe!';
 }
+
+public function localtunnel() {
+  mkdir("ptunnel");
+  shell_exec('npm install -g localtunnel --prefix '.dirname(__FILE__).'/ptunnel');
+  return "Please write ".dirname(__FILE__)."\ptunnel\lt.cmd --port 80 on cmd.exe";
+  }
 public function M3U_Parser($url) {
 $m3ufile = file_get_contents($url);
 //$re = '/#(EXTINF|EXTM3U):(.+?)[,]\s?(.+?)[\r\n]+?((?:https?|rtmp):\/\/(?:\S*?\.\S*?)(?:[\s)\[\]{};"\'<]|\.\s|$))/';

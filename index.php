@@ -498,7 +498,8 @@ echo '<br><br></div></div></div></body>';
   
   <div class="form-group">
   <label for="ngroktoken">NGROK Token</label>
-  <input type="text" name="ngroktoken" class="form-control">
+  <input type="text" name="ngroktoken" class="form-control"><br>
+  <small>(*) You must be sign up to <a href="http://ngrok.com">ngrok.com</a> for free or premium!</small>
   </div>
   <button type="submit" style="width: 100%;" class="btn btn-primary">Gönder</button><br>
   </form></body>';
@@ -519,6 +520,38 @@ echo '<br><br></div></div></div></body>';
         </div>';
       break;
   
+
+      case 'addlcltnl':
+        $getir->logincheck();
+        $getir->Head("IPTV Player");
+        $getir->Style();
+          if($_SESSION["yetki"] == md5("uye")) {
+          die("<center class='mt-5'>You have not a permission</center>");
+          } else {
+              
+          }
+          $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+        echo '<body>
+      <form class="container" action="index.php?git=plcltnl" method="post">
+      <b>
+      <button type="submit" style="width: 100%;" class="btn btn-primary">Start LocalTunnel</button><br>
+      </form></body>';
+        break;
+    
+        case 'plcltnl':
+          $getir->logincheck();
+          $getir->Head("IPTV Player");
+          $getir->Style();
+            if($_SESSION["yetki"] == md5("uye")) {
+            die("<center class='mt-5'>You have not a permission</center>");
+            } else {
+                
+            }
+            $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+            echo '<div class="card mt-4">
+            <pre>'.$getir->localtunnel().'</pre><br>
+            </div>';
+          break;
 
   case 'editcfg':
   $getir->logincheck();
