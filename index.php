@@ -456,7 +456,8 @@ echo '</tr></tbody></table>
 for($p=1; $p<=$total_pages; $p++){
   echo '<li class="page-item"><a class="page-link" href="index.php?git=iptv&page='.$p.'">'.$p.'</a></li>';
 }
-echo '</ul></div>';
+echo '</ul></div><br>
+<a class="btn btn-warning" href="index.php?git=delallpub">Delete All Public IPTV</a>';
 if($_SESSION["yetki"] == md5("admin")) {
 echo '<div class="mt-5 container">
 <b>IPTV Config</b>
@@ -482,6 +483,26 @@ echo '</tr></tbody></table>';
 }
 echo '<br><br></div></div></div></body>';
   break;
+
+  case 'delallpub':
+    $getir->logincheck();
+    $getir->Head("IPTV Player");
+    $getir->Style();
+    $stmt = $db->prepare('DELETE FROM public_iptv WHERE public_sahip = :iddegeri');
+    $stmt->bindValue(':iddegeri', strip_tags($_SESSION["login"]));
+    $stmt->execute();
+    if($row = $stmt->rowCount()) {
+      echo "<script LANGUAGE='JavaScript'>
+      window.alert('Succesfully Updated');
+      window.location.href='index.php?git=iptv';
+      </script>";
+    } else {
+      echo "<script LANGUAGE='JavaScript'>
+      window.alert('Not Updated');
+      window.location.href='index.php?git=iptv';
+      </script>";
+    }
+    break;
 
   case 'addngrok':
     $getir->logincheck();
@@ -1820,11 +1841,6 @@ $getir->Style();
         <label for="exampleFormControlInput1">List IPTV</label>
         <input type="text" name="priviptv" class="form-control" placeholder="List IPTV">
       </div>
-      <b>OR....</b><br>
-      <div class="form-group">
-      <label for="exampleFormControlInput1">List IPTV</label>
-      <textarea type="file" name="priviptv" class="form-control" placeholder="List IPTV"></textarea>
-    </div>
       <button type="submit" style="width: 100%;" class="btn btn-primary">Add</button>
     </form>
     </body>';
@@ -1832,7 +1848,8 @@ $getir->Style();
 
   case 'paddlistiptv':
     $getir->logincheck();
-    $purl = $_POST["priviptv"];
+    $purl1 = $_POST["priviptv"];
+    $purl = str_replace("https", "http", $purl1);
     $data = json_decode($getir->M3U_Parser($purl), true);
     foreach($data["list"]["item"] as $list) {
       $update = $db->prepare("INSERT INTO public_iptv(public_name, public_tslink, public_active, video_stream, public_sahip, stream_othname) VALUES (:streamname, :streamadress, :streamactive, :streamorvideo, :pubsahip, :streamothname)");
