@@ -1820,6 +1820,11 @@ $getir->Style();
         <label for="exampleFormControlInput1">List IPTV</label>
         <input type="text" name="priviptv" class="form-control" placeholder="List IPTV">
       </div>
+      <b>OR....</b><br>
+      <div class="form-group">
+      <label for="exampleFormControlInput1">List IPTV</label>
+      <textarea type="file" name="priviptv" class="form-control" placeholder="List IPTV"></textarea>
+    </div>
       <button type="submit" style="width: 100%;" class="btn btn-primary">Add</button>
     </form>
     </body>';
