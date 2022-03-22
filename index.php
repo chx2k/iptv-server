@@ -350,10 +350,28 @@ if(strip_tags($row2["private_active"]) == "0") {
   <td><a class="btn btn-danger" href="index.php?git=deleteprivip&id='.strip_tags($row2["private_id"]).'" target="_blank">Delete</a></td>';
 }
 
-echo '</tbody></table></div>
-<div class="mt-5 container">
+echo '</tbody></table></div>';
+if(!isset($_GET["cat"])) {
+echo '<div class="mt-5 container">
+<b>IPTV Category List</b>
+<table class="table table-responsive">
+<thead>
+<tr>
+<th>Name</th>
+<th></th>
+</tr></thead><tbody>';
+$stmt2 = $db->prepare('SELECT * FROM public_iptv WHERE public_sahip = :perm GROUP BY stream_othname');
+$stmt2->bindValue(':perm', strip_tags($_SESSION["login"]));
+$stmt2->execute();
+while($row2 = $stmt2->fetch()) {
+  echo '<td>'.strip_tags($row2["stream_othname"]).'</td>';
+  echo '<td><a href="index.php?git=iptv&cat='.strip_tags($row2["stream_othname"]).'">Go</a></td>';
+}
+echo '</tr>
+</tbody></table></div>';
+} else {
+echo '<div class="mt-5 container">
 <b>IPTV List</b>
-
 <table class="table table-responsive">
 <thead>
 <tr>
@@ -378,8 +396,9 @@ if (!isset($_GET['page'])) {
   $page = $_GET['page'];
 }
 $start = ($page-1)*$limit;
-$stmt2 = $db->prepare('SELECT * FROM public_iptv WHERE public_sahip = :perm ORDER BY public_id LIMIT '.$start.', '.$limit.'');
+$stmt2 = $db->prepare('SELECT * FROM public_iptv WHERE public_sahip = :perm AND stream_othname = :dta ORDER BY public_id LIMIT '.$start.', '.$limit.'');
 $stmt2->bindValue(':perm', strip_tags($_SESSION["login"]));
+$stmt2->bindValue(':dta', strip_tags($_GET["cat"]));
 $stmt2->execute();
 while($row2 = $stmt2->fetch()) {
 echo '<tr><td><div class=kisalt">'.strip_tags($row2["public_id"]).'</div></td>';
@@ -458,6 +477,7 @@ for($p=1; $p<=$total_pages; $p++){
 }
 echo '</ul></div><br>
 <a class="btn btn-warning" href="index.php?git=delallpub">Delete All Public IPTV</a>';
+}
 if($_SESSION["yetki"] == md5("admin")) {
 echo '<div class="mt-5 container">
 <b>IPTV Config</b>
@@ -1830,7 +1850,7 @@ $getir->Head("IPTV Player");
 $getir->Style();
     $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
     echo '<body class="mx-auto">
-    <center><b>Private Stream IPTV</b>
+    <center><b>List Stream IPTV</b>
     <hr></hr></center>
     <form class="container" action="index.php?git=paddlistiptv" method="post">
       <div class="form-group">
@@ -1853,8 +1873,8 @@ $getir->Style();
     $data = json_decode($getir->M3U_Parser($purl), true);
     foreach($data["list"]["item"] as $list) {
       $update = $db->prepare("INSERT INTO public_iptv(public_name, public_tslink, public_active, video_stream, public_sahip, stream_othname) VALUES (:streamname, :streamadress, :streamactive, :streamorvideo, :pubsahip, :streamothname)");
-      $update->bindValue(':streamname', $list["title"]);
-      $update->bindValue(':streamothname', strip_tags($list["title"]));
+      $update->bindValue(':streamname', md5($list["title"]));
+      $update->bindValue(':streamothname', strip_tags($_POST["privname"]));
       $update->bindValue(':streamadress', strip_tags($list["media_url"]));
       $update->bindValue(':streamactive', "1");
       $update->bindValue(':streamorvideo', "0");
@@ -2007,8 +2027,8 @@ $getir->Style();
         $degis2 = str_replace(base64_encode($_SESSION["login"]), $userbase, $degis1);
 
         $update = $db->prepare("INSERT INTO public_iptv(public_name, public_tslink, public_active, video_stream, public_sahip, stream_othname) VALUES (:streamname, :streamadress, :streamactive, :streamorvideo, :pubsahip, :streamothname)");
-        $update->bindValue(':streamname', $list["title"]);
-        $update->bindValue(':streamothname', strip_tags($list["title"]));
+        $update->bindValue(':streamname', md5($list["title"]));
+        $update->bindValue(':streamothname', strip_tags($_POST["iptvusr"]));
         $update->bindValue(':streamadress', $degis2);
         $update->bindValue(':streamactive', "1");
         $update->bindValue(':streamorvideo', "0");

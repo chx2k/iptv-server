@@ -165,7 +165,7 @@ setInterval(function(){kontrol("'.strip_tags($_GET["pubid"]).'");}, 3000);
 <br><br>
 <center>
 <video id="example-video" width="%100" height="800" class="video-js vjs-default-skin" controls>
-<source src="./m3u/'.md5($_GET["public_name"]).'.m3u8" type="application/x-mpegURL">
+<source src="./m3u/'.strip_tags($_GET["public_name"]).'.m3u8" type="application/x-mpegURL">
 </video>
 </div></center></body>';	
   
@@ -192,7 +192,7 @@ setInterval(function(){kontrol("'.strip_tags($_GET["pubid"]).'");}, 3000);
 <br><br>
 <center>
 <video id="example-video" width="%100" height="800" class="video-js vjs-default-skin" controls>
-<source src="./m3u/'.md5($_GET["public_name"]).'.m3u8" type="application/x-mpegURL">
+<source src="./m3u/'.strip_tags($_GET["public_name"]).'.m3u8" type="application/x-mpegURL">
 </video>
 </div></center></body>';
 } else {
@@ -240,9 +240,9 @@ if(isset($_GET["outuser"])) {
 }
 
 if($row["video_stream"] == 1) {
-$getir->TSStream(md5($row["public_name"]));
+$getir->TSStream(strip_tags($row["public_name"]));
 } elseif($row["video_stream"] == 0) {
-$getir->M3U8Stream(md5($row["public_name"]));
+$getir->M3U8Stream(strip_tags($row["public_name"]));
 } else {
 die("ScreenShare has not this choose");
 }

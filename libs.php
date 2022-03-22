@@ -733,7 +733,7 @@ public function localtunnel() {
   }
 
   public function M3U_Parser($url) {
-    $m3ufile = file_get_contents($url);
+    $m3ufile = file_get_contents($url, true);
     //$re = '/#(EXTINF|EXTM3U):(.+?)[,]\s?(.+?)[\r\n]+?((?:https?|rtmp):\/\/(?:\S*?\.\S*?)(?:[\s)\[\]{};"\'<]|\.\s|$))/';
     $re = '/#EXTINF:(.+?)[,]\s?(.+?)[\r\n]+?((?:https?|rtmp):\/\/(?:\S*?\.\S*?)(?:[\s)\[\]{};"\'<]|\.\s|$))/';
     //$attributes = '/([a-zA-Z0-9\-]+?)="([^"]*)"/';
@@ -820,6 +820,7 @@ public function localtunnel() {
       //print_r($items);
         return json_encode($globalist);
     }
+    
 private function get_data($url) {
   $ch = curl_init();
 

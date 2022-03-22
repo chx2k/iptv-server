@@ -10,7 +10,20 @@ $query  = $db->query("SELECT * FROM admin_list WHERE admin_usrname =" . $db->quo
 if ( $say = $query -> rowCount() ){
 if( $say > 0 ){
 $_SESSION["login"] = $name;
-header('Location: m3u.php?git=m3upub');
+header ("Content-Type: video/vnd.mpegurl");
+
+$stmt2 = $db->prepare('SELECT stream_othname FROM public_iptv WHERE public_sahip = :perm');
+$stmt2->bindValue(':perm', strip_tags($_SESSION["login"]));
+$stmt2->execute();
+if($row2 = $stmt2->fetch()) {
+    if(empty($row2["stream_othname"])) {
+header ("Content-Disposition: attachment;filename=".strip_tags($row2["stream_othname"]).".m3u");
+    } else {
+        header ("Content-Disposition: attachment;filename=empty.m3u");
+    }
+}
+header ("Pragma: no-cache");
+header ("Expires: 0");
 }
 
 } else {
