@@ -23,7 +23,7 @@ $instagramtk = $row["instagram_tk"];
 $restreamtk = $row["restream_tkn"];
 $rtmpport = $row["rtmp_port"];
 $instatk = $row["youtube_tk"]; 
-$configrec = "-c copy -flags +global_header -f segment -segment_time 60 -segment_format_options movflags=+faststart -reset_timestamps 1";
+$configrec = "-vcodec copy -acodec copy";
 }
 } else {
 
