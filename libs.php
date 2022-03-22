@@ -729,7 +729,7 @@ return 'Please start with '.dirname(__FILE__).'\ngrok http 80 command on cmd.exe
 public function localtunnel() {
   mkdir("ptunnel");
   shell_exec('npm install -g localtunnel --prefix '.dirname(__FILE__).'/ptunnel');
-  return "Please write ".dirname(__FILE__)."\ptunnel\lt --port 80 on cmd.exe";
+  return "Please write ".dirname(__FILE__)."\ptunnel\lt.cmd --port 80 on cmd.exe";
   }
 
   public function M3U_Parser($url) {
