@@ -489,7 +489,6 @@ echo '<div class="mt-5 container">
 <th>TS Config</th>
 <th></th>
 </tr></thead><tbody>';
-echo $_SESSION["login"];
 $stmt3 = $db->prepare('SELECT * FROM iptv_config WHERE sahip = :perm');
 $stmt3->bindValue(':perm', strip_tags($_SESSION["login"]));
 $stmt3->execute();
@@ -2029,7 +2028,7 @@ $getir->Style();
         $degis2 = str_replace(base64_encode($_SESSION["login"]), $userbase, $degis1);
 
         $update = $db->prepare("INSERT INTO public_iptv(public_name, public_tslink, public_active, video_stream, public_sahip, stream_othname) VALUES (:streamname, :streamadress, :streamactive, :streamorvideo, :pubsahip, :streamothname)");
-        $update->bindValue(':streamname', md5($list["title"]));
+        $update->bindValue(':streamname', $list["title"]);
         $update->bindValue(':streamothname', strip_tags($_POST["iptvusr"]));
         $update->bindValue(':streamadress', $degis2);
         $update->bindValue(':streamactive', "1");
