@@ -86,7 +86,7 @@ echo trim('#EXTINF:-1, tvg-logo="'.strip_tags($row2["private_resim"]).'", '.stri
 
 } else {
 echo str_replace('    ', '', '
-#EXTINF:-1,'.strip_tags($row2["stream_othname"]).'
+#EXTINF:-1,'.strip_tags($row2["public_name"]).'
 '.strip_tags($row2["public_tslink"]).'');
 }
 }
@@ -101,7 +101,7 @@ $stmt2->bindValue(':perm', strip_tags($_SESSION["login"]));
 $stmt2->execute();
 if($row2 = $stmt2->fetch()) {
     if(empty($row2["stream_othname"])) {
-header ("Content-Disposition: attachment;filename=".strip_tags($row2["stream_othname"]).".m3u");
+        header ("Content-Disposition: attachment;filename=".strip_tags($row2["stream_othname"]).".m3u");
     } else {
         header ("Content-Disposition: attachment;filename=empty.m3u");
     }
@@ -119,7 +119,7 @@ $stmt2->bindValue(':perm', strip_tags($_SESSION["login"]));
 $stmt2->execute();
 while($row2 = $stmt2->fetch()) {
 echo str_replace('    ', '', '
-#EXTINF:-1,'.trim(strip_tags($row2["stream_othname"])).'
+#EXTINF:-1,'.trim(strip_tags($row2["public_name"])).'
 '.strip_tags($row2["public_tslink"]).'
 ');
 }
@@ -158,7 +158,7 @@ case 'm3ustream':
     $stmt2->execute();
     while($row2 = $stmt2->fetch()) {
     echo str_replace('    ', '', '
-    #EXTINF:-1,'.strip_tags($row2["stream_othname"]).'
+    #EXTINF:-1,'.strip_tags($row2["public_name"]).'
     http://'.$_SERVER["HTTP_HOST"].'/iptv/watch.php?pubid='.intval($row2["public_id"]).'&usr='.base64_encode($_GET["login"]).'');
     }
     break;
