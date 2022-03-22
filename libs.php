@@ -731,6 +731,7 @@ public function localtunnel() {
   shell_exec('npm install -g localtunnel --prefix '.dirname(__FILE__).'/ptunnel');
   return "Please write ".dirname(__FILE__)."\ptunnel\lt.cmd --port 80 on cmd.exe";
   }
+
   public function M3U_Parser($url) {
     $m3ufile = file_get_contents($url);
     //$re = '/#(EXTINF|EXTM3U):(.+?)[,]\s?(.+?)[\r\n]+?((?:https?|rtmp):\/\/(?:\S*?\.\S*?)(?:[\s)\[\]{};"\'<]|\.\s|$))/';
@@ -819,7 +820,6 @@ public function localtunnel() {
       //print_r($items);
         return json_encode($globalist);
     }
-    
 private function get_data($url) {
   $ch = curl_init();
 

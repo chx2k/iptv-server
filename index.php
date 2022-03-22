@@ -1996,7 +1996,8 @@ $getir->Style();
       if($_POST["yetki"] !== md5("uye")) {
         die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
         } else {
-          $purl = $_POST["priviptv"];
+          $purl1 = $_POST["priviptv"];
+          $purl = str_replace("https", "http", $purl1);
           $name = $_POST["iptvusr"];
         }
       $data = json_decode(trim($getir->M3U_Parser($purl)), true);
