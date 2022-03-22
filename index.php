@@ -1807,8 +1807,10 @@ $getir->Style();
       $getir->Style();
       if($_POST["platformid"] == "1") {
         $data = $getir->YouTubeM3U8Gen(strip_tags($_POST["streamlink"]));
+        $getdata = "Youtube";
       } elseif($_POST["platformid"] == "0") {
         $data = $getir->TwitchM3U8(strip_tags($_POST["streamlink"]));
+        $getdata = "Twitch";
       } else {
         die("<script LANGUAGE='JavaScript'>
         window.alert('This is not a stream');
@@ -1822,10 +1824,9 @@ $getir->Style();
         </script>");
       } else {
       }
-      $getdata = strip_tags(md5(rand(1000,9999)));
       $update = $db->prepare("INSERT INTO public_iptv(public_name, public_tslink, public_active, video_stream, public_sahip, stream_othname) VALUES (:streamname, :streamadress, :streamactive, :streamorvideo, :pubsahip, :streamothname)");
-      $update->bindValue(':streamname', $getdata);
-      $update->bindValue(':streamothname', strip_tags($_POST["streamname"]));
+      $update->bindValue(':streamname', strip_tags($_POST["streamname"]));
+      $update->bindValue(':streamothname', strip_tags($getdata));
       $update->bindValue(':streamadress', strip_tags($data));
       $update->bindValue(':streamactive', "1");
       $update->bindValue(':streamorvideo',  strip_tags($_POST["streamorvid"]));
