@@ -407,7 +407,7 @@ if(strip_tags($row2["video_stream"]) == "0") {
 } else {
   echo '<td>Video</td>';
 }
-echo '<td><div class="kisalt">'.strip_tags($row2["stream_othname"]).'</div></td>';
+echo '<td><div class="kisalt">'.strip_tags($row2["public_name"]).'</div></td>';
 
 if(strip_tags($row2["public_active"]) == "0") {
 echo '<td><b>Off</b></td>';
@@ -473,7 +473,7 @@ echo '<li><a class="dropdown-item" target="_blank" href="index.php?git=editpubid
 echo '</tr></tbody></table>
 <br><ul class="pagination">';
 for($p=1; $p<=$total_pages; $p++){
-  echo '<li class="page-item"><a class="page-link" href="index.php?git=iptv&page='.$p.'">'.$p.'</a></li>';
+  echo '<li class="page-item"><a class="page-link" href="index.php?git=iptv&cat='.strip_tags($_GET["cat"]).'&page='.$p.'">'.$p.'</a></li>';
 }
 echo '</ul></div><br>
 <a class="btn btn-warning" href="index.php?git=delallpub">Delete All Public IPTV</a>';
@@ -758,9 +758,9 @@ $getir->Style();
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configts);
+	$getir->StartTSStreamWin(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configts);
 	} else {
-    $getir->StartTSStream(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configts);
+    $getir->StartTSStream(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configts);
 	}
   } else {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
@@ -791,17 +791,17 @@ $getir->Style();
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartFacebookTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($facebooktk));
+	$getir->StartFacebookTSStreamWin(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($facebooktk));
 	} else {
-	$getir->StartFacebookTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($facebooktk));
+	$getir->StartFacebookTSStreamLinux(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($facebooktk));
 	}
   } else {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartFacebookTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($facebooktk));
+	$getir->StartFacebookTSStreamWin(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($facebooktk));
 	} else {
-    $getir->StartFacebookTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($facebooktk));
+    $getir->StartFacebookTSStreamLinux(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($facebooktk));
 	}
   }
 }
@@ -824,17 +824,17 @@ $getir->Style();
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartTwitchTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($twitchtk));
+	$getir->StartTwitchTSStreamWin(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($twitchtk));
 	} else {
-	$getir->StartTwitchTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($twitchtk));
+	$getir->StartTwitchTSStreamLinux(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($twitchtk));
 	}
   } else {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartTwitchTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($twitchtk));
+	$getir->StartTwitchTSStreamWin(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($twitchtk));
 	} else {
-    $getir->StartTwitchTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($twitchtk));
+    $getir->StartTwitchTSStreamLinux(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($twitchtk));
 	}
   }
 }
@@ -857,17 +857,17 @@ $getir->Style();
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartYouTubeTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($youtubetk));
+	$getir->StartYouTubeTSStreamWin(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($youtubetk));
 	} else {
-	$getir->StartYouTubeTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($youtubetk));
+	$getir->StartYouTubeTSStreamLinux(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($youtubetk));
 	}
   } else {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartYouTubeTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($youtubetk));
+	$getir->StartYouTubeTSStreamWin(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($youtubetk));
 	} else {
-    $getir->StartYouTubeTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($youtubetk));
+    $getir->StartYouTubeTSStreamLinux(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($youtubetk));
 	}
   }
 }
@@ -890,17 +890,17 @@ $getir->Style();
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartIGTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($instatk));
+	$getir->StartIGTSStreamWin(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($instatk));
 	} else {
-	$getir->StartIGTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($instatk));
+	$getir->StartIGTSStreamLinux(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($instatk));
 	}
   } else {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartIGTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($instatk));
+	$getir->StartIGTSStreamWin(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($instatk));
 	} else {
-    $getir->StartIGTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($instatk));
+    $getir->StartIGTSStreamLinux(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($instatk));
 	}
   }
 }
@@ -950,17 +950,17 @@ $getir->Style();
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartCstTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($_POST["link"]), strip_tags($_POST["token"]));
+	$getir->StartCstTSStreamWin(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($_POST["link"]), strip_tags($_POST["token"]));
 	} else {
-	$getir->StartCstTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($_POST["link"]), strip_tags($_POST["token"]));
+	$getir->StartCstTSStreamLinux(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($_POST["link"]), strip_tags($_POST["token"]));
 	}
   } else {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartCstTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($_POST["link"]), strip_tags($_POST["token"]));
+	$getir->StartCstTSStreamWin(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($_POST["link"]), strip_tags($_POST["token"]));
 	} else {
-    $getir->StartCstTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($_POST["link"]), strip_tags($_POST["token"]));
+    $getir->StartCstTSStreamLinux(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($_POST["link"]), strip_tags($_POST["token"]));
 	}
   }
 }
@@ -983,17 +983,17 @@ $getir->Style();
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartRecordStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configrec);
+	$getir->StartRecordStreamWin(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configrec);
 	} else {
-	$getir->StartRecordStreamLin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configrec);
+	$getir->StartRecordStreamLin(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configrec);
 	}
   } else {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartRecordStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configrec);
+	$getir->StartRecordStreamWin(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configrec);
 	} else {
-    $getir->StartRecordStreamLin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configrec);
+    $getir->StartRecordStreamLin(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configrec);
 	}
   }
 }
@@ -1016,17 +1016,17 @@ $getir->Style();
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartOtherStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($rtmpport));
+	$getir->StartOtherStreamWin(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($rtmpport));
 	} else {
-	$getir->StartOtherStreamLin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($rtmpport));
+	$getir->StartOtherStreamLin(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($rtmpport));
 	}
   } else {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartOtherStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($rtmpport));
+	$getir->StartOtherStreamWin(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($rtmpport));
 	} else {
-    $getir->StartOtherStreamLin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($rtmpport));
+    $getir->StartOtherStreamLin(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($rtmpport));
 	}
   }
 }
@@ -1048,17 +1048,17 @@ $getir->Style();
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartRestreamTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($restreamtk));
+	$getir->StartRestreamTSStreamWin(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($restreamtk));
 	} else {
-	$getir->StartRestreamTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($restreamtk));
+	$getir->StartRestreamTSStreamLinux(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($restreamtk));
 	}
   } else {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$getir->StartRestreamTSStreamWin(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($restreamtk));
+	$getir->StartRestreamTSStreamWin(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($restreamtk));
 	} else {
-    $getir->StartRestreamTSStreamLinux(strip_tags($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($restreamtk));
+    $getir->StartRestreamTSStreamLinux(md5($row["public_name"]), strip_tags($row["public_tslink"]), strip_tags($row["public_tslink"]), $configflv, strip_tags($restreamtk));
 	}
   }
 }
@@ -1081,13 +1081,13 @@ $getir->Style();
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br><br>';
-	$myfile = fopen('log/'.strip_tags($row["public_name"]).'-mylog.log', "r") or die("<center><b>Unable to open file!</b></center>");
-	echo '<pre style="width:100%;height:100%" class="container form-control">'.fread($myfile,filesize('log/'.strip_tags($row["public_name"]).'-mylog.log'));'</pre>';
+	$myfile = fopen('log/'.md5($row["public_name"]).'-mylog.log', "r") or die("<center><b>Unable to open file!</b></center>");
+	echo '<pre style="width:100%;height:100%" class="container form-control">'.fread($myfile,filesize('log/'.md5($row["public_name"]).'-mylog.log'));'</pre>';
   } else {
 	echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
 	<br><br>';
-	$myfile = fopen('log/'.strip_tags($row["public_name"]).'-mylog.log', "r") or die("<center><b>Unable to open file!</b></center>");
-	echo '<pre style="width:100%;height:100%" class="container form-control">'.fread($myfile,filesize('log/'.strip_tags($row["public_name"]).'-mylog.log'));'</pre>';
+	$myfile = fopen('log/'.md5($row["public_name"]).'-mylog.log', "r") or die("<center><b>Unable to open file!</b></center>");
+	echo '<pre style="width:100%;height:100%" class="container form-control">'.fread($myfile,filesize('log/'.md5($row["public_name"]).'-mylog.log'));'</pre>';
   }
 }
   break;
@@ -1108,12 +1108,12 @@ $getir->Style();
   if($row["video_stream"] == "1") {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
-	unlink('log/'.strip_tags($row["public_name"]).'-mylog.log');
+	unlink('log/'.md5($row["public_name"]).'-mylog.log');
     $getir->StopFFMPEG();
     } else {
     echo '<button onclick="javascript:history.back();" type="submit" style="right: 0px;width: 100%;padding: 10px;" class="btn btn-warning">Back</button>
     <br>';
-	unlink('log/'.strip_tags($row["public_name"]).'-mylog.log');
+	unlink('log/'.md5($row["public_name"]).'-mylog.log');
     $getir->StopFFMPEG();
   }
 }
@@ -1139,11 +1139,11 @@ $getir->Style();
   $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
   $stmt->execute();
   if($row = $stmt->fetch()) {
-  $new_url = get_tiny_url('http://'.$_SERVER["HTTP_HOST"].'/watch.php?pubid='.strip_tags($row["public_name"]).'&selcuk=1');
+  $new_url = get_tiny_url('http://'.$_SERVER["HTTP_HOST"].'/watch.php?pubid='.md5($row["public_name"]).'&selcuk=1');
   $new_url2 = "Yakında";
   echo '<body>
   <form class="container" action="index.php?git=peditpubid" method="post">
-      <input type="hidden" name="iptvname" value="'.strip_tags($row["public_name"]).'" class="form-control" readonly>
+      <input type="hidden" name="iptvname" value="'.md5($row["public_name"]).'" class="form-control" readonly>
       
                 <div class="form-group">
       <label for="exampleFormControlInput1">IPTV Owner</label>
@@ -1220,9 +1220,9 @@ $getir->Style();
   $stmt->execute();
   if($row = $stmt->rowCount()) {
 	  if($row["video_stream"] == "0") {
-	$dosyaadi = "".dirname(__FILE__)."/m3u/".base64_decode(strip_tags($row["public_name"])).".m3u8";
+	$dosyaadi = "".dirname(__FILE__)."/m3u/".base64_decode(md5($row["public_name"])).".m3u8";
 	  } else {
-	$dosyaadi = "".dirname(__FILE__)."/m3u/".base64_decode(strip_tags($row["public_name"])).".ts";
+	$dosyaadi = "".dirname(__FILE__)."/m3u/".base64_decode(md5($row["public_name"])).".ts";
 	  }
 if (!unlink($dosyaadi)) {
     echo "<script LANGUAGE='JavaScript'>
@@ -1873,7 +1873,7 @@ $getir->Style();
     $data = json_decode($getir->M3U_Parser($purl), true);
     foreach($data["list"]["item"] as $list) {
       $update = $db->prepare("INSERT INTO public_iptv(public_name, public_tslink, public_active, video_stream, public_sahip, stream_othname) VALUES (:streamname, :streamadress, :streamactive, :streamorvideo, :pubsahip, :streamothname)");
-      $update->bindValue(':streamname', md5($list["title"]));
+      $update->bindValue(':streamname', strip_tags($list["title"]));
       $update->bindValue(':streamothname', strip_tags($_POST["privname"]));
       $update->bindValue(':streamadress', strip_tags($list["media_url"]));
       $update->bindValue(':streamactive', "1");
