@@ -18,6 +18,7 @@ TV Özelliği (Yakında stabilize edilecek ve açıklamama gerek yok sanırım )
 Reklam ekleme (Web üzerinden izlenen yayınlarınıza reklam ekleyebilirsiniz)
 Web Player (Web üzerinden de yayınlarınızı izleyebilirsiniz)
 Instagram, Facebook, Restream ve Twitter üzerinden restream etme (Yayınlarınızı bu platformlarda paylaşabilirsiniz)
+Ngrok ve Localtunnel üzerinden HTTP servisi (Herhangi bir alan adına ihtiyaç duymadan tüm dünyaya yayın servis edebilirsiniz)
 </pre>
 
 <b>Resimler</b>
