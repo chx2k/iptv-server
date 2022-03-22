@@ -7,8 +7,8 @@ $getir->funcControl('shell_exec');
 $getir->funcControl('exec');
 $getir->funcControl('system');
 
-$stmt = $db->prepare('SELECT * FROM iptv_config WHERE sahip = :shb');
-$stmt->bindValue(':shb', strip_tags("admin"));
+$stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :shb');
+$stmt->bindValue(':shb', strip_tags("1"));
 $stmt->execute();
 if($row = $stmt->rowCount()) {
 if($row = $stmt->fetch()) {
@@ -23,6 +23,7 @@ $instagramtk = $row["instagram_tk"];
 $restreamtk = $row["restream_tkn"];
 $rtmpport = $row["rtmp_port"];
 $instatk = $row["youtube_tk"]; 
+$logop = $row["logo"]; 
 $configrec = "-vcodec copy -acodec copy";
 }
 } else {
@@ -259,7 +260,7 @@ function delpost2(id)
 }
 </script>
 <?php
-$getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+$getir->NavBar($logop);
 if(isset($_GET["phpinfo"])) {
 if($_SESSION["yetki"] == md5("uye")) {
 die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
@@ -383,7 +384,7 @@ echo '<div class="mt-5 container">
 <th></th>
 <th></th>
 </tr></thead><tbody>';
-$limit = 8;
+$limit = 10;
 $s = $db->prepare("SELECT * FROM public_iptv WHERE public_sahip = :perm ORDER BY public_id");
 $s->bindValue(':perm', strip_tags($_SESSION["login"]));
 $s->execute();
@@ -533,7 +534,7 @@ echo '<br><br></div></div></div></body>';
       } else {
           
       }
-      $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+      $getir->NavBar($logop);
     echo '<body>
   <form class="container" action="index.php?git=pngrok" method="post">
   
@@ -555,7 +556,7 @@ echo '<br><br></div></div></div></body>';
         } else {
             
         }
-        $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+        $getir->NavBar($logop);
         echo '<div class="card mt-4">
         <pre>'.$getir->ngRok($_POST["ngroktoken"]).'</pre><br>
         </div>';
@@ -571,7 +572,7 @@ echo '<br><br></div></div></div></body>';
           } else {
               
           }
-          $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+          $getir->NavBar($logop);
         echo '<body>
       <form class="container" action="index.php?git=plcltnl" method="post">
       <b>
@@ -588,7 +589,7 @@ echo '<br><br></div></div></div></body>';
             } else {
                 
             }
-            $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+            $getir->NavBar($logop);
             echo '<div class="card mt-4">
             <pre>'.$getir->localtunnel().'</pre><br>
             </div>';
@@ -603,7 +604,7 @@ $getir->Style();
   } else {
       
   }
-  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  $getir->NavBar($logop);
   $stmt3 = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :iddegeri AND sahip = :perm');
   $stmt3->bindValue(':iddegeri', intval($_GET["id"]));
   $stmt3->bindValue(':perm', strip_tags($_SESSION["login"]));
@@ -675,7 +676,7 @@ $getir->Style();
   $getir->logincheck();
 $getir->Head("IPTV Player");
 $getir->Style();
-  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  $getir->NavBar($logop);
   $stmt = $db->prepare('SELECT * FROM iptv_config WHERE config_id = :iddegeri AND sahip = :perm');
   $stmt->bindValue(':iddegeri', intval($_POST["ffmpegid"]));
   $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
@@ -914,7 +915,7 @@ if($_SESSION["yetki"] == md5("uye")) {
 die("<center>Daha fazla seçenek için üyeliğinizi yükseltin</center>");
 } else {
 }
-$getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+$getir->NavBar($logop);
 echo '<body>
 <form class="container" action="index.php?git=startcst" method="post">
   
@@ -1123,7 +1124,7 @@ $getir->Style();
   $getir->logincheck();
 $getir->Head("IPTV Player");
 $getir->Style();
-  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  $getir->NavBar($logop);
   function get_tiny_url($url)  {  
 	$ch = curl_init();  
 	$timeout = 5;  
@@ -1320,7 +1321,7 @@ $getir->Style();
   $getir->logincheck();
 $getir->Head("IPTV Player");
 $getir->Style();
-  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  $getir->NavBar($logop);
   $stmt = $db->prepare('SELECT * FROM public_iptv WHERE public_id = :iddegeri AND public_sahip = :perm');
   $stmt->bindValue(':iddegeri', intval($_GET["id"]));
   $stmt->bindValue(':perm', strip_tags($_SESSION["login"]));
@@ -1338,7 +1339,7 @@ $getir->Style();
   $getir->logincheck();
 $getir->Head("IPTV Player");
 $getir->Style();
-  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  $getir->NavBar($logop);
   echo '
     			  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
 			  <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet"/>
@@ -1419,7 +1420,7 @@ fclose($fp);
   $getir->logincheck();
 $getir->Head("IPTV Player");
 $getir->Style();
-  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  $getir->NavBar($logop);
     if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
@@ -1487,7 +1488,7 @@ $getir->Style();
   $getir->logincheck();
 $getir->Head("IPTV Player");
 $getir->Style();
-  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  $getir->NavBar($logop);
     if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
@@ -1608,7 +1609,7 @@ $getir->Style();
   $getir->logincheck();
 $getir->Head("IPTV Player");
 $getir->Style();
-  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  $getir->NavBar($logop);
     if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
@@ -1633,7 +1634,7 @@ $getir->Style();
   $getir->logincheck();
 $getir->Head("IPTV Player");
 $getir->Style();
-  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  $getir->NavBar($logop);
   if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
@@ -1662,7 +1663,7 @@ $getir->Style();
   $getir->logincheck();
 $getir->Head("IPTV Player");
 $getir->Style();
-  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  $getir->NavBar($logop);
     if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
@@ -1741,7 +1742,7 @@ $getir->Style();
   $getir->logincheck();
 $getir->Head("IPTV Player");
 $getir->Style();
-  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  $getir->NavBar($logop);
   echo '<body class="mx-auto">
   <center><b>Your IP : '.strip_tags($getir->getIPAddress()).'</b></center><br>
   <form class="container" action="index.php?git=pstartstream" method="post">
@@ -1770,7 +1771,7 @@ $getir->Style();
       $getir->logincheck();
 $getir->Head("IPTV Player");
 $getir->Style();
-  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  $getir->NavBar($logop);
   echo '<body class="mx-auto">
   <center><b>Your IP : '.strip_tags($getir->getIPAddress()).'</b></center><br>
   <form class="container" action="index.php?git=pyoutubem3u8" method="post">
@@ -1849,7 +1850,7 @@ $getir->Style();
     $getir->logincheck();
 $getir->Head("IPTV Player");
 $getir->Style();
-    $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+    $getir->NavBar($logop);
     echo '<body class="mx-auto">
     <center><b>List Stream IPTV</b>
     <hr></hr></center>
@@ -1899,7 +1900,7 @@ $getir->Style();
   $getir->logincheck();
 $getir->Head("IPTV Player");
 $getir->Style();
-  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  $getir->NavBar($logop);
   echo '<body class="mx-auto">
   <center><b>Private Stream IPTV</b>
   <hr></hr></center>
@@ -1925,7 +1926,7 @@ $getir->Style();
   $getir->logincheck();
 $getir->Head("IPTV Player");
 $getir->Style();
-  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  $getir->NavBar($logop);
     if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
@@ -1947,7 +1948,7 @@ $getir->Style();
   die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
   } else {
   }
-  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  $getir->NavBar($logop);
   echo '<div class="container">
   <table class="table">
   <thead>
@@ -1984,7 +1985,7 @@ $getir->Style();
       if($_SESSION["yetki"] == md5("uye")) {
       die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
       } else {
-        $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+        $getir->NavBar($logop);
       }
       $stmt = $db->prepare('SELECT * FROM admin_list WHERE admin_id = :id');
       $stmt->bindValue(':id', strip_tags($_GET["id"]));
@@ -2057,7 +2058,7 @@ $getir->Style();
   die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
   } else {
   }
-  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  $getir->NavBar($logop);
     echo '<body>
   <form class="mt-5 container" action="index.php?git=paddusr" method="post">
     <div class="form-group">
@@ -2126,7 +2127,7 @@ $getir->Style();
   die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
   } else {
   }
-  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  $getir->NavBar($logop);
   $stmt = $db->prepare('SELECT * FROM admin_list WHERE admin_id = :usr');
   $stmt->execute(array(':usr' => intval($_GET["id"])));
   if($row = $stmt->fetch()) {
@@ -2174,7 +2175,7 @@ $getir->Style();
   die("<center class='mt-5'>Sayfayı Görme Yetkiniz Yok</center>");
   } else {
   }
-  $getir->NavBar("https://metroui.org.ua/images/sb-bg-1.jpg");
+  $getir->NavBar($logop);
   $update = $db->prepare("UPDATE admin_list SET admin_usrname = :usrname, admin_email = :usremail, admin_passwd = :usrpass, admin_token = :usrtkn, admin_yetki = :usrtype WHERE admin_id = :gonderid");
   $update->bindValue(':gonderid', intval($_POST["id"]));
   $update->bindValue(':usrname', strip_tags($_POST["usrname"]));
